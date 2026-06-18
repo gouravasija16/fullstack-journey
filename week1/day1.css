@@ -39,6 +39,9 @@ ul{
 nav ul{
     display:flex;
     gap: 20px;
+    list-style:none;
+    background:none;
+    border:none;
 }
 nav ul a{
     color:blue;
@@ -65,9 +68,10 @@ nav ul a:hover{
 #Hero img{
     width:150px;
     height:150px;
-    border:1px solid black;
-    border-radius: 5px;
+    border:3px solid #e040fb;
+    border-radius: 50%;
     margin-bottom:40px;
+    object-fit:cover;
 }
 #Hero h1{
     color:aqua;
@@ -77,11 +81,11 @@ nav ul a:hover{
 #Hero p{
     font-size: 1.5em;
     margin-bottom:10px;
-    color:antiquewhite;
+    color: #999999;
 }
 #Hero a{
     display:inline-block;
-    color:aliceblue;
+    color:white;
     font-size:1.5em;
     text-decoration: none;
     margin-top:25px;
@@ -107,25 +111,25 @@ nav ul a:hover{
         display:flex;
         flex-wrap:wrap;
         justify-content:center;
-        gap:20px;
+        gap: 30px;
+        margin:0 auto;
+        background:none;
+        list-style:none;
+        border:none;
         align-items: center;
+
     }
     #Skills ul li{
         transition: color 0.3 s;
+        color:#00bcd4;
+        background-color: #1a1a2e;
+        border-radius:24px;
+        border:1px solid #00bcd4;
 }
-#Skills ul li:nth-of-type(1):hover{
+#Skills ul li:hover{
     color:whitesmoke;
-}
-#Skills ul li:nth-of-type(2):hover{
-    color:whitesmoke;
-}#Skills ul li:nth-of-type(3):hover{
-    color:whitesmoke;
-}#Skills ul li:nth-of-type(4):hover{
-    color:whitesmoke;
-}#Skills ul li:nth-of-type(5):hover{
-    color:whitesmoke;
-}#Skills ul li:nth-of-type(6):hover{
-    color:whitesmoke;
+    cursor:pointer;
+    border-color: wheat;
 }
 /* - Projects - */
 .Projects{
