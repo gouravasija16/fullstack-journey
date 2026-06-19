@@ -1,4 +1,4 @@
-// 1. Even/odd checker
+//1. Even/odd checker
 let num=prompt("Enter a number:")
 if(num%2==0){
     console.log("Even Number")
@@ -57,6 +57,11 @@ while(n>0){
      n=Math.floor(n/10)
 }
 console.log(reverse)
+//sum of numbers 
+let number1=prompt("Enter a number")
+for (let i=0;i<number1;i++){
+    console.log(i)
+}
 
 
 
