@@ -106,10 +106,9 @@ let n=prompt("Enter a number:")
 console.log(`sum of digits of ${n} is ${sumOfdigits(n)}`)
 //Check if number is palindrome
 function isPalindrome(n){
-    let ispalindrome=false
-    let original=n
-    if(original == Reverse(original)) ispalindrome=true
-    return ispalindrome
+    let original=Number(n)
+    let reversed=Reverse(Original)
+     return original===reversed
 }
 function Reverse(num){
 let reverse=0;
