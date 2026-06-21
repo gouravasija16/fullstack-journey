@@ -104,6 +104,84 @@ console.log("Combined:",combined)
  }
  console.log(add(...arr2))
 
+// Creating an object
+const student={
+    name:"John",
+    college:"TITS",
+    year:2026,
+    Skills:["Java","Python","JavaScipt"],
+    isPlaced:false,
+   "likes birds":true
 
+}
+// Access values
+console.log(student.name)
+console.log(student["college"])
+console.log(student["likes birds"])
+// Add new property
+student.city="Bhiwani"
+console.log(student.city)
+// Update property
+student.isplaced=true
+console.log(student.isplaced)
+// Delete property
+delete student["isplaced"]
+console.log(student.isplaced)
+// Compound Properties
+// const fruit=prompt("Which fruit to buy ?","apple")
+// let bag={
+//     [fruit]:5
+// }
+// console.log(bag.apple)
+// In operator
+console.log("age" in student)
+//Loop through object
+for(let key in student){
+    console.log(key+":"+ student[key])
+}
+// Object methods
+const keys= Object.keys(student)
+const value= Object.values(student)
+const entries= Object.entries(student)
+console.log(keys)
+console.log(value)
+console.log(entries)
+// Clonning and merging 
+let user={
+    name:"Logan",
+    age:24
+}
+let clone={}
+for(let key in user){
+    clone[key]=user[key]
+}
+clone.name="Den"
+console.log(user.name)
 
-
+// Object.assign 
+let user1={name:"John"}
+let permisson1={canView:true}
+let permisson2={canEdit:true}
+Object.assign(user1,permisson1,permisson2)
+console.log(user1.name)
+console.log(user1.canView)
+console.log(user1.canEdit)
+user2={
+    name:"Garrett",
+    age: 21
+}
+let clone1= Object.assign({},user2)
+console.log(clone1.name)
+console.log(clone1.age)
+// Structural Clone
+let user3={
+    name:"hannah",
+    sizes:{
+        height:160,
+        width:35
+    }
+}
+let clone2=structuredClone(user3)
+console.log(user3.sizes==clone2.sizes)
+user3.sizes.width=36
+console.log(clone2.sizes.width)
