@@ -185,3 +185,103 @@ let clone2=structuredClone(user3)
 console.log(user3.sizes==clone2.sizes)
 user3.sizes.width=36
 console.log(clone2.sizes.width)
+// Object methods
+let user4={
+    name:"Tucker",
+    age:26
+}
+user4.sayHi=function(){
+    console.log("Hello")
+}
+user4.sayHi()
+// "this" in methods
+let user5={
+    name:"Eren",
+    age:20,
+    sayHi(){
+        console.log(this.name)
+    }
+}
+user5.sayHi()
+
+let users={
+    name:"Levi"
+}
+let admin={
+    name:"Armein"
+}
+function sayHi(){
+    console.log(this.name)
+}
+users.f=sayHi
+admin.f=sayHi
+users.f()
+admin.f()
+ // Arrow functions have no "this"
+ let user6={
+    firstname:"Mikasa",
+    sayHi(){
+        let arrow=()=> console.log(this.firstname)
+        arrow()
+    }
+ }
+ user6.sayHi()
+ 
+ const phone={
+    brand:"Apple",
+    model:"Iphone16",
+    price: 70000,
+    colors:["white","black","blue"],
+    isAvailable:true
+ }
+ console.log(phone.brand, phone.price)
+ phone["discount"]=5000
+ console.log("After discount:",phone.price - phone.discount)
+ 
+ const Calculator={
+    num1:10,
+    num2:5,
+    add:function(){
+        return this.num1 + this.num2 
+    },
+    subtract:function(){
+        return this.num1 - this.num2 
+    },
+    multiply:function(){
+        return this.num1 * this.num2 
+    }
+ }
+ console.log(Calculator.add())
+ console.log(Calculator.subtract())
+ console.log(Calculator.multiply())
+ // Array of objects
+ const products=[
+    {name:"Laptop",price:50000},
+    {name:"Phone",price:30000},
+    {name:"Tablet",price:20000}
+]
+ const productNames=products.map(p=> p.name)
+ console.log(productNames)
+  const expensive=products.filter(p=> p.price >25000)
+ console.log(expensive)
+  const Total=products.reduce((acc,p)=> acc + p.price,0)
+ console.log("Total:",Total)
+ 
+ const basic ={ name:"Michael",age:30}
+const details={...basic,city:"Bhiwani",skill:"JavaScipt"}
+console.log(details)
+// Constructor
+function User(name){
+    this.name=name,
+    this.isAdmin=false
+}
+let User1=new User("Jack")
+console.log(User1.name)
+console.log(User1.isAdmin)
+  
+const {name,college,year}={
+    name:"Gourav",
+    college:"TITS Bhiwani",
+    year:2027
+}
+console.log(name,college,year)
