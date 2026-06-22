@@ -285,3 +285,62 @@ const {name,college,year}={
     year:2027
 }
 console.log(name,college,year)
+// Constructors
+function Student(name,college,year){
+    this.name=name
+    this.college=college
+    this.year=year
+}
+ const student1= new Student("Nitin","LPU",2026)
+const student2= new Student("Hiten","Chandigarh University",2026)
+console.log(student1.name,student1.college)
+console.log(student2.name,student2.college)
+// return from Constructor-this is being ignored
+function BigUser(){
+    this.name="John"
+    return{name:"Godzilla"}
+}
+console.log(new BigUser().name)
+// Methods in constuctor
+function User2(name){
+    this.name=name
+    this.sayHi=function(){
+        console.log("My name is:" + this.name)
+    }
+}
+name1= new User2("Thorfinn")
+name1.sayHi()
+// Prototype Chaining 
+function User3(name){
+    this.name=name
+}
+User3.prototype.sayHi=function(){
+    console.log("Hi, " + this.name)
+}
+const users1=new User3("Chirag")
+const users2=new User3("Karan")
+users1.sayHi()
+users2.sayHi()
+ const personPrototype={
+    greet(){
+    console.log(`hello, my name is ${this.name}!`)
+    }
+ }
+ function Person(name){
+    this.name=name;
+ }
+ Person.prototype.greet = personPrototype.greet
+const reuben= new Person("Reuben")
+reuben.greet()
+// Constructors in class
+class Person1 {
+   name
+   constructor(name){
+    this.name=name
+   } 
+   introduceSelf(){
+    console.log(`HI ! I'm ${this.name}`)
+   }
+}
+const giles= new Person1("Giles")
+giles.introduceSelf()
