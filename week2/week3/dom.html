@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>DOM Practice</title>
+        <link rel="stylesheet" href="dom.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    </head>
+    <body>
+        <h1 id="heading">DOM Practice</h1>
+        <!--Section 1 - Selecting and Changing-->
+        <section class="card">
+            <h2> 1. Change Text & Color</h2>
+            <p id="para">This text will change</p>
+            <button id="ChangeText">Change Text</button>
+            <button id="ChangeColor">Change Color</button>
+        </section>
+        <!-- Section 2-Show/Hide-->
+         <section class="card">
+            <h2>2. Show/Hide </h2>
+            <p id="secret">You found the secret text!</p>
+            <button id="toggleBtn">Toggle Visibility</button>
+         </section>
+         <!-- Section3- Input-->
+          <section class="card">
+            <h2> 3. Input & Output</h2>
+            <input type="text" id="nameInput" placeholder="Enter your name">
+            <button id="greetBtn"> Greet Me</button>
+            <p id="greetOutput"></p>
+        </section>
+        <!--Section 4 - Counter-->
+        <section class="card">
+            <h2>4. Counter </h2>
+            <h3 id="count">0</h3>
+            <button id="increment">+</button>
+            <button id="decrement">-</button>
+            <button id="reset">Reset</button>
+            </section>
+            <!--Section 5- Create & Remove-->
+            <section class="card">
+                <h2>5. Create & Remove</h2>
+                <button id="addPara">Add Paragraph</button>
+                <button id="removePara">Remove Last</button>
+                <div id="paraContainer"></div>
+            </section>
+            <!-- Section 6- Background changer -->
+             <section class="card">
+                <h2>6. Background Changer</h2>
+                <button id="redBtn">Red</button>
+                <button id="blueBtn">Blue</button>
+                <button id="greenBtn">Green</button>
+                <button id="resetBg">Reset</button>
+             </section>
+             <script src="dom.js"></script>
+    </body>
+</html>
