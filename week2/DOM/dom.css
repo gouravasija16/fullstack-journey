@@ -69,7 +69,7 @@ button{
     margin-left:10px;
     cursor:pointer;
     margin-bottom:8px;
-    transition:background 0.3s;
+    transition: background 0.3s;
 }
 button:hover{
     background:#7b2fbe
@@ -87,5 +87,5 @@ button:hover{
     padding:10px;
     border-radius:6px;
     margin-bottom:8px;
-    color:#00bcd4
+    color:aqua
 }
