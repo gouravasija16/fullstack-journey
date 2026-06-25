@@ -1,2 +1,114 @@
-
-
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+body{
+    background-color:#0F172A;
+    font-family:Arial,sans-serif;
+    color:#E2E9F0;
+    min-height:100vh
+}
+h1{
+    color:#38BDF8;
+    text-align: center;
+    margin-bottom:24px;
+    font-size: 2.5rem;
+    font-family:'Times New Roman', Times, serif
+}
+#quiz-container{
+    background-color: #1E293B;
+    padding:32px;
+    margin:60px auto;
+    border-radius:6px;
+    max-width:600px;
+}
+#progress{
+    color:#94A3B8;
+    font-size:1rem;
+    font-weight:400;
+    padding:0px;
+    margin-bottom:10px;
+    background:none;
+}
+span{
+    color:#38BDF8;
+    font-weight:700
+}
+#question-text{
+    color:#E2E8F0;
+    font-size:1rem;
+    margin-bottom:24px;
+    line-height:1.6;
+}
+#options{
+    color:#38BDF8;
+     padding:10px 18px;
+    font-size:1rem;
+    border: none;
+    border-radius:6px;
+    cursor:pointer;
+    margin-bottom:8px;
+    transition: background 0.3s;
+}
+#nextBtn{
+    color:#0F172A;
+    background-color:#38BDF8;
+    border-radius:6px;
+    cursor:pointer;
+    font-size: 1rem;
+    font-weight:700;
+    padding:10px 24px;
+    border:none;
+}
+#nextBtn:disabled{
+    background-color: #334155;
+    color:#64748B;
+    cursor:not-allowed;
+}
+#quiz-footer{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content: space-between;
+    margin-top:24px;
+}
+#score{
+    font-size: 1.5rem;
+}
+#result{
+    background-color: #1E293B;
+    max-width:600px;
+    border-radius:12px;
+    text-align:center;
+    margin:6px auto;
+    padding:40px;
+}
+#result h2{
+    color:#38BDF8;
+    font-size:2rem;
+    font-weight:700;
+    font-family:'Times New Roman', Times, serif;
+    margin-bottom:16px;
+}
+#final-score{
+    font-size:1.5rem;
+    margin-bottom:16px;
+    color:#E2E8F0;
+}
+#restartBtn{
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    color:#0F172A;
+    background-color: #38BDF8;
+    font-size:1rem;
+    font-weight:700;
+    padding:12px 32px;
+    margin:20px;
+    transition: all 0.3s
+}
+#restartBtn:hover{
+    background-color: #FB7185;
+    color:white;
+}
