@@ -7,33 +7,34 @@
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
     </head>
     <body>
+    <div id="quiz-container">
         <h1>Quiz App</h1> 
+
         <!--Progress-->
-        <div id="progress"> <h2>Question<span class="navigate"> 1 </span>of 10</h2>
+        <div id="progress"> <h2>Question<span id="current"> 1 </span>of 10</h2>
             </div>
-            <div>
-                <!--Questions-->
+
+                <!--Question-->
                 <div id="question">
-                <h2></h2>
+                <h2 id="question-text"></h2>
                 </div>
-                <!--Options-->
-                <forms id="options">
-                <button></button>
-                <button></button>
-                <button></button>
-                <button></button>
-                </forms>
-            </div>
+                <!---Options-JS creates button here--->
+            <div id="options">
+               </div>
+
             <!---Footer-->
             <div id="quiz-footer">
                 <h2 id="score">Score:0</h2>
-                <button id="nextBtn">Next</button>
-            </div>
+                <button id="nextBtn" disabled>Next -></button>
+                </div>
+                </div>
+
             <!--Result screen (hidden initially)-->
-            <div id="result" >
-                <h2>Quiz Completed !</h2>
+            <div id="result" style="display:none" >
+                <h2>Quiz Completed! 🎉</h2>
                 <p id="final-score"></p>
                 <button id="restartBtn">Restart</button>
             </div>
+            <script src="script.js"></script>
     </body>
 </html>
