@@ -128,11 +128,11 @@ console.log(student.isplaced)
 delete student["isplaced"]
 console.log(student.isplaced)
 // Compound Properties
-// const fruit=prompt("Which fruit to buy ?","apple")
-// let bag={
-//     [fruit]:5
-// }
-// console.log(bag.apple)
+const fruit=prompt("Which fruit to buy ?","apple")
+let bag={
+    [fruit]:5
+}
+console.log(bag.apple)
 // In operator
 console.log("age" in student)
 //Loop through object
