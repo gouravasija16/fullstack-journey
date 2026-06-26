@@ -56,17 +56,18 @@ const questions = [
   }
 ]
 let currentScore=0
-const index=document.getElementById("current").textContent
-const scored=document.getElementById("score").textContent
+const index=document.getElementById("current")
+const scored=document.getElementById("score")
 const nextbtn=document.getElementById("nextBtn")
 let i=0
 const currentOne=questions.map(s=>s.question)
    const para= document.getElementById("question-text")
    console.log(currentOne[i])
    function loadQues(i){
-   para.append(index, currentOne[i])
+   para.textContent= currentOne[i]
   const divBtn=document.getElementById("options")
    const optionsBtn=questions.map(s=>s.options)
+    divBtn.innerHTML=""
    for(let j=0;j<4;j++){
    const btn= document.createElement("button")
    btn.textContent=optionsBtn[i][j]
@@ -78,17 +79,16 @@ const ans= questions.map(s=>s.answer)
 console.log(ans[i])
 document.getElementById("options").addEventListener("click",function( e) {
    if(e.target.tagName==="BUTTON"){
-    const allButtons=event.target.parentNode.querySelectorAll("button")
+    const allButtons=e.target.parentNode.querySelectorAll("button")
     allButtons.forEach(btn => {
         if(btn===e.target){
             btn.disabled=false 
         if(ans[i]===e.target.textContent){
         e.target.style.backgroundColor="green"
         currentScore++
-        scored.textContent="Score:currentScore"
+        scored.textContent="Score: "+ currentScore
         }else{
           e.target.style.backgroundColor='red'
-          textContent="Score:currentScore"
         }
         }else{
             btn.disabled=true
@@ -97,15 +97,32 @@ document.getElementById("options").addEventListener("click",function( e) {
    }
    nextbtn.disabled=false
  })
- 
+
  nextbtn.addEventListener("click",getIndex)
  
  function getIndex(){
-    let currentIndex=1
-    currentIndex++
-     loadQues(i+1)
-    
+    i++
+    if(i>=question.length){
+       showResult()
+    }else{
+    loadQues(i)
+    index.textContent= i+1 
+    }
  }
+ function showResult()
+ {
+  document.getElementById("quiz-container").style.display="none"
+        document.getElementById("result").style.display="block"
+        document.getElementById("final-score").textContent=`You scored ${currentScore} out of ${question.length}`
+ }
+ document.getElementById("restartBtn").addEventListener("click",function(){
+    currentScore=0
+    i=0
+    document.getElementById("result").style.display="none"
+     document.getElementById("quiz-container").style.display="block"
+ })
+ 
+ 
  
 
    
