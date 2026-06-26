@@ -76,7 +76,6 @@ const currentOne=questions.map(s=>s.question)
 }
 loadQues(i)
 const ans= questions.map(s=>s.answer)
-console.log(ans[i])
 document.getElementById("options").addEventListener("click",function( e) {
    if(e.target.tagName==="BUTTON"){
     const allButtons=e.target.parentNode.querySelectorAll("button")
@@ -93,47 +92,40 @@ document.getElementById("options").addEventListener("click",function( e) {
         }else{
             btn.disabled=true
         }
-    });
-   }
-   nextbtn.disabled=false
- })
+        nextbtn.disabled=false
+    })
+  }
+})
 
- nextbtn.addEventListener("click",getIndex)
- 
- function getIndex(){
-    i++
-    if(i>=question.length){
-       showResult()
-    }else{
-    loadQues(i)
-    index.textContent= i+1 
-    }
- }
  function showResult()
  {
   document.getElementById("quiz-container").style.display="none"
         document.getElementById("result").style.display="block"
-        document.getElementById("final-score").textContent=`You scored ${currentScore} out of ${question.length}`
+        document.getElementById("final-score").textContent=`You scored ${currentScore} out of ${questions.length}`
  }
+ nextbtn.addEventListener("click",getIndex)
+ function getIndex(){
+    i++
+    if(i>=questions.length){
+       showResult()
+    }else{
+    loadQues(i)
+    index.textContent= i+1 
+    nextbtn.disabled=true
+    if(i===questions.length-1){
+      nextbtn.textContent="Submit"
+    }
+  }
+}
  document.getElementById("restartBtn").addEventListener("click",function(){
-    currentScore=0
-    i=0
-    document.getElementById("result").style.display="none"
+    nextbtn.textContent="Next->"
+     currentScore=0
+     i=0;
+     index.textContent=i+1
+     scored.textContent="Score: "+ currentScore
+     document.getElementById("result"). style.display="none"
      document.getElementById("quiz-container").style.display="block"
+     loadQues(i)
  })
  
- 
- 
-
-   
-
-
-    
-// document.getElementById("nextBtn")
-// let currentIndex=1
-// document.getElementById("nextBtn").addEventListener("click", nextQues)
-// // function nextQues(){
-//     currentIndex++
-//     index=currentIndex
-// }
  
