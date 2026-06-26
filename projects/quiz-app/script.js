@@ -62,6 +62,8 @@ const nextbtn=document.getElementById("nextBtn")
 let i=0
 const currentOne=questions.map(s=>s.question)
    const para= document.getElementById("question-text")
+   console.log(currentOne[i])
+   function loadQues(i){
    para.append(index, currentOne[i])
   const divBtn=document.getElementById("options")
    const optionsBtn=questions.map(s=>s.options)
@@ -70,6 +72,8 @@ const currentOne=questions.map(s=>s.question)
    btn.textContent=optionsBtn[i][j]
    divBtn.appendChild(btn)
    }
+}
+loadQues(i)
 const ans= questions.map(s=>s.answer)
 console.log(ans[i])
 document.getElementById("options").addEventListener("click",function( e) {
@@ -94,12 +98,13 @@ document.getElementById("options").addEventListener("click",function( e) {
    nextbtn.disabled=false
  })
  
- nextbtn.addEventListener("click"getIndex)
- let currentIndex=1
+ nextbtn.addEventListener("click",getIndex)
+ 
  function getIndex(){
-    {
-        
-    }
+    let currentIndex=1
+    currentIndex++
+     loadQues(i+1)
+    
  }
  
 
