@@ -55,12 +55,14 @@ const questions = [
     answer: "A function that has access to its outer scope variables"
   }
 ]
+let currentScore=0
 const index=document.getElementById("current").textContent
 const scored=document.getElementById("score").textContent
+const nextbtn=document.getElementById("nextBtn")
 let i=0
 const currentOne=questions.map(s=>s.question)
    const para= document.getElementById("question-text")
-   para.append(index,currentOne[i])
+   para.append(index, currentOne[i])
   const divBtn=document.getElementById("options")
    const optionsBtn=questions.map(s=>s.options)
    for(let j=0;j<4;j++){
@@ -68,7 +70,40 @@ const currentOne=questions.map(s=>s.question)
    btn.textContent=optionsBtn[i][j]
    divBtn.appendChild(btn)
    }
+const ans= questions.map(s=>s.answer)
+console.log(ans[i])
+document.getElementById("options").addEventListener("click",function( e) {
+   if(e.target.tagName==="BUTTON"){
+    const allButtons=event.target.parentNode.querySelectorAll("button")
+    allButtons.forEach(btn => {
+        if(btn===e.target){
+            btn.disabled=false 
+        if(ans[i]===e.target.textContent){
+        e.target.style.backgroundColor="green"
+        currentScore++
+        scored.textContent="Score:currentScore"
+        }else{
+          e.target.style.backgroundColor='red'
+          textContent="Score:currentScore"
+        }
+        }else{
+            btn.disabled=true
+        }
+    });
+   }
+   nextbtn.disabled=false
+ })
+ 
+ nextbtn.addEventListener("click"getIndex)
+ let currentIndex=1
+ function getIndex(){
+    {
+        
+    }
+ }
+ 
 
+   
 
 
     
