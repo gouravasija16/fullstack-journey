@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
     </head>
     <body>
+        <div id="container">
         <div>
             <h1>My Todo List</h1>
             <button id="mode"> 🌙 Dark  Mode</button>
@@ -14,8 +15,7 @@
         <div id="addedtask">
             <input id="tasks" type="text" placeholder="Enter a new  task.......">
          </div>
-         <form>
-         <div>
+         <div id="input area">
             <label for="priority">
                 Priority</label>
                 <select  name="priority" id="priority">
@@ -23,15 +23,10 @@
                 <option value="Medium">Medium</option>
                 <option value="Low">Low</option>
                 </select>
-         </div>
-         <div>
                 <label for="dueDate">Due Date:</label>
                 <input id="dueDate" type="date" name="due Date">
-         </div>
-         <div>
             <button id="add">Add</button>
         </div>
-     </form>
      <div>
         <input type="text" id="searchtext" placeholder=" 🔍 Search tasks...">
      </div>
@@ -44,7 +39,8 @@
         <button>Low</button>
      </div>
      <div>
-        <h2 id="tasks">Task List</h2>
+
+        <h2>Task List</h2>
         <div id="display"></div>
      </div>
         <div id="progress">
@@ -57,9 +53,9 @@
         <p>
             Total:<span id="total">0</span>
             
-            Completed:<span id="Completed">0</span>
+            Completed:<span id="completed">0</span>
             
-           Remaining:<span id=" Remaining">0</span>
+           Remaining:<span id="remaining">0</span>
         </p>
         </div>
 
@@ -68,6 +64,7 @@
            <button id="sortdate">Sort by Date</button>
             <button id="clear">Clear Completed</button>
               <button id="delete">DeleteAll </button>
-        </div>
+         </div>
+     </div>
     </body>
 </html>
