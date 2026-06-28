@@ -29,6 +29,9 @@ body.dark{
     --btn-text:#E2E8F0;
 }
 body{
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
     background-color:var(--bg);
     color:var(--text);
     font-family:Arial, sans-serif;
@@ -37,6 +40,7 @@ body{
     transition: all 0.3s;
 }
 #container{
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
     background-color:var(--card);
     margin:0 auto;
     max-width: 700px;
@@ -48,6 +52,7 @@ h1{
     color:var(--accent);
     text-align: center;
     font-size:2rem;
+    margin-bottom:10px;
 }
 #mode{
     background-color: var(--btn-bg);
@@ -69,7 +74,7 @@ h1{
     margin-bottom:16px;
     display:flex;
     gap:10px;
-    flex-wrap:nowrap;
+    flex-wrap:wrap;
     align-items: center;
 }
 #added-tasks{
@@ -80,6 +85,7 @@ h1{
     padding:8px;
     border:1px solid var(--border);
     border-radius:6px;
+    height:42px;
 }
 #priority,#dueDate{
     padding:5px;
@@ -87,6 +93,7 @@ h1{
     color:var(--text);
      border:1px solid var(--border);
      border-radius:6px;
+     height:42px;
 }
 select option[value="High"] {
     background-color:var(--high);
@@ -109,6 +116,7 @@ select option[value="Low"] {
 }
 #add:hover{
     opacity:0.85;
+    transform:translateY(-2px);
 }
 #searchtext{
     background-color:var(--input-bg);
@@ -123,7 +131,8 @@ select option[value="Low"] {
 #filterBtn{
     display:flex;
     flex-wrap:wrap;
-    justify-content: space-between;
+    justify-content:center;
+    gap:10px;
     margin-bottom:20px
 }
 #filterBtn button{
@@ -144,10 +153,11 @@ h2{
     color: var(--accent);
     font-size:1.5rem;
     margin-bottom:16px;
-    margin-top:10px;
+    margin-top:25px;
 }
 #progress-text{
     color:var(--subtext);
+    font-weight:600;
 }
 #progress-bar-bg{
     height:12px;
@@ -195,10 +205,75 @@ h2{
     border:1px solid var(--border);
     border-radius:6px;
     cursor:pointer;
-    transition: all 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 #footer button:hover{
     background-color: var(--accent);
     color:white;
     transform:translateY(-2px);
+}
+#input:focus,
+select:focus{
+    outline:none;
+    border-color:var(--accent);
+    box-shadow:0 0 6px rgba(14,165,233,.4)
+}
+.task-card{
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    font-size:1rem;
+    margin-bottom:10px;
+}
+.task-text{
+    color:var(--text);
+    font-size:1rem;
+    flex:1;
+    margin:10px;
+}
+.priority{
+    margin:10px;
+    border-radius:6px;
+    font-size:1rem;
+}
+.high{
+    background-color: #FB7185;
+    color:white
+}
+.medium{
+    background-color: #FBBF24;
+    color:black
+}
+.low{
+    background-color:#34D399;
+    color:white
+}
+.dueDate{
+    color:var(--subtext);
+    font-size:1rem;
+    margin:10px;
+}
+#delete-Btn{
+    background-color:var(--bg);
+    color:white;
+    border:none;
+    margin:10px;
+    border-radius:6px;
+    cursor:pointer;
+    padding:6px 10px;
+}
+#delete-Btn:hover{
+    opacity:0.9
+}
+#edit-Btn{
+    background-color:var(--bg);
+    color:white;
+    border:none;
+    margin:10px;
+    border-radius:6px;
+    cursor:pointer;
+    padding:6px 10px;
+}
+#edit-Btn:hover{
+    opacity:0.9
 }
