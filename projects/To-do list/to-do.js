@@ -13,12 +13,12 @@ function renderTasks(){
         taskCard.innerHTML=
         `<input type="checkbox" name="taskdone" value="completed" >
         <span class="task-text">${task.task}</span>
-        <span class="priority">${task.priority}</span>
+        <span class="priority- ${task.priority.toLowerCase()}
+        ">${task.priority}</span>
         <span class="dueDate">📅 ${task.dueDate}</span>
-        <button  id="delete-Btn" onclick="deleteTask(${index})">🗑️</button>
-        <button  id="edit-Btn"onclick="EditTask(${index})">✏️</button>
-        `
-        display.appendChild(taskCard)
+         <button id="edit-Btn" onclick="editTask(${index})">✏️</button>
+        <button id="delete-Btn" onclick="deleteTask(${index})">🗑️</button>  
+         `
     })
 }
 addBtn.addEventListener("click",function(){
@@ -39,5 +39,8 @@ addBtn.addEventListener("click",function(){
      taskInput.value=""
       renderTasks()
 })
-
-
+ function deleteTask(index){
+    tasks.splice(index,1)
+    renderTasks()
+ }
+ 
