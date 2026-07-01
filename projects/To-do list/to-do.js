@@ -1,19 +1,23 @@
 const tasks=[]
 let editIndex=null
+let currentSearch=""
 const taskInput=document.getElementById("added-tasks")
 const addBtn=document.getElementById("add")
 const prioritySelect=document.getElementById("priority")
 const dueDateInput=document.getElementById("dueDate")
 const display=document.getElementById("display")
-
+//display tasks
 function renderTasks(){
     display.innerHTML=""
-    const  filteredTask=tasks.filter(filterTask)
+    const  filteredTask=tasks
+        .filter(filterTask)
+        .filter(task=>
+      task.task.toLowerCase().includes(currentSearch))
        filteredTask.forEach((task,index)=> {
         const taskCard=document.createElement("div")
         taskCard.classList.add("task-card")
         taskCard.innerHTML=
-        `<input type="checkbox" name="taskdone" value="completed" >
+        `<input type="checkbox" ${task.complete ? "checked" : ""} onchange="toggleTask(${index})" name="taskdone" value="completed" >
         <span class="task-text">${task.task}</span>
         <span class="priority- ${task.priority.toLowerCase()}
         ">${task.priority}</span>
@@ -23,7 +27,12 @@ function renderTasks(){
          `
          display.appendChild   (taskCard)
     })
+    if(filteredTask.length===0){
+        display.innerHTML="<p>No tasks found</p>"
+    }
 }
+//add button
+
 addBtn.addEventListener("click",function(){
         
      if(editIndex !==null){
@@ -51,16 +60,18 @@ addBtn.addEventListener("click",function(){
             priority:priority,
             dueDate:dueDate,
             complete:false
+        }
+        tasks.push(taskObject)
      }
-     tasks.push(taskObject)
      taskInput.value=""
-    }
-      renderTasks()
+     renderTasks()
 })
+//delete button
  function deleteTask(index){
     tasks.splice(index,1)
     renderTasks()
  }
+ //edit button 
  function editTask(index){
     taskInput.value=tasks[index].task
     prioritySelect.value=tasks[index].priority
@@ -93,6 +104,7 @@ addBtn.addEventListener("click",function(){
         
     })
  })
+//  Filter Buttons
  function filterTask (task){
     switch(currentFilter){
         case "completed":
@@ -111,6 +123,36 @@ addBtn.addEventListener("click",function(){
            
     }
  }
+//  SearchText
+ const search=document.getElementById("searchtext")
+ search.addEventListener("input",function(){
+   const searched=search.value
+    currentSearch=searched.toLowerCase()
+    renderTasks()
+ })
+// toggle of checkbox complete
+function toggleTask(index){
+   task[index].complete=! task[index].complete
+   renderTasks()
+}
+// status
+// let countCompleted=0
+// let countRemaining=0
+// function tasksStatus(){
+// document.getElementById("total").textContent=tasks.length
+// tasks.filter(task=>{
+//    if(task.completed===true){
+//       countCompleted++
+//    document.getElementById("completed").textContent=countCompleted
+//    }if(task.completed===false){
+//       countRemaining++
+//    document.getElementById("remaining").textContent=countRemaining
+//    }
+// })
+// }
+
+
+
 
 
 
