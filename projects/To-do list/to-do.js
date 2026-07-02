@@ -6,7 +6,7 @@ const addBtn=document.getElementById("add")
 const prioritySelect=document.getElementById("priority")
 const dueDateInput=document.getElementById("dueDate")
 const display=document.getElementById("display")
-//display tasks
+//display task
 function renderTasks(){
     display.innerHTML=""
     const  filteredTask=tasks
@@ -30,6 +30,7 @@ function renderTasks(){
     if(filteredTask.length===0){
         display.innerHTML="<p>No tasks found</p>"
     }
+     tasksStatus()
 }
 //add button
 
@@ -132,28 +133,21 @@ addBtn.addEventListener("click",function(){
  })
 // toggle of checkbox complete
 function toggleTask(index){
-   task[index].complete=! task[index].complete
+   tasks[index].complete=! tasks[index].complete
    renderTasks()
 }
 // status
-// let countCompleted=0
-// let countRemaining=0
-// function tasksStatus(){
-// document.getElementById("total").textContent=tasks.length
-// tasks.filter(task=>{
-//    if(task.completed===true){
-//       countCompleted++
-//    document.getElementById("completed").textContent=countCompleted
-//    }if(task.completed===false){
-//       countRemaining++
-//    document.getElementById("remaining").textContent=countRemaining
-//    }
-// })
-// }
+function tasksStatus(){
+const total=tasks.length
+ document.getElementById("total").textContent= total
+ const completed=tasks.filter(task=>task.complete===true).length
+document.getElementById("completed").textContent= completed
+document.getElementById("remaining").textContent=total - completed
+progress()
 
+} 
+function progress() {
+const percentage=total===0 ? 0 : Math.round((completed/total)*100)
 
-
-
-
-
- 
+document.getElementById("progress-text").textContent=`${completed}/${total} (${percenatge})`
+} 
