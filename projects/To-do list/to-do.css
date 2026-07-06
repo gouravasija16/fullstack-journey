@@ -169,7 +169,7 @@ h2{
 #progress-bar{
     background-color: var(--accent);
     height:12px;
-    width:30%;
+    width:20%;
     border-radius:10px;
     transition:width 0.3s ease;
 }

@@ -1,4 +1,4 @@
-const tasks=[]
+let tasks=[]
 let editIndex=null
 let currentSearch=""
 const taskInput=document.getElementById("added-tasks")
@@ -33,7 +33,6 @@ function renderTasks(){
      tasksStatus()
 }
 //add button
-
 addBtn.addEventListener("click",function(){
         
      if(editIndex !==null){
@@ -80,6 +79,7 @@ addBtn.addEventListener("click",function(){
     editIndex=index
     document.getElementById("add").textContent="Update"
  }
+ //mode
  const mode=document.getElementById("mode")
  mode.addEventListener("click",function(){
    document.body.classList.toggle("dark")
@@ -89,6 +89,7 @@ addBtn.addEventListener("click",function(){
      mode.textContent="🌙 Dark Mode"
    }
  })
+ //
  let currentFilter="all" 
  document.querySelectorAll("#filterBtn button").forEach((Btn)=>{
     Btn.addEventListener("click",function(){
@@ -143,11 +144,35 @@ const total=tasks.length
  const completed=tasks.filter(task=>task.complete===true).length
 document.getElementById("completed").textContent= completed
 document.getElementById("remaining").textContent=total - completed
-progress()
-
+progress(total,completed)
 } 
-function progress() {
+function progress(total,completed) {
 const percentage=total===0 ? 0 : Math.round((completed/total)*100)
+document.getElementById("progress-text").textContent= `${completed}/${total} (${percentage}%)`
+document.getElementById("progress-bar").style.width=`${percentage}%`
+}
+//Event delegation
+   document.querySelector("#footer").addEventListener('click',(e)=>{
+      console.log("parent element clicked")
+      e.target.style.backgroundColor=""
+      if(e.target.matches("#sortpriority")){
+         const order={high:1,medium:2,low:3}
+         tasks.sort((a,b)=>
+         order[a.priority.toLowerCase()]-order[b.priority.toLowerCase()]
+      )
+      }
+      if(e.target.matches("#sortdate")){
+         tasks.sort((a,b)=>
+         new Date(a.dueDate)-new Date(b.dueDate))
+      }
+      if(e.target.matches("#clear")){
+          tasks=tasks.filter(task =>task.complete!==true)
+       }
+      if(e.target.matches("#delete"))
+      {
+          tasks.splice(0,tasks.length)  
+      }
+      renderTasks()
+   })
 
-document.getElementById("progress-text").textContent=`${completed}/${total} (${percenatge})`
-} 
+
