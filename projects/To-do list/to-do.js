@@ -5,6 +5,7 @@ const taskInput=document.getElementById("added-tasks")
 const addBtn=document.getElementById("add")
 const prioritySelect=document.getElementById("priority")
 const dueDateInput=document.getElementById("dueDate")
+const today=new Date().toISOString().split("T")[0]
 const display=document.getElementById("display")
 //display task
 function renderTasks(){
@@ -36,6 +37,10 @@ function renderTasks(){
 }
 //add button
 addBtn.addEventListener("click",function(){
+   if(dueDateInput.value<today){
+      alert("Please select today's date or a future date.")
+      return
+   }
         
      if(editIndex !==null){
         
@@ -85,35 +90,42 @@ addBtn.addEventListener("click",function(){
  const mode=document.getElementById("mode")
  mode.addEventListener("click",function(){
    document.body.classList.toggle("dark")
-   if(document.body.className==="dark"){
+   resetFilterButtonStyles()
+   if(document.body.className.contains("dark")){
    mode.textContent="☀️ Light Mode"
    }else{
      mode.textContent="🌙 Dark Mode"
    }
+   
  })
- //
+ //Filter buttons
  let currentFilter="all" 
  document.querySelectorAll("#filterBtn button").forEach((Btn)=>{
     Btn.addEventListener("click",function(){
        currentFilter= Btn.dataset.filter
-         document.querySelectorAll("#filterBtn button").forEach((btn)=>{
-            if(document.body.classList.contains("dark")){
-            btn.style.backgroundColor="#1E2939"
-            btn.style.color="white"
-            }else{
-            btn.style.backgroundColor="white"
-            btn.style.color="black"
-            }
-            
-         })
-
-       Btn.style.backgroundColor="#0EA5E9"
-       Btn.style.color="white"
+      resetFilterButtonStyles()
        console.log(currentFilter)
        renderTasks()
-        
     })
- })
+    })
+    // Reset filter button styles
+    function resetFilterButtonStyles() {
+        document.querySelectorAll("#filterBtn button").forEach((btn) => {
+         if(btn.dataset.filter === currentFilter) {
+                btn.style.backgroundColor="#0EA5E9"
+                btn.style.color="white"
+           }else{ 
+            const isDarkMode = document.body.classList.contains("dark");
+            if(isDarkMode) {
+                btn.style.backgroundColor="#1E2939"
+                btn.style.color="white"
+            }else{
+                btn.style.backgroundColor="white"
+                btn.style.color="black"
+            }
+         }
+   })
+}
 //  Filter Buttons
  function filterTask (task){
     switch(currentFilter){
@@ -159,7 +171,7 @@ const percentage=total===0 ? 0 : Math.round((completed/total)*100)
 document.getElementById("progress-text").textContent= `${completed}/${total} (${percentage}%)`
 document.getElementById("progress-bar").style.width=`${percentage}%`
 }
-//Event delegation
+//Event delegation for footer buttons
    document.querySelector("#footer").addEventListener('click',(e)=>{
       console.log("parent element clicked")
       e.target.style.backgroundColor=""
@@ -182,5 +194,6 @@ document.getElementById("progress-bar").style.width=`${percentage}%`
       }
       renderTasks()
    })
+   //Load tasks from local storage on page load
 renderTasks()
 
