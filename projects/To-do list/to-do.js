@@ -1,4 +1,4 @@
-let tasks=[]
+let tasks=JSON.parse(localStorage.getItem("tasks")) || []
 let editIndex=null
 let currentSearch=""
 const taskInput=document.getElementById("added-tasks")
@@ -26,6 +26,8 @@ function renderTasks(){
         <button id="delete-Btn" onclick="deleteTask(${index})">🗑️</button>  
          `
          display.appendChild   (taskCard)
+         localStorage.setItem("tasks",JSON.stringify(tasks))
+        
     })
     if(filteredTask.length===0){
         display.innerHTML="<p>No tasks found</p>"
@@ -95,8 +97,14 @@ addBtn.addEventListener("click",function(){
     Btn.addEventListener("click",function(){
        currentFilter= Btn.dataset.filter
          document.querySelectorAll("#filterBtn button").forEach((btn)=>{
+            if(document.body.classList.contains("dark")){
+            btn.style.backgroundColor="#1E2939"
+            btn.style.color="white"
+            }else{
             btn.style.backgroundColor="white"
             btn.style.color="black"
+            }
+            
          })
 
        Btn.style.backgroundColor="#0EA5E9"
@@ -174,5 +182,5 @@ document.getElementById("progress-bar").style.width=`${percentage}%`
       }
       renderTasks()
    })
-
+renderTasks()
 
