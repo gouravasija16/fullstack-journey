@@ -141,8 +141,7 @@ addBtn.addEventListener("click",function(){
         case "low":
              return  task.priority.toLowerCase()===currentFilter
         default :
-              return true
-           
+              return true       
     }
  }
 //  SearchText
