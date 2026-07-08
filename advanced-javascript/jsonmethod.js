@@ -62,3 +62,9 @@ console.log(user1.friends[3])
      return value
  })
 console.log(meet.date.getDate())
+
+try {
+   JSON.parse("{name:Gourav}")
+}catch (err){
+    console.log(err.message)
+}
