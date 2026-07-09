@@ -45,3 +45,24 @@ getUser()
 })
 .then (posts=> console.log("Posts:",posts))
 .catch(err=> console.log("Error:".err))
+// error handling with promise
+// new Promise((resolve,reject)=>{
+//     resolve("Ok")
+// }).then((result)=>{
+//     throw new Error("Whoops!")
+// }).catch(alert)
+//Rethrowing 
+new Promise((resolve,reject)=>{
+    throw new Error("Whoops!")
+}).catch(function(error){
+    if(error instanceof URIError){
+
+    }else{
+        console.log("can't handle such error")
+        throw error
+    }
+}).then(function(){
+
+}).catch(error=>{
+    console.log(`The Unknown error has occurred: ${error}`)
+})
