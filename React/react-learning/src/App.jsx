@@ -1,10 +1,10 @@
 import {createRoot} from "react-dom/client"
-import "./app.css"
+import "./App.css"
 import {Navbar} from "./components/Navbar"
 import {Hero} from "./components/Hero"
 import {Skills} from "./components/SkillsList"
-import {Projects} from "./components/projects"
-import Footer from "./components/footer"
+import {Projects} from "./components/Projects"
+import Footer from "./components/Footer"
 
 const root=createRoot(document.getElementById("root"))
 root.render(
