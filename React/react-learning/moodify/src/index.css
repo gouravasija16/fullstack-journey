@@ -1,3 +1,4 @@
+
 *{
     box-sizing: border-box;
     margin:0;
@@ -6,4 +7,34 @@
 body{
     background:linear-gradient(135deg,#0f0c29,#302b63);
     color:#61dafb;
+}
+.moodBtn{
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:30px;
+    margin:30px;
+
+}
+button{
+   border:1px solid aqua;
+    border-radius:12px;
+    padding:10px;
+    color:blue
+}
+button h1{
+    font-size:1.5rem;
+}
+button p {
+    font-size:1.5rem;
+}
+.active{
+    background:#61dafb
+}
+.heart-btn{
+    font-size:1.5rem;
+    cursor:pointer;
+}
+.favourite{
+    color:red;
+    background:aqua;
 }

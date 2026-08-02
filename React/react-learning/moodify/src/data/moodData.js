@@ -18,7 +18,7 @@ export const moodData={
 
     sad:{label:"Sad",emoji:"😔",accent:"#6b8cef",bg:"linear-gradient(135deg,#050510,#0d0d2d)",songs:
         [
-            {id:"5",title:"Agar Tum Saath H",artist:"Arijit Singh,Alka Yagnik",
+            {id:"5",title:"Agar Tum Saath Ho",artist:"Arijit Singh,Alka Yagnik",
             duration:"5:41",
             youtubeUrl:"",cover:""},
             {id:"6",title:"Hale Dil",artist:"Harshit Saxena",
