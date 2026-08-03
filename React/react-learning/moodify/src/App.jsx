@@ -5,6 +5,7 @@ import { moodData } from "./data/moodData.js"
 import SongGrid from "./components/SongGrid.jsx"
 import Favourites from './components/Favourites.jsx'
 import MoodHistory from './components/MoodHistory.jsx'
+import Footer from './components/Footer.jsx'
 function App() {
   const [selectedmood,setSelectedmood]=React.useState(null)
   const [favourites,setFavourites]=React.useState([])
@@ -14,8 +15,21 @@ function App() {
       return prevfavourites.some(prevfavourite=>prevfavourite.id===song.id) ? prevfavourites.filter(prevfavourite=>prevfavourite.id!==song.id) : [...prevfavourites,song]
     })
   }
+  
   function onSelect(moodKey){
     setSelectedmood(moodKey)
+    setMoodHistory(prevmood=>{
+      const now=new Date()
+      return [{
+        mood:moodData[moodKey].label,
+        time:now.toLocaleTimeString("en-Us",{
+        hour:"2-digit",
+        minute:"2-digit",
+        hour12:true
+      }),
+      emoji:moodData[moodKey].emoji
+      },...prevmood]
+    })
     }
   return (
     <div className="main-wrapper" style={ {
@@ -33,8 +47,9 @@ function App() {
           </div>
         )}
         <Favourites Favourites={favourites} onFavourite={onFavourite}/>
-         {moodHistory>0 && <MoodHistory moodHistory={moodHistory} />}
+         {moodHistory.length>0 && <MoodHistory moodHistory={moodHistory} selectedmood={selectedmood} />} 
       </main>
+      <Footer />
     </div>
     )
 }

@@ -1,7 +1,7 @@
 export default function SongCard(props){
     return(
         <div className="song-card">
-           <img src={props.song.cover} alt="🎵"/>
+           <p>{props.song.cover}</p>
            <h1>{props.song.title}</h1>
            <h2>{props.song.artist}</h2>
            <p>{props.song.duration}</p>
