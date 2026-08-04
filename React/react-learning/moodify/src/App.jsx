@@ -39,15 +39,23 @@ function App() {
       <Header />
       <main>
         <h1>How are you feeling?</h1>
-        <MoodSelector selectedmood={selectedmood} onSelect={onSelect} />
+        <MoodSelector Selectedmood={selectedmood} onSelect={onSelect} />
+        <div className='main-content'>
+        <div className='left-panel'>
+          {moodHistory.length>0 && <MoodHistory moodHistory={moodHistory} selectedmood={selectedmood} />} 
+        </div>
+        <div className='right-panel'>
         {selectedmood && (
           <div className="songs-container">
             <h1>🎵 Songs for {selectedmood} </h1>
+            <div className='song-grid'>
             <SongGrid songs={moodData[selectedmood].songs} Favourites={favourites} onFavourite={onFavourite} />
+            </div>
           </div>
         )}
         <Favourites Favourites={favourites} onFavourite={onFavourite}/>
-         {moodHistory.length>0 && <MoodHistory moodHistory={moodHistory} selectedmood={selectedmood} />} 
+        </div>
+        </div>
       </main>
       <Footer />
     </div>

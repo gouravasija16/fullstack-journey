@@ -51,15 +51,15 @@ main h1:first-child{
     color:var(--text-primary);
     font-size:2rem;
     font-weight:600;
-    margin:30px 0;
-    padding-left:50px;
+    margin:40px 0;
+    padding-left:30px;
     letter-spacing:1px;
 }
 .moodBtn{
     display:grid;
     grid-template-columns: repeat(3,2fr);
     gap:40px;
-    padding-left:60px;  
+    padding-left:30px;  
  } 
 .moodSelector button{
     border:2px solid transparent;
@@ -85,13 +85,229 @@ main h1:first-child{
     margin-bottom:10px;
     text-align:center;
 }
-
-
-.heart-btn{
-    font-size:1.5rem;
+.moodSelector button:hover{
+    border:2px solid var(--accent);
+    transform:translateY(-3px);
+}
+.moodSelector button.active{
+    border:2px solid var(--accent);
+    box-shadow: 0 0 20px var(--accent);
+    background:rgba(255,255,255,0.15);
+}
+.songs-container h1:first-child{
+     color:var(--text-primary);
+    font-size:2rem;
+    font-weight:600;
+    margin:20px 0;
+    padding-left:15px;
+    letter-spacing:1px;
+    margin-top:50px;
+}
+.song-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    padding:20px;
+    margin-top:10px;
+}
+.song-card{
+    background: var(--card-bg);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border:1px solid var(--card-border);
+    border-radius: var(--border-radius);
+    padding:15px;
+    margin-top:5px;
+    transition:all 0.3s ease;
     cursor:pointer;
 }
-.favourite{
-    color:red;
-    background:aqua;
+.song-card:hover{
+    transform:translateY(-5px);
+    border-color:var(--accent);
+    box-shadow: 0 16px 25px rgba(0, 0, 0, 0.302)
+}
+.song-card p:first-child{
+    font-size:3rem;
+    text-align:center;
+    display:block;
+    margin-bottom:10px;
+}
+.song-card h1{
+    font-size:1.5rem;
+    font-weight:600;
+    letter-spacing:1px;
+    color:var(--text-primary)
+}
+.song-card h2{
+    font-size:1rem;
+    color:var(--text-secondary);
+}
+.duration{
+    font-size:0.85rem;
+    color:var(--text-secondary)
+}
+.song-buttons{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top:20px;
+}
+.youtube-btn{
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:6px 12px;
+    cursor:pointer;
+    font-size:1rem;
+}
+.heart-btn{
+    background:transparent;
+    border:none;
+    font-size:1.5rem;
+    cursor:pointer;
+    transition: transform 0.2s ease
+}
+.heart-btn:hover{
+    transform:scale(1.2);
+}
+.heart-btn.favourite{
+    filter:drop-shadow(0 0 8px #ff69b4)
+}
+.favourites {
+    padding:20px;
+}
+.favourites h1:first-child{
+    font-size:1.5rem;
+    font-weight: 700;
+    color:var(--accent);
+    margin-bottom:30px;
+    padding-left:5px;
+}
+.favourites-grid{
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    gap:20px;
+}
+.mood-history{
+    padding:15px;
+}
+.mood-history h1:first-child{
+    font-size:1.3rem;
+    font-weight:700;
+    color:var(--accent);
+    margin-bottom:5px;
+    padding-left:5px;
+}
+.history-item{
+    display: flex;
+    flex-wrap:wrap;
+    align-items: center;
+    gap:10px;
+    padding:10px 15px;
+    margin-bottom:5px;
+    background:var(--card-bg);;
+    border-left:2px  solid var(--accent);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+.history-item:hover{
+    transform:translateX(5px);
+    background: rgba(255,255,255,0.12);
+}
+.history-emoji{
+    font-size:1.4rem;
+}
+.history-label{
+    font-size:0.9rem;
+    font-weight:600;
+    flex:1;
+}
+.history-time{
+    font-size:0.8rem;
+    color:var(--text-secondary);
+    padding-left:5px;
+}
+.main-content{
+    display:flex;
+    gap:20px;
+    padding:20px;
+}
+.left-panel{
+    width:30%;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    margin:10px;
+}
+.right-panel{
+    width:70%
+}
+.current-mood{
+    background:var(--card-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border:1px solid var(--card-border);
+    border-radius:var(--border-radius);
+    padding:25px;
+    text-align:center;
+}
+.current-mood h1:first-child{
+    font-size:4rem;
+    display:block;
+    margin-bottom:10px;
+}
+.current-mood h1{
+    font-size:1.2rem;
+    font-weight:700;
+    color:var(--accent);
+}
+.current-mood p{
+    color:var(--text-secondary);
+    font-size:1rem
+}
+footer h1{
+    font-size:1.2rem;
+    color:var(--text-secondary);
+    text-align:center;
+    font-weight:500;
+    padding:20px;
+}
+@media (max-width:768px){
+.main-content{
+    flex-direction: column;
+}
+.left-panel{
+    width:100%;
+}
+.right-panel{
+    width:100%
+}
+.song-grid{
+    grid-template-columns: repeat(2,1fr);
+}
+.favourites-grid{
+    grid-template-columns: repeat(2,1fr);  
+}
+}
+@media (max-width:480px){
+.song-grid{
+    grid-template-columns: repeat(1,1fr);
+}
+.favourites-grid{
+    grid-template-columns: repeat(1,1fr);  
+
+}
+.moodSelector button{
+    padding:10px;
+}
+.moodSelector{
+    padding:10px;
+}
+.main-content{
+    padding:10px;
+}
+.moodBtn{
+    padding-left:10px;
+}
 }
