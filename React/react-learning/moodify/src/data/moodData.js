@@ -124,7 +124,7 @@ export const moodData={
             youtubeUrl:"https://youtu.be/kggmRyqZdeQ?si=D1zJcBlQNKSteQsi",cover:"💕"},
             {id:"31",title:"Mujhe Mein Tu",artist:"Keerthi Sagathia",
             duration:"4:23",
-            youtubeUrl:"https://youtu.be/NYbMi2D7Q4I?si=blUB2Xgfu6LvW6qE",cover:"💕"},
+            youtubeUrl:"https://youtu.be/eJfGY7q0dGU?si=zl48QZY0R_nk1kAt",cover:"💕"},
         ]
     }
 

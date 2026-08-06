@@ -8,16 +8,21 @@ import MoodHistory from './components/MoodHistory.jsx'
 import Footer from './components/Footer.jsx'
 function App() {
   const [selectedmood,setSelectedmood]=React.useState(null)
-  const [favourites,setFavourites]=React.useState([])
-  const [moodHistory,setMoodHistory]=React.useState([])
+  const [favourites,setFavourites]=React.useState(JSON.parse(localStorage.getItem("favourites"))||[])
+  const [moodHistory,setMoodHistory]=React.useState(JSON.parse(localStorage.getItem("moodHistory"))||[])
+  const songsRef=React.useRef(null)
   function onFavourite(song){
     setFavourites(prevfavourites=>{
       return prevfavourites.some(prevfavourite=>prevfavourite.id===song.id) ? prevfavourites.filter(prevfavourite=>prevfavourite.id!==song.id) : [...prevfavourites,song]
     })
   }
-  
+  React.useEffect(()=>{
+    localStorage.setItem("favourites",JSON.stringify(favourites))
+
+  },[favourites])
   function onSelect(moodKey){
     setSelectedmood(moodKey)
+    // songsRef.current.scrollIntoView({behavior:"smooth"})
     setMoodHistory(prevmood=>{
       const now=new Date()
       return [{
@@ -31,6 +36,11 @@ function App() {
       },...prevmood]
     })
     }
+    React.useEffect(()=>{
+      localStorage.setItem("moodHistory",JSON.stringify(moodHistory))
+
+    },[moodHistory])
+    console.log(songsRef)
   return (
     <div className="main-wrapper" style={ {
       background:selectedmood ? moodData[selectedmood].bg : "",
@@ -48,7 +58,7 @@ function App() {
         {selectedmood && (
           <div className="songs-container">
             <h1>🎵 Songs for {selectedmood} </h1>
-            <div className='song-grid'>
+            <div className='song-grid' ref={songsRef}>
             <SongGrid songs={moodData[selectedmood].songs} Favourites={favourites} onFavourite={onFavourite} />
             </div>
           </div>
