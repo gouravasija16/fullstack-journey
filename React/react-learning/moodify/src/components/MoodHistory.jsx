@@ -7,5 +7,5 @@ export default function MoodHistory(props) {
             <span className="history-time">• {history.time}</span>
         </div>
     ))
-    return <LeftPanel moods={moods} selectedmood={props.selectedmood} />
+    return <LeftPanel moods={moods} selectedmood={props.selectedmood} streak={props.streak}/>
 }

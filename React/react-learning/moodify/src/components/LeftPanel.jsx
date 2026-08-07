@@ -12,10 +12,14 @@ export default function LeftPanel(props){
         <div className="mood-history" >
           <h1>📅 Mood History</h1> 
           <div className='history-item'>
-             {props.moods}
-          </div>
-           
-            
+            {props.moods}
+          </div>   
+        </div>
+        <div className='streak'>
+           <p className="streak-emoji">🔥</p>
+           <h1 className='streak-number'>{props.streak}</h1> 
+           <h2 className='streak-label'> Day Streak!</h2>
+
         </div>
         </>
     )

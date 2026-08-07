@@ -19,6 +19,7 @@ body{
     color:white;
     font-family: 'Poppins', sans-serif;
     min-height:100vh;
+    overflow-x:hidden;
 }
 .root{
     min-height:100vh;
@@ -274,7 +275,7 @@ footer h1{
     padding:20px;
 }
 .search-bar{
-    padding:15px 20px;
+    padding:30px 20px;
     display:flex;
     align-items:center;
     gap:10px;
@@ -303,6 +304,58 @@ footer h1{
 .search-icon{
     color:var(--accent);
     font-size:1.3rem;
+}
+.streak{
+    background: var(--card-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border:1px solid var(--border-radius);
+    border-radius:var(--border-radius);
+    padding:20px;
+    text-align:center;
+}
+.streak-number{
+    font-size:3rem;
+    font-weight:700;
+    color:var(--accent);
+    display:block;
+    font-family:"Roboto",sans-serif
+}
+.streak-label{
+    font-size:0.9rem;
+    color:var(--text-secondary);
+    margin-top:5px;
+}
+.streak-emoji{
+    font-size:2rem;
+    animation:flicker 1s ease-in-out infinite;
+}
+@keyframes flicker {
+    0%, 100% { transform:scale(1)}
+    50% {transform:scale(1.2)}
+    
+}
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    margin-bottom:15px;
+} 
+.clear-btn{
+    background:transparent;
+    color:var(--text-secondary);
+    font-size:0.75rem;
+    border:1px solis rgba(255,255,255,0.2);
+    padding:5px 15px;
+    border-radius:20px;
+    margin-right:10px;    cursor:pointer;
+    transition: all 0.3s ease;
+    font-family:"Poppins",sans-serif
+}
+.clear-btn:hover{
+    border-color:#ff4444;
+    color:#ff4444;
+    background:rgba(255,68,68,0.1);
 }
 @media (max-width:768px){
 .main-content{

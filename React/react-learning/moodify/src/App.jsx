@@ -13,6 +13,8 @@ function App() {
   const [moodHistory,setMoodHistory]=React.useState(JSON.parse(localStorage.getItem("moodHistory"))||[])
   const songsRef=React.useRef(null)
   const [searchQuery,setSearchQuery]=React.useState("")
+  const [streak,setStreak]=React.useState(JSON.parse(localStorage.getItem("streak"))|| 0)
+  const [lastVisited,setLastVisited]=React.useState(JSON.parse(localStorage.getItem("streak"))|| "")
   function onFavourite(song){
     setFavourites(prevfavourites=>{
       return prevfavourites.some(prevfavourite=>prevfavourite.id===song.id) ? prevfavourites.filter(prevfavourite=>prevfavourite.id!==song.id) : [...prevfavourites,song]
@@ -38,6 +40,15 @@ function App() {
     })
     setTimeout(()=>songsRef.current?.scrollIntoView({behavior:"smooth"}),100)
     setSearchQuery("")
+    const today=new Date().toLocaleDateString()
+    const yesterday=new Date(Date.now()-86400000).toLocaleDateString
+    if(lastVisited===yesterday){
+      setStreak(streak+1)
+     
+    }else if(lastVisited!==today){
+      setStreak(1)
+    }
+    setLastVisited(today)
     }
     React.useEffect(()=>{
       localStorage.setItem("moodHistory",JSON.stringify(moodHistory))
@@ -49,6 +60,17 @@ function App() {
         song.title.toLowerCase().includes(searchQuery)
       )
     }) : [];
+    React.useEffect(()=>{
+      localStorage.setItem("streak",JSON.stringify(streak))
+    },[streak])
+    React.useEffect(()=>{
+      localStorage.setItem("lastVisited",JSON.stringify(lastVisited))
+    },[lastVisited])
+
+    function clearFavourites(){
+      setFavourites([])
+      localStorage.removeItem("favourites")
+    }
    
   return (
     <div className="main-wrapper" style={ {
@@ -62,18 +84,18 @@ function App() {
         {selectedmood && <SearchBar searchQuery={searchQuery} onSearch={setSearchQuery}/>}
         <div className='main-content'>
         <div className='left-panel'>
-          {moodHistory.length>0 && <MoodHistory moodHistory={moodHistory} selectedmood={selectedmood} />} 
+          {moodHistory.length>0 && <MoodHistory moodHistory={moodHistory} selectedmood={selectedmood} streak={streak} />} 
         </div>
         <div className='right-panel'>
         {selectedmood && (
           <div className="songs-container"  >
             <h1>🎵 Songs for {selectedmood} </h1>
             <div className='song-grid'ref={songsRef}>
-            <SongGrid songs={currentSongs} Favourites={favourites} onFavourite={onFavourite} />
+            <SongGrid songs={currentSongs} Favourites={favourites} onFavourite={onFavourite}  />
             </div>
           </div>
         )}
-        <Favourites Favourites={favourites} onFavourite={onFavourite}/>
+        <Favourites Favourites={favourites} onFavourite={onFavourite} clearFavourites={clearFavourites}/>
         </div>
         </div>
       </main>

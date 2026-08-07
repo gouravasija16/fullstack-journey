@@ -12,6 +12,7 @@ export default function SongCard(props){
            <button onClick={() => props.onFavourite(props.song)} className={"heart-btn " + (props.isFavourite ? "favourite" : "")}>
             ❤️
            </button>
+          
            </div>
         </div>
 
