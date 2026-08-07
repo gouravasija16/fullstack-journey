@@ -6,11 +6,13 @@ import SongGrid from "./components/SongGrid.jsx"
 import Favourites from './components/Favourites.jsx'
 import MoodHistory from './components/MoodHistory.jsx'
 import Footer from './components/Footer.jsx'
+import SearchBar from "./components/SearchBar.jsx"
 function App() {
   const [selectedmood,setSelectedmood]=React.useState(null)
   const [favourites,setFavourites]=React.useState(JSON.parse(localStorage.getItem("favourites"))||[])
   const [moodHistory,setMoodHistory]=React.useState(JSON.parse(localStorage.getItem("moodHistory"))||[])
   const songsRef=React.useRef(null)
+  const [searchQuery,setSearchQuery]=React.useState("")
   function onFavourite(song){
     setFavourites(prevfavourites=>{
       return prevfavourites.some(prevfavourite=>prevfavourite.id===song.id) ? prevfavourites.filter(prevfavourite=>prevfavourite.id!==song.id) : [...prevfavourites,song]
@@ -22,7 +24,6 @@ function App() {
   },[favourites])
   function onSelect(moodKey){
     setSelectedmood(moodKey)
-    // songsRef.current.scrollIntoView({behavior:"smooth"})
     setMoodHistory(prevmood=>{
       const now=new Date()
       return [{
@@ -35,12 +36,20 @@ function App() {
       emoji:moodData[moodKey].emoji
       },...prevmood]
     })
+    setTimeout(()=>songsRef.current?.scrollIntoView({behavior:"smooth"}),100)
+    setSearchQuery("")
     }
     React.useEffect(()=>{
       localStorage.setItem("moodHistory",JSON.stringify(moodHistory))
 
     },[moodHistory])
-    console.log(songsRef)
+    const currentSongs = selectedmood ? moodData[selectedmood].songs.filter(song => {
+      return (
+        song.artist.toLowerCase().includes(searchQuery) ||
+        song.title.toLowerCase().includes(searchQuery)
+      )
+    }) : [];
+   
   return (
     <div className="main-wrapper" style={ {
       background:selectedmood ? moodData[selectedmood].bg : "",
@@ -50,16 +59,17 @@ function App() {
       <main>
         <h1>How are you feeling?</h1>
         <MoodSelector Selectedmood={selectedmood} onSelect={onSelect} />
+        {selectedmood && <SearchBar searchQuery={searchQuery} onSearch={setSearchQuery}/>}
         <div className='main-content'>
         <div className='left-panel'>
           {moodHistory.length>0 && <MoodHistory moodHistory={moodHistory} selectedmood={selectedmood} />} 
         </div>
         <div className='right-panel'>
         {selectedmood && (
-          <div className="songs-container">
+          <div className="songs-container"  >
             <h1>🎵 Songs for {selectedmood} </h1>
-            <div className='song-grid' ref={songsRef}>
-            <SongGrid songs={moodData[selectedmood].songs} Favourites={favourites} onFavourite={onFavourite} />
+            <div className='song-grid'ref={songsRef}>
+            <SongGrid songs={currentSongs} Favourites={favourites} onFavourite={onFavourite} />
             </div>
           </div>
         )}

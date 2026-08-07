@@ -273,6 +273,37 @@ footer h1{
     font-weight:500;
     padding:20px;
 }
+.search-bar{
+    padding:15px 20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.search-input {
+    width:100%;
+    padding:12px 20px;
+    border-radius:25px;
+    border:1px solid var(--card-border);
+    background:var(--card-bg);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color:var(--text-primary);
+    font-size:1rem;
+    font-family:"Popins",sans-serif;
+    outline:none;
+    transition:all 0.3s ease;
+}
+.search-input:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 15px rgba(var(--accent),0.3);
+}
+.search-input::placeholder{
+    color:var(--text-secondary);
+}
+.search-icon{
+    color:var(--accent);
+    font-size:1.3rem;
+}
 @media (max-width:768px){
 .main-content{
     flex-direction: column;
