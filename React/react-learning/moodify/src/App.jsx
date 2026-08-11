@@ -21,24 +21,32 @@ function App() {
     if(!selectedmood) return 
     setLoading(true)
     setSongs([])
-    const searchTerm=moodData[selectedmood].searchTerm
-    const deezerUrl=`https://api.deezer.com/search?q=${encodeURIComponent(searchTerm)}&limit=8`
-    const proxyUrl=`https://corsproxy.io/?${encodeURIComponent(deezerUrl)}`
-    console.log("Fetching:",proxyUrl)
-    fetch(proxyUrl)
-      .then(res => res.json()
-      )
-      .then(data => {
-        console.log("Data:",data)
-        setSongs(data.data|| [])
-        setLoading(false)
-       
-      })
-      .catch(err=>{
-        console.log("Error:",err)
-        setLoading(false)
-      })
-
+    const terms=moodData[selectedmood].searchTerm
+    const randomTerm=terms[Math.floor(Math.random()*terms.length)]
+    const searchTerms=encodeURIComponent(randomTerm)
+    const url = `https://deezerdevs-deezer.p.rapidapi.com/search?q=${searchTerms}&limit=16`;
+    console.log(url)
+    console.log(terms)
+    const options = {
+	  method: 'GET',
+	  headers: {
+		'x-rapidapi-key':import.meta.env.VITE_RAPIDAPI_KEY,
+		'x-rapidapi-host': 'deezerdevs-deezer.p.rapidapi.com',
+		'Content-Type': 'application/json'
+	}
+};
+try {
+	fetch(url, options)
+	.then(res=>res.json())
+	.then(result=>{
+		console.log(result);
+		setSongs(result.data || []);
+	})
+  setLoading(false)
+} catch (error) {
+	console.error(error);
+  setLoading(false)
+}
   },[selectedmood])
   function onFavourite(song){
     setFavourites(prevfavourites=>{
@@ -100,6 +108,7 @@ function App() {
           song.artist?.name?.toLowerCase().includes(query)
       })
     : songs
+    
 
   return (
     <div className="main-wrapper" style={ {
