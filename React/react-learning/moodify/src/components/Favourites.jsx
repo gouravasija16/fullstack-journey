@@ -8,7 +8,7 @@ export default function Favourites(props){
             </div>
             <div className="favourites-grid">
              {props.Favourites.map(song=>{
-                 return <SongCard id={song.id} key={song.key} song={song} isFavourite={true} onFavourite={()=>onFavourite(song)}/>
+                 return <SongCard  key={song.id} song={song} isFavourite={true} onFavourite={()=>onFavourite(song)}/>
             })}
             </div>
          </>
