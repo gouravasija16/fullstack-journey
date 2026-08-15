@@ -26,8 +26,8 @@ export const moodData={
     ]
     },
 
-    angry:{label:"Angry",emoji:"😤",accent:"#ff0000",bg:"linear-gradient(135deg,#1a0000,#2d0000)",searchTerm:["seedhe maut ",
-                                  "raftaar agressive rap",
+    angry:{label:"Angry",emoji:"😤",accent:"#ff0000",bg:"linear-gradient(135deg,#1a0000,#2d0000)",searchTerm:["seedhemaut ",
+                                  "raftaar",
                                   "krsna"
     ]
     },
@@ -38,7 +38,7 @@ export const moodData={
     ]
     },
 
-     Romantic:{label:"Romantic",emoji:"💕",accent:"#ff69b4",bg:"linear-gradient(135deg,#1a0010,#2d0020)",searchTerm:["arijit singh love songs",
+     Romantic:{label:"Romantic",emoji:"💕",accent:"#ff69b4",bg:"linear-gradient(135deg,#1a0010,#2d0020)",searchTerm:["arijit singh romantic",
                                            "rahat fateh ali",
                                            "falak",
                                            "shreya ghosal",

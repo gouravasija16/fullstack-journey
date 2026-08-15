@@ -12,11 +12,14 @@ function App() {
   const [favourites,setFavourites]=React.useState(JSON.parse(localStorage.getItem("favourites"))||[])
   const [moodHistory,setMoodHistory]=React.useState(JSON.parse(localStorage.getItem("moodHistory"))||[])
   const songsRef=React.useRef(null)
-  const [searchQuery,setSearchQuery]=React.useState("")
   const [streak,setStreak]=React.useState(JSON.parse(localStorage.getItem("streak"))|| 0)
   const [lastVisited,setLastVisited]=React.useState(JSON.parse(localStorage.getItem("lastVisited"))|| "")
   const [songs,setSongs]=React.useState([])
   const [loading,setLoading]=React.useState(false)
+  const [globalSearch,setGlobalSearch]= React.useState("")
+  const [searchResults,setSearchResults]= React.useState([])
+  const [isSearching,setIsSearching]= React.useState(false)
+
   React.useEffect(()=>{
     if(!selectedmood) return 
     setLoading(true)
@@ -48,6 +51,42 @@ try {
   setLoading(false)
 }
   },[selectedmood])
+//Search Bar
+async function handleGlobalSearch(term){
+  if(!term.trim()){
+    setIsSearching(false)
+    setSearchResults([])
+    return
+  }
+  setIsSearching(true)
+  setLoading(true)
+  try{
+    const response=await fetch(
+    `https://deezerdevs-deezer.p.rapidapi.com/search?q=${encodeURIComponent(term)}&limit=12`,
+      {
+     method: 'GET',
+	   headers: {
+		 'x-rapidapi-key':import.meta.env.VITE_RAPIDAPI_KEY,
+		 'x-rapidapi-host': 'deezerdevs-deezer.p.rapidapi.com',
+		 'Content-Type': 'application/json'
+	      }
+      }
+    ) 
+    const data =await response.json()
+    console.log(data)
+    setSearchResults(data.data)
+    setLoading(false)
+  }catch(error){
+    console.error(error);
+    setLoading(false)
+  }
+}
+useEffect(()=>{
+  const timer=setTimeout(()=>{
+    handleGlobalSearch(globalSearch)
+  },500)
+  return ()=>clearTimeout(timer)
+},[globalSearch])
   function onFavourite(song){
     setFavourites(prevfavourites=>{
       return prevfavourites.some(prevfavourite=>prevfavourite.id===song.id) ? prevfavourites.filter(prevfavourite=>prevfavourite.id!==song.id) : [...prevfavourites,song]
@@ -59,6 +98,9 @@ try {
   },[favourites])
   function onSelect(moodKey){
     setSelectedmood(moodKey)
+    setGlobalSearch("")
+    setSearchResults([])
+    setIsSearching(false)
     setMoodHistory(prevMood=>{
       const now=new Date()
       return [{
@@ -71,18 +113,17 @@ try {
         emoji:moodData[moodKey].emoji
       },...prevMood]
     })
-    setTimeout(()=>songsRef.current?.scrollIntoView({behavior:"smooth"}),100)
-    setSearchQuery("")
     const today=new Date().toLocaleDateString()
     const yesterday=new Date(Date.now()-86400000).toLocaleDateString()
-
     setStreak(prevStreak=>{
       if(lastVisited===yesterday) return prevStreak+1
       if(lastVisited===today) return prevStreak
       return 1
     })
-    setLastVisited(today)
+    console.log(streak)
+   setLastVisited(today)
   }
+   
 
   React.useEffect(()=>{
     localStorage.setItem("streak",JSON.stringify(streak))
@@ -100,15 +141,16 @@ try {
     setFavourites([])
     localStorage.removeItem("favourites")
   }
-
-  const currentSongs = searchQuery
-    ? songs.filter(song => {
-        const query = searchQuery.toLowerCase()
-        return song.title?.toLowerCase().includes(query) ||
-          song.artist?.name?.toLowerCase().includes(query)
-      })
-    : songs
-    
+    const favouritesCount=favourites.length
+    const songsToDisplay=isSearching ?searchResults :songs
+     React.useEffect(()=>{
+      if(songsToDisplay.length>0){
+        songsRef.current?.scrollIntoView({
+          behavior:"smooth",
+          block:"start"
+        })
+      }
+    },[songsToDisplay])
 
   return (
     <div className="main-wrapper" style={ {
@@ -119,17 +161,23 @@ try {
       <main>
         <h1>How are you feeling?</h1>
         <MoodSelector Selectedmood={selectedmood} onSelect={onSelect} />
-        {selectedmood && <SearchBar searchQuery={searchQuery} onSearch={setSearchQuery}/>}
+         <SearchBar globalSearch={globalSearch} onSearch={setGlobalSearch}/>
         <div className='main-content'>
         <div className='left-panel'>
           {moodHistory.length>0 && <MoodHistory moodHistory={moodHistory} selectedmood={selectedmood} streak={streak} />} 
+          <section className='stats'>
+          <div className='favourites-count'>
+          <h2>Total Favourites</h2>
+          <p>{favouritesCount}</p>
+          </div>
+          </section>
         </div>
         <div className='right-panel'>
-        {selectedmood && (
-          <div className="songs-container"  >
-            <h1>🎵 Songs for {selectedmood} </h1>
+        {(selectedmood || isSearching)&& (
+          <div className="songs-container">
+            {selectedmood ?<h1>🎵 Songs for {selectedmood} </h1>:isSearching?<h1>🎵Songs for {globalSearch}</h1>:null}
             <div className='song-grid'ref={songsRef}>
-            <SongGrid songs={currentSongs} Favourites={favourites} onFavourite={onFavourite}  />
+            <SongGrid songs={songsToDisplay} Favourites={favourites} onFavourite={onFavourite}  />
             </div>
           </div>
         )}

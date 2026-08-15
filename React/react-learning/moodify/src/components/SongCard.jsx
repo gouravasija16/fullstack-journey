@@ -4,8 +4,8 @@ export default function SongCard(props){
     const formatted=`${minutes}:${seconds < 10 ?'0':''}${seconds}`
     return(
         <div className="song-card">
-          <img  className="song-cover" src={props.song.album.cover_medium}
-            alt={props.song.album.title}
+          <img  className="song-cover" src={props.song.album ?.cover_medium}
+            alt={props.song.album?.title}
             lading="lazy"       
             />
             <div className="song-info">
