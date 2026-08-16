@@ -7,7 +7,9 @@ import Favourites from './components/Favourites.jsx'
 import MoodHistory from './components/MoodHistory.jsx'
 import Footer from './components/Footer.jsx'
 import SearchBar from "./components/SearchBar.jsx"
+import AddMoodForm from "./components/AddMoodForm"
 function App() {
+  //states
   const [selectedmood,setSelectedmood]=React.useState(null)
   const [favourites,setFavourites]=React.useState(JSON.parse(localStorage.getItem("favourites"))||[])
   const [moodHistory,setMoodHistory]=React.useState(JSON.parse(localStorage.getItem("moodHistory"))||[])
@@ -19,13 +21,26 @@ function App() {
   const [globalSearch,setGlobalSearch]= React.useState("")
   const [searchResults,setSearchResults]= React.useState([])
   const [isSearching,setIsSearching]= React.useState(false)
-
+  const [showAddMood,setShowAddMood]=React.useState(false)
+  const [customMoods,setCustomMoods]=React.useState(JSON.parse(localStorage.getItem("customMoods"))|| [])
+  console.log("customMoods",customMoods)
+  function getCurrentMoodData(){
+  if(!selectedmood) return ""
+  if(moodData[selectedmood]){
+    return moodData[selectedmood]
+  }
+  return customMoods.find(mood=>mood.label===selectedmood)
+}
+const currentMoodData=getCurrentMoodData()
+  //Songs based on data
   React.useEffect(()=>{
     if(!selectedmood) return 
     setLoading(true)
     setSongs([])
-    const terms=moodData[selectedmood].searchTerm
-    const randomTerm=terms[Math.floor(Math.random()*terms.length)]
+    const terms=currentMoodData?.searchTerm 
+    console.log(terms)
+    const randomTerm=terms[Math.floor(Math.random()* terms.length)]
+     console.log(randomTerm)
     const searchTerms=encodeURIComponent(randomTerm)
     const url = `https://deezerdevs-deezer.p.rapidapi.com/search?q=${searchTerms}&limit=16`;
     console.log(url)
@@ -81,6 +96,7 @@ async function handleGlobalSearch(term){
     setLoading(false)
   }
 }
+//songs based on search input
 useEffect(()=>{
   const timer=setTimeout(()=>{
     handleGlobalSearch(globalSearch)
@@ -92,27 +108,32 @@ useEffect(()=>{
       return prevfavourites.some(prevfavourite=>prevfavourite.id===song.id) ? prevfavourites.filter(prevfavourite=>prevfavourite.id!==song.id) : [...prevfavourites,song]
     })
   }
+  //favourites
   React.useEffect(()=>{
     localStorage.setItem("favourites",JSON.stringify(favourites))
 
   },[favourites])
+  // features based on mood
   function onSelect(moodKey){
     setSelectedmood(moodKey)
     setGlobalSearch("")
     setSearchResults([])
     setIsSearching(false)
+    const mood=moodData[moodKey] || customMoods.find(mood=>mood.label===moodKey)
+    if(!mood) return
     setMoodHistory(prevMood=>{
       const now=new Date()
       return [{
-        mood:moodData[moodKey].label,
+        mood:mood.label,
         time:now.toLocaleTimeString("en-US",{
           hour:"2-digit",
           minute:"2-digit",
           hour12:true
         }),
-        emoji:moodData[moodKey].emoji
+        emoji:mood.emoji
       },...prevMood]
     })
+    //streak
     const today=new Date().toLocaleDateString()
     const yesterday=new Date(Date.now()-86400000).toLocaleDateString()
     setStreak(prevStreak=>{
@@ -123,25 +144,43 @@ useEffect(()=>{
     console.log(streak)
    setLastVisited(today)
   }
-   
 
+//streak local storages
   React.useEffect(()=>{
     localStorage.setItem("streak",JSON.stringify(streak))
   },[streak])
-
+//last Visited local storage
   React.useEffect(()=>{
     localStorage.setItem("lastVisited",JSON.stringify(lastVisited))
   },[lastVisited])
-
+//mood history
   React.useEffect(()=>{
     localStorage.setItem("moodHistory",JSON.stringify(moodHistory))
   },[moodHistory])
-
+  //custom moods
+  React.useEffect(()=>{
+    localStorage.setItem("customMoods",JSON.stringify(customMoods))
+  },[customMoods])
+//Add Moods function 
+function addCustomMood(mood){
+  const newMood={
+    label:mood.label,
+    emoji:mood.emoji,
+    accent:mood.accent,
+    bg:"linear-gradient(135deg,#1a1a1a,#2d2d2d)",
+    searchTerm:mood.searchTerm
+  }
+  setCustomMoods(prev=>[...prev,newMood])
+  setShowAddMood(false)
+}
+//favorites clear button
   function clearFavourites(){
     setFavourites([])
     localStorage.removeItem("favourites")
   }
+  //total favourites
     const favouritesCount=favourites.length
+    //useRef
     const songsToDisplay=isSearching ?searchResults :songs
      React.useEffect(()=>{
       if(songsToDisplay.length>0){
@@ -152,19 +191,34 @@ useEffect(()=>{
       }
     },[songsToDisplay])
 
+   function onCancel(){
+    setShowAddMood(false)
+   }
+   function deleteCustomMood(label){
+    setCustomMoods(prev=>
+      prev.filter(mood=>mood.label!==label)
+    )
+    if(selectedmood===label){
+      setSelectedmood(null)
+    }
+   }
   return (
     <div className="main-wrapper" style={ {
-      background:selectedmood ? moodData[selectedmood].bg : "",
-      "--accent":selectedmood ?  moodData[selectedmood].accent :"#61dafb"
+      background:currentMoodData?.bg ||"",
+      "--accent":currentMoodData?.accent||"#61dafb"
     }}>
       <Header />
       <main>
         <h1>How are you feeling?</h1>
-        <MoodSelector Selectedmood={selectedmood} onSelect={onSelect} />
-         <SearchBar globalSearch={globalSearch} onSearch={setGlobalSearch}/>
+        <MoodSelector Selectedmood={selectedmood} onSelect={onSelect} customMoods={customMoods} onShowAddMood={()=>setShowAddMood(true)} onDeleteMood={deleteCustomMood} />
+        {showAddMood && <AddMoodForm
+        onAddMood={addCustomMood} 
+        onCancel={onCancel}
+         />}
+        <SearchBar globalSearch={globalSearch} onSearch={setGlobalSearch}/>
         <div className='main-content'>
         <div className='left-panel'>
-          {moodHistory.length>0 && <MoodHistory moodHistory={moodHistory} selectedmood={selectedmood} streak={streak} />} 
+          {moodHistory.length>0 && <MoodHistory moodHistory={moodHistory} selectedmood={selectedmood} streak={streak} currentMoodData={currentMoodData} />} 
           <section className='stats'>
           <div className='favourites-count'>
           <h2>Total Favourites</h2>

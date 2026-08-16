@@ -1,13 +1,17 @@
 export const moodData={
     happy:{label:"Happy",emoji:"😊",accent:"#ffd700",bg:"linear-gradient(135deg,#1a1500,#2d2400)",searchTerm:["badshah ",
-                                  "pritam dance hits ",
-                                  "arijit singh upbeat dance"
+                                  "vishal Dadlani",
+                                  "benny dayal",
+                                  "arijit singh upbeat dance",
+                                  "mika singh"
         ]
      },
 
     sad:{label:"Sad",emoji:"😔",accent:"#6b8cef",bg:"linear-gradient(135deg,#050510,#0d0d2d)",searchTerm:["arijit singh",
                          "Amaal Mallik",
-                         "mohit chauhan sad songs"
+                         "arijit singh sad songs",
+   "javed bashir"                      
+
          ]
     },
 
@@ -32,9 +36,10 @@ export const moodData={
     ]
     },
 
-    tired:{label:"Tired",emoji:"😴",accent:"#708090",bg:"linear-gradient(135deg,#0d0d0d,#1a1a1a)",searchTerm:["jubin nautiyal ",
+    tired:{label:"Tired",emoji:"😴",accent:"#708090",bg:"linear-gradient(135deg,#0d0d0d,#1a1a1a)",searchTerm:["jubin nautiyal slow acoustic",
                                  "atif aslam ",
-                                 "mohit chauhan "
+                                 "mohit chauhan ",
+                                 "anuv jain"
     ]
     },
 

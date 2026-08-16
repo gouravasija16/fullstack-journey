@@ -4,9 +4,9 @@ export default function LeftPanel(props){
         <>
         {props.selectedmood && (
             <div className='current-mood'>
-                <h1 className='current-mood-emoji'>{moodData[props.selectedmood].emoji}</h1>
+                <h1 className='current-mood-emoji'>{props.currentMoodData?.emoji}</h1>
                 <h1>Currently Feeling:</h1>
-                <p>{moodData[props.selectedmood].label}</p>
+                <p>{props.currentMoodData?.label}</p>
             </div>
         )}
         <div className="mood-history" >
