@@ -33,39 +33,41 @@ function App() {
 }
 const currentMoodData=getCurrentMoodData()
   //Songs based on data
-  React.useEffect(()=>{
-    if(!selectedmood) return 
+  React.useEffect(() => {
+    if (!selectedmood) return
     setLoading(true)
     setSongs([])
-    const terms=currentMoodData?.searchTerm 
-    console.log(terms)
-    const randomTerm=terms[Math.floor(Math.random()* terms.length)]
-     console.log(randomTerm)
-    const searchTerms=encodeURIComponent(randomTerm)
-    const url = `https://deezerdevs-deezer.p.rapidapi.com/search?q=${searchTerms}&limit=16`;
-    console.log(url)
-    console.log(terms)
+    const terms = currentMoodData?.searchTerm
+    if (!terms || !terms.length) {
+      setLoading(false)
+      return
+    }
+
+    const randomTerm = terms[Math.floor(Math.random() * terms.length)]
+    const searchTerms = encodeURIComponent(randomTerm)
+    const url = `https://deezerdevs-deezer.p.rapidapi.com/search?q=${searchTerms}&limit=16`
+
     const options = {
-	  method: 'GET',
-	  headers: {
-		'x-rapidapi-key':import.meta.env.VITE_RAPIDAPI_KEY,
-		'x-rapidapi-host': 'deezerdevs-deezer.p.rapidapi.com',
-		'Content-Type': 'application/json'
-	}
-};
-try {
-	fetch(url, options)
-	.then(res=>res.json())
-	.then(result=>{
-		console.log(result);
-		setSongs(result.data || []);
-	})
-  setLoading(false)
-} catch (error) {
-	console.error(error);
-  setLoading(false)
-}
-  },[selectedmood])
+      method: 'GET',
+      headers: {
+        'x-rapidapi-key': import.meta.env.VITE_RAPIDAPI_KEY,
+        'x-rapidapi-host': 'deezerdevs-deezer.p.rapidapi.com',
+        'Content-Type': 'application/json'
+      }
+    }
+
+    fetch(url, options)
+      .then(res => res.json())
+      .then(result => {
+        setSongs(result.data || [])
+      })
+      .catch(error => {
+        console.error(error)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [selectedmood, currentMoodData])
 //Search Bar
 async function handleGlobalSearch(term){
   if(!term.trim()){
@@ -90,9 +92,9 @@ async function handleGlobalSearch(term){
     const data =await response.json()
     console.log(data)
     setSearchResults(data.data)
-    setLoading(false)
   }catch(error){
     console.error(error);
+  }finally{
     setLoading(false)
   }
 }
@@ -202,6 +204,13 @@ function addCustomMood(mood){
       setSelectedmood(null)
     }
    }
+   if(loading) return(
+    <div className='loading-container'>
+      <div className='spinner'></div>
+      <p>Finding songs for your mood...</p>
+    </div>
+   )
+
   return (
     <div className="main-wrapper" style={ {
       background:currentMoodData?.bg ||"",
