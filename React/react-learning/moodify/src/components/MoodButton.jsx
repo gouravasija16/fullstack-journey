@@ -7,7 +7,7 @@ export default function MoodButton(props) {
             <h1>{props.label}</h1>
             </button>
             {props.isCustom && (
-                <>
+                <div className="custom-actions">
                     <button
                         className="delete-mood-btn"
                         onClick={(e) => {
@@ -21,7 +21,7 @@ export default function MoodButton(props) {
                         e.stopPropagation()
                         props.onEdit()
                     }}>📝</button>
-                </>
+                </div>
             )}
         </div>
     )

@@ -38,9 +38,9 @@ export const moodData={
     ]
     },
 
-    tired:{label:"Tired",emoji:"😴",accent:"#708090",bg:"linear-gradient(135deg,#0d0d0d,#1a1a1a)",searchTerm:["jubin nautiyal slow acoustic",
+    tired:{label:"Tired",emoji:"😴",accent:"#708090",bg:"linear-gradient(135deg,#0d0d0d,#1a1a1a)",searchTerm:["jubin nautiyal slow",
                                  "atif aslam ",
-                                 "mohit chauhan ",
+                                 "mohit Chauhan ",
                                  "anuv jain"
     ]
     },

@@ -9,7 +9,7 @@ function handleSave(){
     onSaveMood({emoji,label,accent,searchTerm})
 }
 return(
-       <section className="edit-mood-form">
+       <section className="add-mood-form">
         <h3>✨ Edit Mood</h3>
         <div className="form-group">
           <label>Emoji</label>
