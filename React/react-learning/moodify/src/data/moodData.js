@@ -2,7 +2,7 @@ export const moodData={
     happy:{label:"Happy",emoji:"😊",accent:"#ffd700",bg:"linear-gradient(135deg,#1a1500,#2d2400)",searchTerm:["badshah ",
                                   "vishal Dadlani",
                                   "benny dayal",
-                                  "arijit singh upbeat dance",
+                                  "hindi dance hits",
                                   "mika singh"
         ]
      },
@@ -10,7 +10,9 @@ export const moodData={
     sad:{label:"Sad",emoji:"😔",accent:"#6b8cef",bg:"linear-gradient(135deg,#050510,#0d0d2d)",searchTerm:["arijit singh",
                          "Amaal Mallik",
                          "arijit singh sad songs",
-   "javed bashir"                      
+                         "javed bashir" ,
+                         "The Weeknd",
+                         "Dominic Fike"                 
 
          ]
     },
@@ -47,7 +49,8 @@ export const moodData={
                                            "rahat fateh ali",
                                            "falak",
                                            "shreya ghosal",
-                                        "pritam romantic songs"     
+                                        "pritam romantic songs",
+                                        "Ed sheeran"  
                                     ]
     }
 

@@ -8,6 +8,8 @@ import MoodHistory from './components/MoodHistory.jsx'
 import Footer from './components/Footer.jsx'
 import SearchBar from "./components/SearchBar.jsx"
 import AddMoodForm from "./components/AddMoodForm"
+import Stats from "./components/Stats"
+import EditMoodForm from './components/EditMoodForm.jsx'
 function App() {
   //states
   const [selectedmood,setSelectedmood]=React.useState(null)
@@ -23,6 +25,7 @@ function App() {
   const [isSearching,setIsSearching]= React.useState(false)
   const [showAddMood,setShowAddMood]=React.useState(false)
   const [customMoods,setCustomMoods]=React.useState(JSON.parse(localStorage.getItem("customMoods"))|| [])
+  const [editingMood,setEditingMood]=React.useState(null)
   console.log("customMoods",customMoods)
   function getCurrentMoodData(){
   if(!selectedmood) return ""
@@ -175,6 +178,18 @@ function addCustomMood(mood){
   setCustomMoods(prev=>[...prev,newMood])
   setShowAddMood(false)
 }
+//Edit Button function 
+function onEditMood(mood){
+    setEditingMood(mood)
+   }  
+function editCustomMood(updatedMood){
+  setCustomMoods(prev=>prev.map(mood=>
+    mood.label===editingMood.label ?
+    {...mood,...updatedMood}
+    :mood
+  ))
+
+}
 //favorites clear button
   function clearFavourites(){
     setFavourites([])
@@ -182,7 +197,24 @@ function addCustomMood(mood){
   }
   //total favourites
     const favouritesCount=favourites.length
-    //useRef
+  //total moods
+  const totalMoods= Object.keys(moodData).length + customMoods.length
+  //Most picked mood
+  
+  function getMostPickedMood(){
+    if(moodHistory.length===0) return null
+    const moodCount={}
+    moodHistory.forEach(entry=>{
+      moodCount[entry.mood]=(moodCount[entry.mood]|| 0) + 1
+    })
+    const mostPickedMood=Object.entries(moodCount).sort((a,b)=>b[1]-a[1])[0][0]
+    return {
+      favMood:mostPickedMood,
+      favMoodEmoji:moodHistory.find(entry=>entry.mood===mostPickedMood)?.emoji
+    }
+  }
+  
+  //useRef
     const songsToDisplay=isSearching ?searchResults :songs
      React.useEffect(()=>{
       if(songsToDisplay.length>0){
@@ -210,6 +242,7 @@ function addCustomMood(mood){
       <p>Finding songs for your mood...</p>
     </div>
    )
+   
 
   return (
     <div className="main-wrapper" style={ {
@@ -219,21 +252,23 @@ function addCustomMood(mood){
       <Header />
       <main>
         <h1>How are you feeling?</h1>
-        <MoodSelector Selectedmood={selectedmood} onSelect={onSelect} customMoods={customMoods} onShowAddMood={()=>setShowAddMood(true)} onDeleteMood={deleteCustomMood} />
+        <MoodSelector Selectedmood={selectedmood} onSelect={onSelect} customMoods={customMoods} onShowAddMood={()=>setShowAddMood(true)} onDeleteMood={deleteCustomMood} onEditMood={onEditMood} />
         {showAddMood && <AddMoodForm
         onAddMood={addCustomMood} 
         onCancel={onCancel}
          />}
+        {editingMood && <EditMoodForm mood={editingMood} onSaveMood={editCustomMood}onCancel={()=>setEditingMood(null)} />}
         <SearchBar globalSearch={globalSearch} onSearch={setGlobalSearch}/>
         <div className='main-content'>
         <div className='left-panel'>
-          {moodHistory.length>0 && <MoodHistory moodHistory={moodHistory} selectedmood={selectedmood} streak={streak} currentMoodData={currentMoodData} />} 
-          <section className='stats'>
-          <div className='favourites-count'>
-          <h2>Total Favourites</h2>
-          <p>{favouritesCount}</p>
-          </div>
+          {moodHistory.length>0 && <MoodHistory moodHistory={moodHistory} selectedmood={selectedmood} streak={streak} currentMoodData={currentMoodData} />}
+          {favourites.length>0 || moodHistory.length>0 
+           ?   <section className='stats'>
+          <Stats totalFavourites={favouritesCount}  totalMoods={totalMoods} getMostPickedMood={getMostPickedMood}/>
           </section>
+          :null
+          } 
+        
         </div>
         <div className='right-panel'>
         {(selectedmood || isSearching)&& (

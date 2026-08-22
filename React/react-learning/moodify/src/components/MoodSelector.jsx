@@ -1,6 +1,6 @@
 import  MoodButton from "./MoodButton";
 import { moodData } from "../data/moodData.js"
-export default function MoodSelector({onSelect,Selectedmood,customMoods,onShowAddMood,onDeleteMood}){
+export default function MoodSelector({onSelect,Selectedmood,customMoods,onShowAddMood,onDeleteMood,onEditMood}){
     const entries = Object.entries(moodData).map(entry => {
       return (
         <div key={entry[0]} >
@@ -27,6 +27,7 @@ export default function MoodSelector({onSelect,Selectedmood,customMoods,onShowAd
             Selectedmood={Selectedmood}
             onDelete={()=>onDeleteMood(mood.label)}
             isCustom={true}
+            onEdit={()=>onEditMood(mood)}
             />
            </div>
          )
