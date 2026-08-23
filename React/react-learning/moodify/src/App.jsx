@@ -268,7 +268,6 @@ function editCustomMood(updatedMood){
           </section>
           :null
           } 
-        
         </div>
         <div className='right-panel'>
         {(selectedmood || isSearching)&& (
