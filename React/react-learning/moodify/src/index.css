@@ -769,4 +769,7 @@ header h2{
 footer h1{
     font-size:0.75rem;
 }
+.current-mood{
+    margin-right:10px;
+}
 }
