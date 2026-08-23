@@ -681,6 +681,7 @@ header h2{
 .current-mood h1:first-child{
     font-size:2.5rem;
 }
+
 .streak-number{
     font-size:2rem;
 }
@@ -740,7 +741,6 @@ header h2{
     grid-template-columns:repeat(2,1fr);
     gap:8px;
     padding:8px;
-    margin-right:10px;
 }
 .stat-label{
     font-size:0.75rem;
@@ -768,8 +768,5 @@ header h2{
 }
 footer h1{
     font-size:0.75rem;
-}
-.current-mood{
-    margin-right:10px;
 }
 }
