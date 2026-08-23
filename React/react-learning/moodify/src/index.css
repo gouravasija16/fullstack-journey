@@ -356,7 +356,7 @@ footer h1{
     background:transparent;
     color:var(--text-secondary);
     font-size:0.75rem;
-    border:1px solis rgba(255,255,255,0.2);
+    border:1px solid rgba(255,255,255,0.2);
     padding:5px 15px;
     border-radius:20px;
     margin-right:10px;    
@@ -410,10 +410,11 @@ footer h1{
     background:transparent;
     color:var(--text-secondary);
     font-size:0.75rem;
-    border:1px solis rgba(255,255,255,0.2);
+    border:1px solid rgba(255,255,255,0.2);
     padding:5px 15px;
     border-radius:20px;
-    margin-right:10px;    cursor:pointer;
+    margin-right:10px;    
+    cursor:pointer;
     transition: all 0.3s ease;
     font-family:"Poppins",sans-serif
 }
@@ -618,10 +619,37 @@ footer h1{
     color:var(--text-secondary);
 }
 
-
 @media (max-width:768px){
+.root{
+    padding:15px;
+}
+
 .main-content{
     flex-direction: column;
+}
+header h1{
+    font-size:2rem;
+}
+header h2{
+    font-size:0.9rem;
+}
+
+.moodSelector{
+    display:grid;
+    gap:8px;
+    grid-template-columns:repeat(3,1fr);
+    padding:10px;
+}
+.moodBtn{
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    padding-left:10px;
+    padding-right:10px;
+    font-size:0.75rem;
+}
+.moodSelector button{
+    width:100%;
+    padding:15px 10px
 }
 .left-panel{
     width:100%;
@@ -629,31 +657,78 @@ footer h1{
 .right-panel{
     width:100%
 }
-.song-grid{
-    grid-template-columns: repeat(2,1fr);
-}
+
 .favourites-grid{
     grid-template-columns: repeat(2,1fr);  
 }
+.stats{
+    grid-template-columns: repeat(2,1fr);
+    gap:10px;
+    padding:10px;
+}
+
 }
 @media (max-width:480px){
+.root{
+    padding:8px;
+}
+header h1{
+    font-size:2rem;
+}
+header h2{
+    font-size:0.9rem;
+}
+.search-bar{
+    padding:10px;
+}
+.search-input{
+    font-size:0.9rem;
+    padding:10px 15px;
+}
+.moodSelector{
+    grid-template-columns:repeat(3,1fr);
+}
 .song-grid{
-    grid-template-columns: repeat(1,1fr);
+    grid-template-columns: repeat(2,1fr);
+    gap:8px;
+    padding:8px;
+}
+.song-card h1{
+    font-size:1rem;
+}
+.song-card h2{
+    font-size:0.85rem;
 }
 .favourites-grid{
     grid-template-columns: repeat(1,1fr);  
-
+}
+.stats{
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+    padding:8px;
+}
+.stat-label{
+    font-size:0.75rem;
+}
+.stat-number{
+    font-size:1.5rem;
 }
 .moodSelector button{
-    padding:10px;
+    padding:10px 5px;
+    width:100%
 }
-.moodSelector{
-    padding:10px;
+.moodSelector button p{
+    font-size:1.2rem;
+}
+.moodSelector button h1{
+    font-size:0.75rem;
 }
 .main-content{
     padding:10px;
 }
 .moodBtn{
-    padding-left:10px;
+    padding:5px;
+    grid-template-columns: repeat(3,1fr);
+    gap:8px;
 }
 }
