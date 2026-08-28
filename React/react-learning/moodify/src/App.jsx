@@ -174,9 +174,10 @@ useEffect(()=>{
 function addCustomMood(mood){
   const newMood={
     label:mood.label,
-    emoji:mood.emoji,
+    icon:mood.icon,
     accent:mood.accent,
     bg:"linear-gradient(135deg,#1a1a1a,#2d2d2d)",
+    description:mood.description,
     searchTerm:mood.searchTerm
   }
   setCustomMoods(prev=>[...prev,newMood])
@@ -204,7 +205,6 @@ function editCustomMood(updatedMood){
   //total moods
   const totalMoods= Object.keys(moodData).length + customMoods.length
   //Most picked mood
-  
   function getMostPickedMood(){
     if(moodHistory.length===0) return null
     const moodCount={}
@@ -221,8 +221,8 @@ function editCustomMood(updatedMood){
   //useRef
     const songsToDisplay=isSearching ?searchResults :songs
      React.useEffect(()=>{
-      if(songsToDisplay.length>0){
-        songsRef.current?.scrollIntoView({
+      if(songsToDisplay.length>0 && musicSectionRef.current){
+       musicSectionRef.current?.scrollIntoView({
           behavior:"smooth",
           block:"start"
         })
@@ -240,23 +240,11 @@ function editCustomMood(updatedMood){
       setSelectedmood(null)
     }
    }
-   if(loading) return(
-    <div className='loading-container'>
-      <div className='spinner'></div>
-      <p>Finding songs for your mood...</p>
-    </div>
-   )
    const handleStartListening=()=>{
-    if (songs.length>0){
-    musicSectionRef.current?.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    })
-  }
-    if(!selectedmood) return 
+   if(!selectedmood) return 
     setListeningMood(selectedmood)
-   }
-
+  }
+    
   return (
     <div className="main-wrapper" style={ {
       background:currentMoodData?.bg ||"",
@@ -281,7 +269,7 @@ function editCustomMood(updatedMood){
       <h2 className='mood-section-title'>Choose your mood</h2>
         <MoodSelector Selectedmood={selectedmood} onSelect={onSelect} customMoods={customMoods} onShowAddMood={()=>setShowAddMood(true)} onDeleteMood={deleteCustomMood} onEditMood={onEditMood} />
         {showAddMood && <AddMoodForm
-        onAddMood={addCustomMood} 
+        onAddMood={addCustomMood} icon
         onCancel={onCancel}
          />}
         {editingMood && <EditMoodForm mood={editingMood} onSaveMood={editCustomMood}onCancel={()=>setEditingMood(null)} />}
@@ -314,7 +302,14 @@ function editCustomMood(updatedMood){
           </div>
            <p className='songs-subtitle'>Your mood,your soundtrack</p>
             <div className='song-grid' ref={musicSectionRef}>
-            <SongGrid songs={songsToDisplay} Favourites={favourites} onFavourite={onFavourite}  />
+            {loading ? (
+              <div className='loading-container'>
+               <div className='spinner'></div>
+               <p>Finding songs for your mood...</p>
+              </div>
+            ) : (
+              <SongGrid songs={songsToDisplay} Favourites={favourites} onFavourite={onFavourite} />
+            )}
             </div>
           </div>
         )}

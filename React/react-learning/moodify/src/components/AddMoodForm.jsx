@@ -1,23 +1,33 @@
 import {useState} from "react"
+import { moodDescription,customMoodsIcons} from "../data/moodData"
 export default function AddMoodForm({onAddMood,onCancel}){
-    const [emoji,setEmoji]=useState("")
+    const [selectedIcon,setSelectedIcon]=useState("Smile")
     const [label,setLabel]=useState("")
     const [accent,setAccent]=useState("#ffff")
     const [searchTerm,setSearchTerm]=useState([])
+    const [moodInfo,setMoodInfo]=useState("")
     function handleSubmit(props){
-        if(!emoji.trim() || !label.trim() || !searchTerm.length) return 
-           onAddMood({emoji,label,accent,searchTerm})
+        if(!selectedIcon.trim() || !label.trim() || !searchTerm.length) return 
+           onAddMood({emoji:selectedIcon,label,accent,description:moodInfo,searchTerm})
     }
     return(
         <section className="add-mood-form">
         <h3>✨ Add Custom Mood</h3>
         <div className="form-group">
-          <label>Emoji</label>
-          <input className="form-input"
-          value={emoji}
-          onChange={(e)=>setEmoji(e.target.value)}
-          placeholder="Enter emoji"
-          />
+         <h3>Choose an icon</h3>
+         <div className="icon-picker">
+         {Object.entries(customMoodsIcons).map(([name, Icon]) => (
+          <button
+            key={name}
+            type="button"
+            className={selectedIcon===name ?"icon-option selected":
+            "icon-option"}
+            onClick={()=>setSelectedIcon(name)}
+            >
+              <Icon size={22} />
+            </button>
+         ))}
+         </div>
         </div>
         <div className="form-group">
           <label>Mood Name</label>
@@ -34,6 +44,10 @@ export default function AddMoodForm({onAddMood,onCancel}){
           onChange={(e)=>setAccent(e.target.value)}
           type="color"
           />
+        </div>
+        <div className="form-group">
+          <label>MoodDescription</label>
+          <textarea className="mood-info" value={moodInfo} onChange={(e)=>setMoodInfo(e.target.value)} placeholder="Describe this mood..." />
         </div>
         <div className="form-group">
           <label>Search Term</label>

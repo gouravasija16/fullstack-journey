@@ -2,6 +2,7 @@ import  MoodButton from "./MoodButton";
 import { moodData } from "../data/moodData.js"
 import {moodIcon} from "../data/moodData.js"
 import {moodDescription} from "../data/moodData.js"
+import {Plus} from "lucide-react"
 export default function MoodSelector({onSelect,Selectedmood,customMoods,onShowAddMood,onDeleteMood,onEditMood}){
     const entries = Object.entries(moodData).map(entry => {
       return (
@@ -39,7 +40,7 @@ export default function MoodSelector({onSelect,Selectedmood,customMoods,onShowAd
     <div className='moodBtn'>
         {entries}
         {customMoodsElement}
-      <button className="add-mood-btn" onClick={onShowAddMood}>+ Add Mood</button>
+      <button className="add-mood-btn" onClick={onShowAddMood}><Plus size={18}/> Add Mood</button>
     </div>
   )
 }

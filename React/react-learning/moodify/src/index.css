@@ -757,26 +757,25 @@ footer h1{
     background:rgba(255,68,68,0.1);
 }
 .add-mood-btn{
+    display:inline-flex;
     background:transparent;
-    border:2px dashed rgba(255,255,255,0.3);
-    border-radius:16px;
-    padding:20px 5px;
+    border:1px dashed rgba(255,255,255,0.3);
+    border-radius:12px;
+    padding:11px 17px;
     color:var(--text-secondary);
     cursor:pointer;
     font-size:1.5rem;
     transition:all 0.3s ease;
     font-family:"Poppins",sans-serif;
-    display:flex;
-    flex-direction:column;
     align-items:center;
+    justify-content:center;;
     gap:5px;
-    margin:30px;
-    margin-left:0px;
 }
 .add-mood-btn:hover{
     border-color:var(--accent);
     color:var(--accent);
-    transform:translateY(-3px)
+    transform:translateY(-3px);
+    background:rgba(255,255,255,0.06);
 }
 .add-mood-form{
     background:var(--card-bg);
@@ -796,6 +795,37 @@ footer h1{
     color:var(--accent);
     font-size:1.1rem;
     font-weight:700;
+}
+.icon-picker{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    margin-top:10px;
+}
+.icon-option{
+    width:48px;
+    height: 48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:12px;
+    background:rgba(255,255,255,0.05);
+    color:var(--text-secondary);
+    cursor:pointer;
+    transition:all 0.2s ease;
+}
+.icon-option:hover{
+    color:var(--accent);
+    border-color:var(--accent);
+    background:rgba(255,255,255,0.08);
+    transform:translateY(-2px);
+}
+.icon-option.selected{
+    color:var(--accent);
+    border-color:var(--accent);
+    background:rgba(255,255,255,0.08);
+    box-shadow:0 0 12px rgba(255.255,255,0.08);
 }
 .form-buttons{
     display:flex;
@@ -1043,6 +1073,16 @@ footer h1{
     }
     .heart-btn{
         font-size:1.15rem
+    }
+}
+@media (max-width:500px){
+    .icon-picker{
+      grid-template-columns:repeat(5,1fr);
+      gap:8px;
+    }
+    .icon-option{
+        width:42px;
+        height:42px;
     }
 }
 @media (max-width:400px){

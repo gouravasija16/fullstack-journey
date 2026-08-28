@@ -5,7 +5,14 @@ import {
     Waves,
     Angry,
     Moon,
-    Heart
+    Heart,
+    Sun,
+    Zap,
+    Cloud,
+    Sparkles,
+    Coffee,
+    Dumbbell,
+    Music
 } from "lucide-react"
  export const moodIcon={
     Happy:Smile,
@@ -15,6 +22,18 @@ import {
     Angry:Angry,
     Tired:Moon,
     Romantic:Heart
+}
+export const customMoodsIcons={
+    Smile,
+    Music,
+    Moon,
+    Heart,
+    Sun,
+    Zap,
+    Cloud,
+    Sparkles,
+    Coffee,
+    Dumbbell
 }
 export const moodDescription={
     Happy:"Bright melodies to lift your spirits.",
