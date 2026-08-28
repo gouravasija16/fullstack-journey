@@ -1,8 +1,11 @@
+import {Music2} from "lucide-react"
 export default function Header(){
     return (
-        <header>
-            <h1>🎵Moodify</h1>
-            <h2>Music for the mood</h2>
+        <header className="navbar">
+        <div className="navbar-logo">
+           <Music2 className="logo-icon" />
+           <span className="logo-text">MOODIFY</span>
+        </div>   
         </header>
     )
 }

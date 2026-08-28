@@ -10,6 +10,7 @@ import SearchBar from "./components/SearchBar.jsx"
 import AddMoodForm from "./components/AddMoodForm"
 import Stats from "./components/Stats"
 import EditMoodForm from './components/EditMoodForm.jsx'
+import {Music2} from "lucide-react"
 function App() {
   //states
   const [selectedmood,setSelectedmood]=React.useState(null)
@@ -26,20 +27,23 @@ function App() {
   const [showAddMood,setShowAddMood]=React.useState(false)
   const [customMoods,setCustomMoods]=React.useState(JSON.parse(localStorage.getItem("customMoods"))|| [])
   const [editingMood,setEditingMood]=React.useState(null)
+  const musicSectionRef=React.useRef(null)
+  const [listeningMood,setListeningMood]=React.useState(null)
   console.log("customMoods",customMoods)
+
   function getCurrentMoodData(){
-  if(!selectedmood) return ""
-  if(moodData[selectedmood]){
-    return moodData[selectedmood]
+  if(!listeningMood) return ""
+  if(moodData[listeningMood]){
+    return moodData[listeningMood]
   }
-  return customMoods.find(mood=>mood.label===selectedmood)
+  return customMoods.find(mood=>mood.label===listeningMood)
 }
 const currentMoodData=getCurrentMoodData()
   //Songs based on data
   React.useEffect(() => {
-    if (!selectedmood) return
-    setLoading(true)
+    if (!listeningMood) return
     setSongs([])
+    setLoading(true)
     const terms = currentMoodData?.searchTerm
     if (!terms || !terms.length) {
       setLoading(false)
@@ -65,12 +69,12 @@ const currentMoodData=getCurrentMoodData()
         setSongs(result.data || [])
       })
       .catch(error => {
-        console.error(error)
+        console.log(error)
       })
       .finally(() => {
         setLoading(false)
       })
-  }, [selectedmood, currentMoodData])
+  }, [listeningMood])
 //Search Bar
 async function handleGlobalSearch(term){
   if(!term.trim()){
@@ -242,7 +246,16 @@ function editCustomMood(updatedMood){
       <p>Finding songs for your mood...</p>
     </div>
    )
-   
+   const handleStartListening=()=>{
+    if (songs.length>0){
+    musicSectionRef.current?.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    })
+  }
+    if(!selectedmood) return 
+    setListeningMood(selectedmood)
+   }
 
   return (
     <div className="main-wrapper" style={ {
@@ -250,15 +263,36 @@ function editCustomMood(updatedMood){
       "--accent":currentMoodData?.accent||"#61dafb"
     }}>
       <Header />
+      <section className="hero">
+    <div className="hero-content">
+        <p className="hero-label">YOUR MUSIC. YOUR MOOD.</p>
+        <h1>
+            LISTEN TO MUSIC THAT
+            <span> FITS YOUR MOOD.</span>
+        </h1>
+
+        <p className="hero-description">
+            Simply select your vibe and enjoy a curated playlist
+            matched to how you're feeling.
+        </p>
+    </div>
+</section>
       <main>
-        <h1>How are you feeling?</h1>
+      <h2 className='mood-section-title'>Choose your mood</h2>
         <MoodSelector Selectedmood={selectedmood} onSelect={onSelect} customMoods={customMoods} onShowAddMood={()=>setShowAddMood(true)} onDeleteMood={deleteCustomMood} onEditMood={onEditMood} />
         {showAddMood && <AddMoodForm
         onAddMood={addCustomMood} 
         onCancel={onCancel}
          />}
         {editingMood && <EditMoodForm mood={editingMood} onSaveMood={editCustomMood}onCancel={()=>setEditingMood(null)} />}
+        <button  className="start-listening-btn" onClick={handleStartListening}>Start Listening<span>→</span></button>
+        <section id="search-section">
+        <div className='search-heading'>
+          <p>EXPLORE MUSIC</p>
+          <h2>Discover music beyond your mood.</h2>
+        </div>
         <SearchBar globalSearch={globalSearch} onSearch={setGlobalSearch}/>
+        </section>
         <div className='main-content'>
         <div className='left-panel'>
           {moodHistory.length>0 && <MoodHistory moodHistory={moodHistory} selectedmood={selectedmood} streak={streak} currentMoodData={currentMoodData} />}
@@ -272,8 +306,14 @@ function editCustomMood(updatedMood){
         <div className='right-panel'>
         {(selectedmood || isSearching)&& (
           <div className="songs-container">
-            {selectedmood ?<h1>🎵 Songs for {selectedmood} </h1>:isSearching?<h1>🎵Songs for {globalSearch}</h1>:null}
-            <div className='song-grid'ref={songsRef}>
+          <div className='songs-header'>
+           <div className='songs-heading-icon'>
+            <Music2 />
+           </div>
+            {selectedmood ?<h2 className='songs-title'> Songs for {selectedmood} </h2>:isSearching?<h2 className='songs-title'>Songs for {globalSearch}</h2>:null}
+          </div>
+           <p className='songs-subtitle'>Your mood,your soundtrack</p>
+            <div className='song-grid' ref={musicSectionRef}>
             <SongGrid songs={songsToDisplay} Favourites={favourites} onFavourite={onFavourite}  />
             </div>
           </div>

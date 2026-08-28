@@ -9,8 +9,8 @@ export default function SongCard(props){
             lading="lazy"       
             />
             <div className="song-info">
-           <h1  className="song-title">{props.song.title}</h1>
-           <h2  className="song-artist">{props.song.artist.name}</h2>
+           <h2  className="song-title">{props.song.title}</h2>
+           <h3 className="song-artist">{props.song.artist.name}</h3>
            </div>
            <p className="song-duration">{ formatted}</p>
            <audio className="song-preview" controls src={props.song.preview}></audio>

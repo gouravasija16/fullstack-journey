@@ -2,9 +2,18 @@
 export default function MoodButton(props) {
     return(
         <div className="moodSelector">
-            <button className={props.moodKey===props.Selectedmood ? "active" : ""} onClick={()=>props.onselect(props.moodKey)}>
-            <p>{props.emoji} </p>
-            <h1>{props.label}</h1>
+            <button className={props.moodKey===props.Selectedmood ? "mood-card active" : "mood-card"} onClick={()=>props.onselect(props.moodKey)}>
+            <div className="mood-icon">
+            {(()=>{
+                const Icon=props.emoji;
+                return Icon ? <Icon size={30} />: null;
+            })()}
+            </div>
+            <div className="mood-info">
+                 <h3 >{props.label}</h3>
+                <p>{props.description}</p>
+            </div>
+           
             </button>
             {props.isCustom && (
                 <div className="custom-actions">
@@ -23,7 +32,7 @@ export default function MoodButton(props) {
                     }}>📝</button>
                 </div>
             )}
-        </div>
+            </div>
     )
     
 }

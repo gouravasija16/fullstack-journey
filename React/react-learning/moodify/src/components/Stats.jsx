@@ -1,22 +1,25 @@
-
+import {Heart,Trophy,BarChart3} from "lucide-react"
 export default  function Stats({totalFavourites, totalMoods,getMostPickedMood}){
   return(
-    <>
-     <div className="stat-card">
-      <h2 className="stat-icon">❤️</h2>
-      <h2 className="stat-number">{totalFavourites}</h2>
-      <p >Favourites</p>
+    <div className="stats">
+    <h2><span><BarChart3 size={24}/></span>Your Stats</h2>
+     <div className="stats-grid">
+     <div className="stat-item">
+      <Heart size={22}/>
+      <strong>{totalFavourites}</strong>
+      <span>Total Favourites</span>
      </div>
-     <div className="stat-card">
-        <h2 className="stat-icon">🎵</h2>
-        <h2 className="stat-number">{ totalMoods}</h2>
-        <p className="stat-label">Moods</p>
+     <div className="stat-item">
+     <Trophy size={22}/>
+     <strong>{getMostPickedMood().favMood}</strong>
+     <span>Most liked Mood</span>
      </div>
-     <div className="stat-card">
-        <h2 className="stat-icon">{getMostPickedMood().favMoodEmoji}</h2>
-        <p className="stat-number">{getMostPickedMood().favMood}</p>
-        <p className="stat-label">Top Mood</p>
+     <div className="stat-item">
+       <BarChart3 size={22}/>
+       <strong>{totalMoods}</strong>
+       <span>Total Moods</span>
      </div>
-    </>
-  )
+   </div>
+  </div>
+ )
 }
