@@ -3,12 +3,12 @@ import { moodDescription,customMoodsIcons} from "../data/moodData"
 export default function AddMoodForm({onAddMood,onCancel}){
     const [selectedIcon,setSelectedIcon]=useState("Smile")
     const [label,setLabel]=useState("")
-    const [accent,setAccent]=useState("#ffff")
+    const [accent,setAccent]=useState("#61dafb")
     const [searchTerm,setSearchTerm]=useState([])
     const [moodInfo,setMoodInfo]=useState("")
     function handleSubmit(props){
         if(!selectedIcon.trim() || !label.trim() || !searchTerm.length) return 
-           onAddMood({emoji:selectedIcon,label,accent,description:moodInfo,searchTerm})
+           onAddMood({icon:selectedIcon,label,accent,searchTerm,description:moodInfo})
     }
     return(
         <section className="add-mood-form">

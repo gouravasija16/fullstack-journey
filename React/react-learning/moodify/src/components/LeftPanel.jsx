@@ -1,8 +1,7 @@
-import {moodData} from '../data/moodData.js'
-import {moodIcon} from "../data/moodData.js"
+import {customMoodsIcons, moodData,moodIcon} from '../data/moodData.js'
 import {Calendar,Flame} from "lucide-react"
 export default function LeftPanel(props){
-    const MoodIcon=moodIcon[props.currentMoodData?.label]
+    const MoodIcon=moodIcon[props.currentMoodData?.label] || customMoodsIcons[props.currentMoodData?.icon]
     return(
         <>
         {props.selectedmood && (

@@ -1,5 +1,5 @@
 import  MoodButton from "./MoodButton";
-import { moodData } from "../data/moodData.js"
+import { customMoodsIcons, moodData } from "../data/moodData.js"
 import {moodIcon} from "../data/moodData.js"
 import {moodDescription} from "../data/moodData.js"
 import {Plus} from "lucide-react"
@@ -26,7 +26,8 @@ export default function MoodSelector({onSelect,Selectedmood,customMoods,onShowAd
             key={index}
             moodKey={mood.label}
             label={mood.label}
-            emoji={mood.emoji}
+            emoji={customMoodsIcons[mood.icon]}
+            description={mood.description}
             onselect={() => onSelect(mood.label)}
             Selectedmood={Selectedmood}
             onDelete={()=>onDeleteMood(mood.label)}
