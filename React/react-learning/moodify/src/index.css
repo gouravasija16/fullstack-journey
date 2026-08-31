@@ -96,12 +96,12 @@ body{
 }
 .hero {
     width: 100%;
-    min-height:420px;
+    min-height:360px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 80px 20px;
+    padding: 60px 20px;
     position: relative;
 }
 .hero-content {
@@ -198,7 +198,7 @@ body{
     box-shadow:0 0 20px rgba(97,218,251,0.12);
     transition:all 0.3s ease;
 }
-.mood-icon{
+.mood-icon:hover{
     transform:scale(1.08);
 }
 .mood-info h3{
@@ -270,7 +270,7 @@ body{
 .search-section{
     width:100%;
     max-width:1000px;
-    margin:55px auto 0;
+    margin:40px auto 0;
     box-sizing:border-box;
     
 }
@@ -314,7 +314,7 @@ body{
     backdrop-filter: blur(12px);
     color:#ffffff;
     font-size:0.95rem;
-    font-family:"Popins",sans-serif;
+    font-family:"Poppins",sans-serif;
     outline:none;
     transition:all 0.3s ease;
 }
@@ -1047,6 +1047,14 @@ footer h1{
     }
     .song-preview{
         height:32px;
+    }
+    .mood-card{
+        min-height:120px;
+        padding:16px;
+    }
+    .mood-icon{
+        width:52px;
+        height:52px;
     }
 }
 @media (max-width: 768px) {

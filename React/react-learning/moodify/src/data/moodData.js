@@ -46,58 +46,71 @@ export const moodDescription={
 }
 
 export const moodData={
-    Happy:{label:"Happy",emoji:"😊",accent:"#ffd700",bg:"linear-gradient(135deg,#1a1500,#2d2400)",searchTerm:["badshah ",
-                                  "vishal Dadlani",
-                                  "benny dayal",
+    Happy:{label:"Happy",accent:"#ffd700",bg:"linear-gradient(135deg,#1a1500,#2d2400)",searchTerm:[        "Badshah",
+                                  "Vishal Dadlani",
+                                  "Benny dayal",
                                   "hindi dance hits",
-                                  "mika singh"
+                                  "mika singh",
+                                  "Diljit Dosanjh",
         ]
      },
 
-    Sad:{label:"Sad",emoji:"😔",accent:"#6b8cef",bg:"linear-gradient(135deg,#050510,#0d0d2d)",searchTerm:["arijit singh",
+    Sad:{label:"Sad",accent:"#6b8cef",bg:"linear-gradient(135deg,#050510,#0d0d2d)",searchTerm:[         "Arijit singh",
                          "Amaal Mallik",
-                         "arijit singh sad songs",
-                         "javed bashir" ,
+                         "Arijit singh sad songs",
+                         "Javed bashir" ,
                          "The Weeknd",
-                         "Dominic Fike"                 
+                         "Dominic Fike",
+                         "Atif Aslam",              
 
          ]
     },
 
-    Motivated:{label:"Motivated",emoji:"🔥",accent:"#ff4500",bg:"linear-gradient(135deg,#1a0500,#2d0d00)",
+    Motivated:{label:"Motivated",accent:"#ff4500",bg:"linear-gradient(135deg,#1a0500,#2d0d00)",
     searchTerm:["karan aujla",
                 "vishal shekhar",
-                "piyush mishra"
+                "piyush mishra",
+                "King",
+                "Raftaar",
+                "Divine"
     ]
     },
 
-    Calm:{label:"Calm",emoji:"😌",accent:"#20b2aa",bg:"linear-gradient(135deg,#001a1a,#002d2d)",searchTerm:["mohammed Irfan ",
-                                   "gajender verma",
-                                   "jubin nautiyal",
+    Calm:{label:"Calm",accent:"#20b2aa",bg:"linear-gradient(135deg,#001a1a,#002d2d)",searchTerm:["mohammed Irfan",
+                                   "Gajender verma",
+                                   "Jubin nautiyal",
                                    "papon",
-                                   "AR Rehman"
+                                   "AR Rehman",
+                                   "Shreya Ghosal"
+
     ]
     },
 
-    Angry:{label:"Angry",emoji:"😤",accent:"#ff0000",bg:"linear-gradient(135deg,#1a0000,#2d0000)",searchTerm:["seedhemaut ",
+    Angry:{label:"Angry",accent:"#ff0000",bg:"linear-gradient(135deg,#1a0000,#2d0000)",searchTerm:["seedhemaut",
                                   "raftaar",
-                                  "krsna"
+                                  "krsna",
+                                  "divine",
+                                  "eminem",
+                                  "eminem rap songs"
     ]
     },
 
-    Tired:{label:"Tired",emoji:"😴",accent:"#c4b5fd",bg:"linear-gradient(135deg,#0d0d0d,#1a1a1a)",searchTerm:["jubin nautiyal slow",
-                                 "atif aslam ",
-                                 "mohit Chauhan ",
-                                 "anuv jain"
+    Tired:{label:"Tired",accent:"#c4b5fd",bg:"linear-gradient(135deg,#0d0d0d,#1a1a1a)",searchTerm:["jubin nautiyal slow",
+                                 "atif aslam",
+                                 "mohit Chauhan",
+                                 "anuv jain",
+                                 "Prateek Kuhad",
+                                 "arijit singh slow songs",
+                                 "Armaan Malik"
     ]
     },
 
-     Romantic:{label:"Romantic",emoji:"💕",accent:"#ff69b4",bg:"linear-gradient(135deg,#1a0010,#2d0020)",searchTerm:["arijit singh romantic",
-                                           "rahat fateh ali",
-                                           "falak",
-                                           "shreya ghosal",
-                                        "pritam romantic songs",
-                                        "Ed sheeran"  
+     Romantic:{label:"Romantic",accent:"#ff69b4",bg:"linear-gradient(135deg,#1a0010,#2d0020)",searchTerm:["Arijit singh romantic",
+                                           "Rahat fateh ali",
+                                           "Falak Shabbir",
+                                           "Shreya Ghosal",
+                                        "Pritam romantic songs",
+                                        "Ed Sheeran"  
                                     ]
     }
 
