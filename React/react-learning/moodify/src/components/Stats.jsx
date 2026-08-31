@@ -1,7 +1,7 @@
 import {Heart,Trophy,BarChart3} from "lucide-react"
 export default  function Stats({totalFavourites, totalMoods,getMostPickedMood}){
   return(
-    <div className="stats">
+    <div className="stats-container">
     <h2><span><BarChart3 size={24}/></span>Your Stats</h2>
      <div className="stats-grid">
      <div className="stat-item">

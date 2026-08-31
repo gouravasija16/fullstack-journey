@@ -20,6 +20,7 @@ body{
     min-height:100vh;
     position:relative;
     overflow-x:hidden;
+    min-width:320px;
 }
 .main-wrapper {
     min-height: 100vh;
@@ -41,6 +42,7 @@ body{
             transparent 45%
         ),
         #0b0d14 !important;
+        overflow-x:hidden;
 }
 .root{
     min-height:100vh;
@@ -94,30 +96,31 @@ body{
 }
 .hero {
     width: 100%;
-    min-height:360px;
+    min-height:420px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 40px 20px;
+    padding: 80px 20px;
+    position: relative;
 }
 .hero-content {
     max-width: 850px;
     margin: 0 auto;
 }
 .hero-label {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 4px;
-    color: #61dafb;
+    color: var(--accent, #61dafb);
     text-transform: uppercase;
 }
 
 .hero h1 {
     margin: 0;
     font-size: clamp(2.8rem, 5vw, 4.5rem);
-    line-height: 0.95;
+    line-height: 1.05;
     font-weight: 800;
     letter-spacing: -2px;
     color: #ffffff;
@@ -133,13 +136,14 @@ body{
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: #61dafb;
 }
 
 .hero-description {
     max-width: 600px;
-    margin: 22px auto 0;
-    font-size: 0.95rem;
-    line-height: 1.6;
+    margin: 24px auto 0;
+    font-size: 1rem;
+    line-height: 1.7;
     color: rgba(255, 255, 255, 0.65);
     align-items:center;
 }
@@ -156,12 +160,12 @@ body{
     width:100%
  }
  .mood-card{
-    min-height:150px;
+    min-height:130px;
     width:100%;
     display:flex;
     align-items:center;
-    gap:18px;
-    padding:22px;
+    gap:14px;
+    padding:18px;
     text-align:left;
     border:1px solid rgba(255,255,255,0.14);
     border-radius:18px;
@@ -175,6 +179,7 @@ body{
     backdrop-filter:blur(12px);
     font-family:inherit;
     color:white;
+    position:relative;
  } 
 .mood-icon{
     width:58px;
@@ -189,8 +194,12 @@ body{
         rgba(139,92,246,0.35),
         rgba(97,218,251,0.25)
     );
-    color:#61dafb;
+  color:#61dafb;
     box-shadow:0 0 20px rgba(97,218,251,0.12);
+    transition:all 0.3s ease;
+}
+.mood-icon{
+    transform:scale(1.08);
 }
 .mood-info h3{
     margin:0 0 6px;
@@ -212,8 +221,9 @@ body{
 .mood-card:hover{
     transform:translateY(-5px);
     background:rgba(255,255,255,0.10);
-    border-color:rgba(97,218,251,0.35);
-    box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+    border-color:var(--accent);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25),
+    0 0 20px color-mix(in srgb var(--accent) 12% transparent);
 }
 .mood-section-title{
     max-width:1000px;
@@ -221,6 +231,7 @@ body{
     font-size:1.8rem;
     font-weight:700;
     color:white;
+    letter-spacing:-0.5px;
 }
 .start-listening-btn{
     display:flex;
@@ -239,6 +250,8 @@ body{
     box-shadow:0 8px 25px rgba(97,218,251,0.2);
     cursor:pointer;
     transition:transform 0.25s ease, box-shadow 0.25s ease;
+    position:relative;
+
 }
 .start-listening-btn span{
     font-size: 1.2rem;
@@ -307,7 +320,9 @@ body{
 }
 .search-input:focus{
     border-color:rgba(97,218,251,0.45);
-    box-shadow:0 0 25px rgba(97,218,251,0.08);
+    box-shadow:0 0 0 3px color-mix(
+        in srgb var(--accent,#61dafb) 15% transparent
+    );
     background:rgba(255,255,255,0.08);
 }
 .search-input::placeholder{
@@ -395,7 +410,7 @@ body{
     transform:translateY(-3px);
     border-color:rgba(255,255,255,0.16);
     background:rgba(255,255,255,0.08);
-    border-color:var(--accent)
+    border-color:var(--accent);
 }
 .song-info{
    min-width:0;
@@ -450,6 +465,10 @@ audio::-webkit-media-controls-panel{
     object-fit: cover;
     border-radius:14px;
     display:block;
+    box-shadow:0 6px 18px rgba(0,0,0,0.25);
+}
+.song-cover:hover{
+    transform:scale(1.05);
 }
 .song-actions{
     grid-column:2/4;
@@ -486,10 +505,19 @@ audio::-webkit-media-controls-panel{
     border:none;
     font-size:1.3rem;
     cursor:pointer;
+    width:32px;
+    height:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:rgba(255,255,255,0.05);
     transition:all 0.2s ease
 }
 .heart-btn:hover{
     transform:scale(1.2);
+    color:#ff5c9a;
+    background:rgba(255,255,255,0.1);
 }
 .heart-btn.favourite{
     filter:drop-shadow(0 0 8px #ff5c9a);
@@ -686,10 +714,15 @@ audio::-webkit-media-controls-panel{
     overflow:hidden;
     text-overflow: ellipsis;
     white-space:nowrap;
+    color:var(--accent);
 }
 .stat-item span{
     font-size:0.7rem;
     color:var(--text-secondary);
+}
+.stat-item:hover{
+    background:rgba(255,255,255,0.08);
+    transform:translateY(-3px);
 }
 footer h1{
     font-size:1.2rem;
@@ -826,7 +859,7 @@ footer h1{
     color:var(--accent);
     border-color:var(--accent);
     background:rgba(255,255,255,0.08);
-    box-shadow:0 0 12px rgba(255.255,255,0.08);
+    box-shadow:0 0 12px rgba(255,255,255,0.08);
 }
 .form-buttons{
     display:flex;
@@ -922,12 +955,25 @@ footer h1{
 
 .moodSelector .custom-actions{
     position:absolute;
-    top:8px;
-    right:8px;
+    top:10px;
+    right:10px;
     display:flex;
     gap:6px;
     opacity:0;
     transition:opacity 0.2s ease;
+     z-index:2;
+}
+.custom-actions button{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:26px;
+    height:26px;
+    padding:0;
+    background:rgba(0,0,0,0.25);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:8px;
+    cursor:pointer;
 }
 .moodSelector:hover .custom-actions{
     opacity:1;
@@ -937,7 +983,7 @@ footer h1{
     height:26px;
     padding:0;
     border-radius:50%;
-    background:rgba(0.0.0.0.25);
+    background:rgba(0,0,0,0.25);
     border:1px solid rgba(255,255,255,0.12);
     color:#61dafb;
     font-size:0.75rem;
@@ -950,18 +996,18 @@ footer h1{
 .moodSelector .edit-mood-btn:hover{
     color:var(--accent);
     border-color:var(--accent);
-    background:rgba(255,255,255,0.08);
+    background:color-mix(in srgb var(--accent) 15% transparent);
 }
 .moodSelector .delete-mood-btn:hover{
     color:#ff5c5c;
     border-color:#ff5c5c;
-    background:rgba(255,92,92,0.08);
+    background:color-mix(in srgb #ff5c5c 15% transparent);
 }
 .spinner{
     width:50px;
     height:50px;
     border:4px solid rgba(255,255,255,0.12);
-    border-top-color:var(--accent,#61dafb);
+    border-top-color:var(--accent);
     border-radius:50%;
     animation:spin 0.8s linear infinite;
 }
@@ -985,7 +1031,7 @@ footer h1{
         grid-template-columns:repeat(2,1fr);
     }
     .song-card{
-        grid-template-columns:70px;
+        grid-template-columns:70px minmax(0,1fr) auto;
         gap:8px 12px;
         padding:14px;
     }
@@ -1004,11 +1050,26 @@ footer h1{
     }
 }
 @media (max-width: 768px) {
+    .main-content{
+        flex-direction:column;
+        gap:25px;
+        padding:15px;
+    }
+    .left-panel,.right-panel{
+        flex:none;
+        width:100%;
+    }
+    .root{
+        padding:20px 15px;
+    }
     .navbar {
         height: 60px;
         padding: 0 18px;
         border-radius: 14px;
         margin-bottom: 40px;
+    }
+    .moodSelector .custom-actions{
+       opacity:1;
     }
     .logo-icon {
         width: 24px;
@@ -1044,19 +1105,31 @@ footer h1{
         display:grid;
         grid-template-columns:repeat(1,1fr);
     }
+    
 }
 @media (max-width:600px){
+    .search-heading{
+        margin-left:5px;
+        margin-right:5px;
+    }
+    .search-heading h2{
+        line-height:1.3;
+    }
+    .search-heading p{
+        letter-spacing:2px;
+    }
     .moodBtn{
         grid-template-columns:1fr;
         gap:16px;
     }
     .mood-card{
-        min-height:120px;
+        min-height:110px;
         padding:18px;
+        gap:14px;
     }
     .mood-icon{
-        width:52px;
-        height:52px;
+        width:48px;
+        height:48px;
         font-size:1.6rem;
     }
     .mood-info h3{
@@ -1070,24 +1143,29 @@ footer h1{
         max-width:280px;
         padding:14px 24px
     }
+    .search-bar{
+        padding:20px 5px;
+    }
     .search-section{
         margin-top:40px;
+    }
+    .search-input{
+        height:54px;
+        padding:0 16px;
+        font-size:0.9rem;
     }
     .search-heading h2{
         font-size:1.5rem;
     }
-    .search-input{
-        height:54px;
-    }
     .song-card{
-        grid-template-columns:65px;
-        gap:8px 10px;
+        grid-template-columns:60px minmax(0,1fr) auto;
+        gap:8px 12px;
         padding:12px;
         border-radius:15px;
     }
     .song-cover{
-        width:65px;
-        height:65px;
+        width:60px;
+        height:60px;
         border-radius:11px;
     }
     .song-title{
@@ -1110,15 +1188,62 @@ footer h1{
     .heart-btn{
         font-size:1.15rem
     }
+    .song-actions{
+        gap:16px;
+    }
+    .favourites{
+        padding:15px 5px;
+    }
+    .favourites-grid{
+        grid-template-columns:1fr;
+    }
+    .mood-history{
+        padding:12px;
+    }
+    .history-item{
+        gap:12px;
+        padding:10px 12px;
+    }
+    .history-label{
+        font-size:0.85rem;
+    }
+    .history-time{
+        font-size:0.65rem;
+        margin-top:6px;
+    }
 }
 @media (max-width:500px){
+    .add-mood-form{
+        padding:20px;
+        width:calc(100% -20px);
+    }
     .icon-picker{
-      grid-template-columns:repeat(5,1fr);
+      grid-template-columns:repeat(4,1fr);
       gap:8px;
     }
     .icon-option{
         width:42px;
         height:42px;
+    }
+    .stats{
+        padding:15px;
+    }
+    .stats-grid{
+        grid-template-columns:1fr;
+        gap:8px;
+    }
+    .stat-item{
+        padding:12px;
+        flex-direction:row;
+        justify-content:flex-start;
+        text-align:left;
+        gap:12px;
+    }
+    .navbar{
+        padding:0 14px;
+    }
+    .logo-text{
+        font-size:1.1rem;
     }
 }
 @media (max-width:400px){
@@ -1139,5 +1264,8 @@ footer h1{
     }
     .youtube-btn{
         padding:6px 9px;
+    }
+    .root{
+        padding:15px 10px;
     }
 }
