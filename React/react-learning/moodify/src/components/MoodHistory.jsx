@@ -2,7 +2,8 @@ import LeftPanel from "./LeftPanel"
 import { moodIcon,customMoodsIcons } from "../data/moodData"
 export default function MoodHistory(props) {
     const moods = props.moodHistory.slice(0, 5).map((history, index) => {
-        const MoodIcon = moodIcon[history?.mood] || customMoodsIcons[history?.mood]
+        const MoodIcon = moodIcon[history?.mood] || customMoodsIcons[history?.icon]
+        console.log("MoodIcon:", MoodIcon, "for mood:", history?.mood, "and icon:", history?.icon)
         return (
         <div key={index} className="mood-history-item">
             <span className="history-emoji">{MoodIcon && <MoodIcon size={21} strokeWidth={2}/>}</span>

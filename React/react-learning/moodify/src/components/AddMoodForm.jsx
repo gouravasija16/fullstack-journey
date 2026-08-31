@@ -47,7 +47,7 @@ export default function AddMoodForm({onAddMood,onCancel}){
         </div>
         <div className="form-group">
           <label>MoodDescription</label>
-          <textarea className="mood-info" value={moodInfo} onChange={(e)=>setMoodInfo(e.target.value)} placeholder="Describe this mood..." />
+          <textarea className="mood-description" value={moodInfo} onChange={(e)=>setMoodInfo(e.target.value)} placeholder="Describe this mood..." />
         </div>
         <div className="form-group">
           <label>Search Term</label>

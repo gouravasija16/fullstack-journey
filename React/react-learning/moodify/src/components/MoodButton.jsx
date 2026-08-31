@@ -1,4 +1,5 @@
 
+import {Pencil,Trash2} from "lucide-react"
 export default function MoodButton(props) {
     return(
         <div className="moodSelector">
@@ -24,12 +25,12 @@ export default function MoodButton(props) {
                             props.onDelete();
                         }}
                     >
-                        ❌
+                      <Trash2 size={14}/>
                     </button>
                     <button className="edit-mood-btn" onClick={(e)=>{
                         e.stopPropagation()
                         props.onEdit()
-                    }}>📝</button>
+                    }}><Pencil size={14}/></button>
                 </div>
             )}
             </div>

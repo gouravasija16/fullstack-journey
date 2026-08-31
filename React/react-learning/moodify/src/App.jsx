@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Header from "./components/Header.jsx"
 import MoodSelector from "./components/MoodSelector.jsx"
-import { moodData } from "./data/moodData.js"
+import { moodData,customMoodsIcons } from "./data/moodData.js"
 import SongGrid from "./components/SongGrid.jsx"
 import Favourites from './components/Favourites.jsx'
 import MoodHistory from './components/MoodHistory.jsx'
@@ -138,10 +138,11 @@ useEffect(()=>{
           hour:"2-digit",
           minute:"2-digit",
           hour12:true
-        }),
-        emoji:mood.emoji
+        }), 
+        icon:mood?.icon 
       },...prevMood]
     })
+    localStorage.removeItem("moodHistory")
     //streak
     const today=new Date().toLocaleDateString()
     const yesterday=new Date(Date.now()-86400000).toLocaleDateString()
