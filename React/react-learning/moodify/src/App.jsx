@@ -292,7 +292,7 @@ function editCustomMood(updatedMood){
           } 
         </div>
         <div className='right-panel'>
-        {(selectedmood || isSearching)&& (
+        {(listeningMood || isSearching)&& (
           <div className="songs-container">
           <div className='songs-header'>
            <div className='songs-heading-icon'>
