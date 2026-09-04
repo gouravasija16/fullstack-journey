@@ -560,7 +560,7 @@ audio::-webkit-media-controls-panel{
     display:grid;
     grid-template-columns: repeat(2,minmax(0,1fr));
     gap:16px;
-}
+} 
 .empty-favourites{
     width:100%;
     min-height:180px;

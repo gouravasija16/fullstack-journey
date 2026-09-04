@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Header from "./components/Header.jsx"
 import MoodSelector from "./components/MoodSelector.jsx"
-import { moodData,customMoodsIcons } from "./data/moodData.js"
+import { moodData } from "./data/moodData.js"
 import SongGrid from "./components/SongGrid.jsx"
 import Favourites from './components/Favourites.jsx'
 import MoodHistory from './components/MoodHistory.jsx'
@@ -16,7 +16,6 @@ function App() {
   const [selectedmood,setSelectedmood]=React.useState(null)
   const [favourites,setFavourites]=React.useState(JSON.parse(localStorage.getItem("favourites"))||[])
   const [moodHistory,setMoodHistory]=React.useState(JSON.parse(localStorage.getItem("moodHistory"))||[])
-  const songsRef=React.useRef(null)
   const [streak,setStreak]=React.useState(JSON.parse(localStorage.getItem("streak"))|| 0)
   const [lastVisited,setLastVisited]=React.useState(JSON.parse(localStorage.getItem("lastVisited"))|| "")
   const [songs,setSongs]=React.useState([])
@@ -42,14 +41,8 @@ const currentMoodData=getCurrentMoodData()
   //Songs based on data
   React.useEffect(() => {
     if (!listeningMood) return
-    setSongs([])
-    setLoading(true)
     const terms = currentMoodData?.searchTerm
-    if (!terms || !terms.length) {
-      setLoading(false)
-      return
-    }
-
+    if (!terms || !terms.length) return
     const randomTerm = terms[Math.floor(Math.random() * terms.length)]
     const searchTerms = encodeURIComponent(randomTerm)
     const url = `https://deezerdevs-deezer.p.rapidapi.com/search?q=${searchTerms}&limit=16`
@@ -63,18 +56,21 @@ const currentMoodData=getCurrentMoodData()
       }
     }
 
-    fetch(url, options)
-      .then(res => res.json())
-      .then(result => {
+    async function loadSongs(){
+      setLoading(true)
+      try {
+        const res = await fetch(url, options)
+        const result = await res.json()
         setSongs(result.data || [])
-      })
-      .catch(error => {
+      } catch (error) {
         console.log(error)
-      })
-      .finally(() => {
+      } finally {
         setLoading(false)
-      })
-  }, [listeningMood])
+      }
+    }
+
+    loadSongs()
+  }, [listeningMood, currentMoodData?.searchTerm])
 //Search Bar
 async function handleGlobalSearch(term){
   if(!term.trim()){
@@ -243,6 +239,9 @@ function editCustomMood(updatedMood){
    }
    const handleStartListening=()=>{
    if(!selectedmood) return 
+    const mood=moodData[selectedmood] || customMoods.find(mood=>mood.label===selectedmood)
+    setSongs([])
+    setLoading(Boolean(mood?.searchTerm?.length))
     setListeningMood(selectedmood)
   }
     
@@ -310,9 +309,9 @@ function editCustomMood(updatedMood){
               </div>
             ) : (
               <SongGrid songs={songsToDisplay} Favourites={favourites} onFavourite={onFavourite} />
-            )}
+            )} 
             </div>
-          </div>
+          </div> 
         )}
         <Favourites Favourites={favourites} onFavourite={onFavourite} clearFavourites={clearFavourites}/>
         </div>
