@@ -100,7 +100,7 @@ export const moodData={
                                  "mohit Chauhan",
                                  "anuv jain",
                                  "Prateek Kuhad",
-                                 "arijit singh slow songs",
+                                 "arijit singh acoustic",
                                  "Armaan Malik"
     ]
     },
