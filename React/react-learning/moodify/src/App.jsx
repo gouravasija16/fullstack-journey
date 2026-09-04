@@ -298,7 +298,7 @@ function editCustomMood(updatedMood){
            <div className='songs-heading-icon'>
             <Music2 />
            </div>
-            {selectedmood ?<h2 className='songs-title'> Songs for {selectedmood} </h2>:isSearching?<h2 className='songs-title'>Songs for {globalSearch}</h2>:null}
+            {selectedmood ?<h2 className='songs-title'> Songs for {listeningMood} </h2>:isSearching?<h2 className='songs-title'>Songs for {globalSearch}</h2>:null}
           </div>
            <p className='songs-subtitle'>Your mood,your soundtrack</p>
             <div className='song-grid' ref={musicSectionRef}>
