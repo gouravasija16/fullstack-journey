@@ -1,12 +1,12 @@
 import {useState} from "react"
-import { moodDescription,customMoodsIcons} from "../data/moodData"
+import { customMoodsIcons } from "../data/moodData"
 export default function AddMoodForm({onAddMood,onCancel}){
     const [selectedIcon,setSelectedIcon]=useState("Smile")
     const [label,setLabel]=useState("")
     const [accent,setAccent]=useState("#61dafb")
     const [searchTerm,setSearchTerm]=useState([])
     const [moodInfo,setMoodInfo]=useState("")
-    function handleSubmit(props){
+    function handleSubmit(){
         if(!selectedIcon.trim() || !label.trim() || !searchTerm.length) return 
            onAddMood({icon:selectedIcon,label,accent,searchTerm,description:moodInfo})
     }
