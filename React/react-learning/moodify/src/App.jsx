@@ -190,7 +190,7 @@ function editCustomMood(updatedMood){
     {...mood,...updatedMood}
     :mood
   ))
-
+ setEditingMood(false)
 }
 //favorites clear button
   function clearFavourites(){
