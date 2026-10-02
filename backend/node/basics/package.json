@@ -1,0 +1,11 @@
+{
+  "name": "node-learning",
+  "version": "1.0.0",
+  "description": "Learning Node.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "gourav",
+  "license": "MIT"
+}
