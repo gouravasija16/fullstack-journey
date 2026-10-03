@@ -3,7 +3,7 @@ export const products= [
         id:1,
         name: "Mechanical Keyboard",
         price:2500,
-        category:"Electronics"
+        category:"Electronics",
     },
     {
         id:2,
