@@ -1,14 +1,20 @@
 import http from "http"
 import {products}from "./data/data.js"
 import {sendJSONResponse} from "./utils/sendJSONResponse.js"
-const PORT=8080
+import {filterByQueryParams} from "./utils/filterByQueryParams.js"
+const PORT=8000
 const server=http.createServer(async (req,res)=>{
     console.log(req.url,req.method)
     const data=await products
-    if(req.url==='/api/products' && req.method==='GET'){
-        sendJSONResponse(res,400,data)
-
-    }else if(req.url.startsWith('/api/products/category') && req.method==='GET'){
+    console.log(req.headers)
+    const urlObj=new URL(req.url, `http://${req.headers.host}`)
+    console.log(urlObj)
+    const queryObj= Object.fromEntries(urlObj.searchParams)
+    console.log(queryObj)
+    if(urlObj.pathname==='/api/products' && req.method==='GET'){
+        let filteredData=filterByQueryParams(data,queryObj)
+        sendJSONResponse(res,200,filteredData)
+     }else if(req.url.startsWith('/api/products/category') && req.method==='GET'){
         const category=req.url.split("/").pop()
          const filteredData=data.filter(item => item.category.toLowerCase() === category.toLowerCase());
          sendJSONResponse(res,200,filteredData)
