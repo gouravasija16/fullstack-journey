@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quotes Board</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Quotes Board</h1>
+    <p class="sub">Words worth keeping. Served by your own Node server.</p>
+  </header>
+
+  <main>
+    <section class="composer" aria-labelledby="add-title">
+      <h2 id="add-title">Add a quote</h2>
+      <form id="quote-form">
+        <label for="text">Quote</label>
+        <textarea id="text" name="text" rows="3" maxlength="240" required placeholder="Type the quote here"></textarea>
+        <div class="row">
+          <div class="field">
+            <label for="author">Author</label>
+            <input id="author" name="author" maxlength="60" required placeholder="Who said it?">
+          </div>
+          <button type="submit" id="save">Save quote</button>
+        </div>
+        <p id="form-msg" class="msg" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section aria-labelledby="board-title">
+      <div class="toolbar">
+        <h2 id="board-title">All quotes <span id="count"></span></h2>
+        <input id="search" type="search" placeholder="Search quotes or authors" aria-label="Search quotes or authors">
+      </div>
+      <p id="status" class="msg" role="status" aria-live="polite">Loading quotes…</p>
+      <ul id="board" class="board"></ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

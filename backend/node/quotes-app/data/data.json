@@ -1,0 +1,8 @@
+[
+  { "id": 1, "text": "Whether you think you can, or you think you can't, you're right.", "author": "Henry Ford" },
+  { "id": 2, "text": "Be the change that you wish to see in the world.", "author": "Mahatma Gandhi" },
+  { "id": 3, "text": "Simplicity is the ultimate sophistication.", "author": "Leonardo da Vinci" },
+  { "id": 4, "text": "Talk is cheap. Show me the code.", "author": "Linus Torvalds" },
+  { "id": 5, "text": "First, solve the problem. Then, write the code.", "author": "John Johnson" },
+  { "id": 6, "text": "Stay hungry, stay foolish.", "author": "Steve Jobs" }
+]
