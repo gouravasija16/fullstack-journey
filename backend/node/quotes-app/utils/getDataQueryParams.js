@@ -1,10 +1,11 @@
 export function getDataQueryParams(data,queryObj){
     const {id,author}=queryObj
+    let filteredData=data
     if(id){
-        data.filter(item=>item.id===Number(id))
+       filteredData= filteredData.filter(item=>item.id===Number(id))
     }
     if(author){
-        data.filter(item=>item.author.toLowerCase()===author.toLowerCase())
+       filteredData= filteredData.filter(item=>item.author.toLowerCase()===author.toLowerCase())
     }
-    return data
+    return filteredData
 }
