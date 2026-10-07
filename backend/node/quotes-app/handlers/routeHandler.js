@@ -9,7 +9,7 @@ export async function handleGet(res,queryObj){
     const content=JSON.stringify(filtered)
     sendResponse(res,200,"application/json",content)
 }
-export async function  handlePost(res,req){
+export async function  handlePost(req,res){
     try{
         const parsedBody=await parseJSONBody(req)
         await addNewQuotes(parsedData)

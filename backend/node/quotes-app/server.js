@@ -3,7 +3,7 @@ import path from "node:path"
 import {handleGet} from "./handlers/routeHandler.js"
 import {handlePost} from "./handlers/routeHandler.js"
 import {serveStatic} from "./utils/serveStatic.js"
-const PORT=8001
+const PORT=8002
 const __dirname=import.meta.dirname
 const server=http.createServer(async (req,res)=>{
     const urlObj=new URL(req.url,`http://${req.headers.host}`)
@@ -13,10 +13,10 @@ const server=http.createServer(async (req,res)=>{
         if(req.method==='GET'){
             return await handleGet(res,queryObj)
         }else if (req.method==='POST') {
-            return  await handlePost(req,res)  
+            return  await handlePost(req,res) 
         }
     }else {
-    return await serveStatic(req,res,__dirname)  
+    return await serveStatic(req,res,__dirname)
     }
 })
 server.listen(PORT,()=>console.log(`The server is running on Port:${PORT}`))
