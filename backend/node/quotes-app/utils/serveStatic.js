@@ -4,7 +4,7 @@ import {sendResponse} from "./sendResponse.js"
 import {getContentType} from "./getContentType.js"
 export async function serveStatic(req,res,__baseDir){
     const publicDir=path.join(__baseDir,'public')
-    const filePath=path.join(publicDir,req.url==="/" ?index.html : req.url)
+    const filePath=path.join(publicDir,req.url==="/" ? "index.html" : req.url)
     const ext=path.extname(filePath)
     const contentType=getContentType(ext)
     try{
