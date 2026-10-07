@@ -1,6 +1,7 @@
 import http from "node:http"
 import path from "node:path"
 import {handleGet} from "./handlers/routeHandler.js"
+import {handlePost} from "./handlers/routeHandler.js"
 import {serveStatic} from "./utils/serveStatic.js"
 const PORT=8001
 const __dirname=import.meta.dirname
@@ -11,10 +12,9 @@ const server=http.createServer(async (req,res)=>{
     if(urlObj.pathname==="/api"){
         if(req.method==='GET'){
             return await handleGet(res,queryObj)
+        }else if (req.method==='POST') {
+            return  await handlePost(req,res)  
         }
-        res.writeHead(405,{"Allow":"GET","Content-Type":"text/plain"})
-        res.end("Method Not Allowed")
-        return
     }else {
     return await serveStatic(req,res,__dirname)  
     }
