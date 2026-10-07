@@ -4,7 +4,7 @@ export async function getData(){
     try{
         const pathJSON= path.join('data',"data.json")
         const data=await fs.readFile(pathJSON)
-        const parseData=JSON.parse(data)
+        const parsedData=JSON.parse(data)
         return parsedData
 
     }catch(err){
