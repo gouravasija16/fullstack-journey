@@ -9,10 +9,13 @@ const server=http.createServer(async (req,res)=>{
     const queryObj=Object.fromEntries(urlObj.searchParams)
     console.log(queryObj)
     if(urlObj.pathname==="/api"){
-        if(urlObj.method==='GET'){
+        if(req.method==='GET'){
             return await handleGet(res,queryObj)
         }
-    }else if (!req.url.startsWith('/api')) {
+        res.writeHead(405,{"Allow":"GET","Content-Type":"text/plain"})
+        res.end("Method Not Allowed")
+        return
+    }else {
     return await serveStatic(req,res,__dirname)  
     }
 })
