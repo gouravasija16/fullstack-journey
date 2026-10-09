@@ -100,5 +100,6 @@ form.addEventListener('submit', async (e) => {
 })
 
 searchEl.addEventListener('input', render)
-
-loadQuotes()
+const evtSource = new EventSource('/api/live')
+ evtSource.onmessage=() => loadQuotes()
+evtSource.onerror =() => console.log('Live connection lost, retrying ...')

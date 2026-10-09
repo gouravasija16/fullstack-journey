@@ -3,12 +3,16 @@ import path from "node:path"
 import {handleGet} from "./handlers/routeHandler.js"
 import {handlePost} from "./handlers/routeHandler.js"
 import {serveStatic} from "./utils/serveStatic.js"
+import {handleLive} from "./handlers/routeHandler.js"
 const PORT=8002
 const __dirname=import.meta.dirname
 const server=http.createServer(async (req,res)=>{
     const urlObj=new URL(req.url,`http://${req.headers.host}`)
     const queryObj=Object.fromEntries(urlObj.searchParams)
     console.log(queryObj)
+    if(urlObj.pathname==="/api/live" && req.method==='GET'){
+        return await handleLive(req,res)
+    }
     if(urlObj.pathname==="/api"){
         if(req.method==='GET'){
             return await handleGet(res,queryObj)
