@@ -7,7 +7,7 @@ try{
     const maxId= quotes.reduce((max,q)=> Math.max(max,q.id), 0)
     const quoteWithId={  ...newQuotes, id: maxId + 1 }
     quotes.push(quoteWithId)
-    const pathJSON= path.join(import.meta.dirname,'data',"data.json")
+    const pathJSON= path.join(import.meta.dirname,"..","data","data.json")
     await fs.writeFile(pathJSON,JSON.stringify(quotes,null,2),'utf-8')
     return quoteWithId
 }catch(err){
