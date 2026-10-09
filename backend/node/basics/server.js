@@ -18,6 +18,10 @@ const server=http.createServer(async (req,res)=>{
         const category=req.url.split("/").pop()
          const filteredData=data.filter(item => item.category.toLowerCase() === category.toLowerCase());
          sendJSONResponse(res,200,filteredData)
+    }else if(req.url.startsWith('/api/products/id') && req.method==='GET'){
+        const id=req.url.split("/").pop()
+        const filteredData=data.filter(item => item.id === parseInt(id));
+        sendJSONResponse(res,200,filteredData)
     }
     else{
         sendJSONResponse(res,404, {message:'Page not found, please check the URL'})

@@ -29,15 +29,15 @@
     "text": "Stay hungry, stay foolish.",
     "author": "Steve Jobs"
   },
-  {
+  { "id" : 7,
     "text": "In the middle of difficulty lies opportunity",
     "author": "Albert Einstein"
   },
-  {
+  { "id" : 8,
     "text": "What we think, we become",
     "author": "Buddha"
   },
-  {
+  { "id" : 9,
     "text": "Code is like humor. When you have to explain it, it's bad.",
     "author": "Cory House"
   }

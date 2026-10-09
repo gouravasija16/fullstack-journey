@@ -1,15 +1,15 @@
+const __dirname=import.meta.dirname
 import http from "node:http"
-import path from "node:path"
 import {handleGet} from "./handlers/routeHandler.js"
 import {handlePost} from "./handlers/routeHandler.js"
 import {serveStatic} from "./utils/serveStatic.js"
 import {handleLive} from "./handlers/routeHandler.js"
+import {getQuotesById} from "./utils/getQuotesByID.js"
 const PORT=8002
-const __dirname=import.meta.dirname
+
 const server=http.createServer(async (req,res)=>{
     const urlObj=new URL(req.url,`http://${req.headers.host}`)
     const queryObj=Object.fromEntries(urlObj.searchParams)
-    console.log(queryObj)
     if(urlObj.pathname==="/api/live" && req.method==='GET'){
         return await handleLive(req,res)
     }
@@ -19,7 +19,12 @@ const server=http.createServer(async (req,res)=>{
         }else if (req.method==='POST') {
             return  await handlePost(req,res) 
         }
-    }else {
+    }else if(urlObj.pathname.startsWith('/api/quotes/') && req.method==='GET'){
+        const id=Number(urlObj.pathname.split("/").pop())
+        await getQuotesById(res,id)
+        
+    }
+    else {
     return await serveStatic(req,res,__dirname)
     }
 })

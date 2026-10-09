@@ -18,11 +18,11 @@ export async function  handlePost(req,res){
         if(!sanitizedData.author || !sanitizedData.text){
             throw new Error("Missing required fields: author and text")
         }
-        await addNewQuotes(sanitizedData)
-        quoteEvents.emit('quote-added',sanitizedData)
-        sendResponse(res,201,'application/json',JSON.stringify(sanitizedData))
+       const newQuote= await addNewQuotes({text:sanitizedData.text,author:sanitizedData.author})
+        quoteEvents.emit('quote-added',newQuote)
+        sendResponse(res,201,'application/json',JSON.stringify(newQuote))
     }catch(err){
-       sendResponse(res,400,"application/json",JSON.stringify(`error:${err}`))
+       sendResponse(res,400,"application/json",JSON.stringify({ error: err.message }))
     }
 }
 
@@ -36,9 +36,9 @@ export async function handleLive(req, res) {
     res.write(':connected\n\n');
 
    const send=(quote) =>res.write(`data: ${JSON.stringify(quote)}\n\n`)
-    quoteEvents().on('quote-added', send)
+    quoteEvents.on('quote-added', send)
     req.on('close', () => {
-        quoteEvents().off('quote-added', send)
+        quoteEvents.off('quote-added', send)
     })
 }
  
