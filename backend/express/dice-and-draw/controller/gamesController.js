@@ -9,11 +9,20 @@ export  async function gamesController(req,res){
     try{
         let query= `SELECT * FROM games`
         const params =[]
-        const {category}=req.query
+        const filters=[]
+        const {category,search}=req.query
         if(category){
-            query+=' WHERE category=?'
-            params.push(category)
+           filters.push("category =?")
+           params.push(category)
+        } if(search){
+           filters.push("(title LIKE ?)")
+            const searchPattern= `%${search}%`
+            filters.push(searchPattern)
+
         }
+        if (filters.length > 0) {
+        query += ` WHERE ${filters.join(' AND ')}`
+    }
         const games=await db.all(query,params)
         res.status(200).json(games)
     }catch(err){
