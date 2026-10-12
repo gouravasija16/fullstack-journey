@@ -9,7 +9,7 @@ export async function categoriesController(req,res){
                 driver: sqlite3.Database
             })
          const rows =await db.all('SELECT DISTINCT category FROM games')
-         const category= rows.map(row=>row.categories)
+         const category= rows.map(row=>row.category)
         res.status(200).json(category)
 
     }catch(err){

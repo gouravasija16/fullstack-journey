@@ -7,13 +7,18 @@ export  async function gamesController(req,res){
             driver: sqlite3.Database
         })
     try{
-        const query= `SELECT * FROM games WHERE`
+        let query= `SELECT * FROM games`
         const params =[]
-        
+        const {category}=req.query
+        if(category){
+            query+=' WHERE category=?'
+            params.push(category)
+        }
+        const games=await db.all(query,params)
+        res.status(200).json(games)
     }catch(err){
+        res.status(500).json({error:'failed to fetch games',details:err.message})
 
-    }finally{
-        
     }
 
 }
