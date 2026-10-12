@@ -13,9 +13,11 @@ import path from 'node:path'
             title TEXT NOT NULL,
             category TEXT NOT NULL,
             description TEXT NOT NULL,
-            difficulty TEXT NOT NULL,
-            Players TEXT NOT NULL,
-            duration INTEGER NOT NULL,
+            difficulty INTEGER NOT NULL,
+            minPlayers INTEGER NOT NULL,
+            maxPlayers INTEGER NOT NULL,
+            playMinutes INTEGER NOT NULL,
+            copies INTEGER NOT NULL,
             image TEXT NOT NULL
         )
     `)
