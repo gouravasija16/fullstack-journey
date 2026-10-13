@@ -3,6 +3,7 @@ import path from "node:path"
 import {logger} from "./middleware/logger.js"
 import {gamesRouter} from "./routes/games.js"
 const app=express()
+app.use(express.json())
 app.use(logger)
 app.use(express.static(path.join(import.meta.dirname, 'public')))
 app.get('/api/health',(req,res)=>{

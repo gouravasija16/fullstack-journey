@@ -10,14 +10,20 @@ export  async function gamesController(req,res){
         let query= `SELECT * FROM games`
         const params =[]
         const filters=[]
-        const {category,search}=req.query
+        const {category,search,players,maxMinutes}=req.query
         if(category){
            filters.push("category =?")
            params.push(category)
         } if(search){
            filters.push("(title LIKE ?)")
             const searchPattern= `%${search}%`
-            filters.push(searchPattern)
+            params.push(searchPattern)
+        }if(players){
+            filters.push("minPlayers <= ? AND  maxPlayers >= ?")
+            params.push(Number(players),Number(players))
+        }if(maxMinutes){
+            filters.push("playMinutes<= ?")
+            params.push(Number(maxMinutes))
 
         }
         if (filters.length > 0) {

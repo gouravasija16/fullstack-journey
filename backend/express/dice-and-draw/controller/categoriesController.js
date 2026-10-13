@@ -2,7 +2,6 @@ import sqlite3 from 'sqlite3'
 import path from "path"
 import {open} from "sqlite"
 export async function categoriesController(req,res){
-   
     try{
          const db =await open({
                 filename:path.join('database.db'),
