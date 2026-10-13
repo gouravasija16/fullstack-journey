@@ -7,8 +7,9 @@ export async function ReservationsController(req,res){
     console.log(req.body)
     //destruction of request body
     const {gameId,name,players,date,startHour,hours}=req.body
+    let db
     try{
-    const db=await open({
+    db=await open({
             filename:path.join('database.db'),
             driver:sqlite3.Database
         })
@@ -59,7 +60,7 @@ export async function ReservationsController(req,res){
             WHERE gameId = ? AND date= ?
             AND startHour < ?
             AND (startHour + hours) > ?
-            `[gameId ,date ,NewEndHour,startHour])
+            `,[gameId ,date ,NewEndHour,startHour])
 
             //Availability condition check
             if(overlappingReservations.count>=game.copies){
@@ -80,7 +81,7 @@ export async function ReservationsController(req,res){
         return res.status(500).json({error:'Internal server error'})
 
     }finally{
-        await db.close()
+        if(db) await db.close()
     }
 
 }
