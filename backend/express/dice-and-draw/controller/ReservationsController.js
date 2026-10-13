@@ -2,9 +2,12 @@ import express from "express"
 import sqlite3 from "sqlite3"
 import path from "node:path"
 import {open} from "sqlite"
+import sanitizeHtml from 'sanitize-html'
 export async function ReservationsController(req,res){
     console.log(req.body)
+    //destruction of request body
     const {gameId,name,players,date,startHour,hours}=req.body
+    try{
     const db=await open({
             filename:path.join('database.db'),
             driver:sqlite3.Database
@@ -19,7 +22,6 @@ export async function ReservationsController(req,res){
     if(!game){
         return res.status(404).json({error:'Game not found'})
     }
-    try{
         if(typeof name !=='string' || name.trim()===''){
             return res.status(400).json({error:'Name is required and must be a non-empty string'})
         }
@@ -46,11 +48,36 @@ export async function ReservationsController(req,res){
         }
         if(startHour+hours>24){
             return res.status(400).json({error:'Reservation cannot exceed 24 hours in a day'})
+        }if(date===todayString && startHour<now.getHours()){
+            return res.status(400).json({error:'startHour cannot be in the past for today'})
         }
+        //overlapping reservation check
+        const existingEndHour=startHour + hours
+        const overlappingReservations=await db.get(`
+            SELECT COUNT(*) AS count FROM reservations 
+            WHERE gameId = ? AND date= ?
+            AND startHour < ?
+            AND (startHour + hours) > ?
+            `[gameId ,date ,existingEndHour,startHour])
+
+            //Availability condition check
+            if(overlappingReservations.count>=game.copies){
+                return res.status(400).json({error:'No available copies for the selected time slot'})
+            }
+            //sanitize-html for name
+       const cleanName=sanitizeHtml(game.name,{allowedTags:[],allowedAttributes:{}}).trim()
+       //Insertion into database
+       db.run(`
+        INSERT INTO reservations(gameId,name,players,date,startHour,hours)
+        VALUES(?,?,?,?,?,?)
+        `,[gameId,cleanName,players,date,startHour,hours])
 
     }catch(err){
         console.error(err)
         return res.status(500).json({error:'Internal server error'})
+        
+    }finally{
+        await db.close()
     }
 
 }
