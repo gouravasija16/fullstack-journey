@@ -25,7 +25,8 @@ export async function ReservationsController(req,res){
         if(typeof name !=='string' || name.trim()===''){
             return res.status(400).json({error:'Name is required and must be a non-empty string'})
         }
-        if(!Number.isInteger(gameId)){
+        const parsedGameId = Number(gameId)
+        if(!Number.isInteger(parsedGameId)){
             return res.status(400).json({error:'gameId must be a Whole number'})
         }
         if(!Number.isInteger(players) || players<=0){
@@ -52,30 +53,32 @@ export async function ReservationsController(req,res){
             return res.status(400).json({error:'startHour cannot be in the past for today'})
         }
         //overlapping reservation check
-        const existingEndHour=startHour + hours
+        const NewEndHour=startHour + hours
         const overlappingReservations=await db.get(`
             SELECT COUNT(*) AS count FROM reservations 
             WHERE gameId = ? AND date= ?
             AND startHour < ?
             AND (startHour + hours) > ?
-            `[gameId ,date ,existingEndHour,startHour])
+            `[gameId ,date ,NewEndHour,startHour])
 
             //Availability condition check
             if(overlappingReservations.count>=game.copies){
                 return res.status(400).json({error:'No available copies for the selected time slot'})
             }
             //sanitize-html for name
-       const cleanName=sanitizeHtml(game.name,{allowedTags:[],allowedAttributes:{}}).trim()
+       const cleanName=sanitizeHtml(name,{allowedTags:[],allowedAttributes:{}}).trim()
        //Insertion into database
-       db.run(`
+       await db.run(`
         INSERT INTO reservations(gameId,name,players,date,startHour,hours)
         VALUES(?,?,?,?,?,?)
         `,[gameId,cleanName,players,date,startHour,hours])
 
+        return res.status(201).json({ message: 'Reservation created successfully' })
+
     }catch(err){
         console.error(err)
         return res.status(500).json({error:'Internal server error'})
-        
+
     }finally{
         await db.close()
     }
