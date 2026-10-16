@@ -5,6 +5,7 @@ import {gamesRouter} from "./routes/games.js"
 import { authRouter } from "./routes/auth.js"
 import session from 'express-session'
 import dotenv from 'dotenv'
+import {displayNameRouter} from './routes/me.js'
 dotenv.config()
 const app=express()
 app.use(express.json())
@@ -23,6 +24,7 @@ app.use(session({
 app.use(logger)
 app.use(express.static(path.join(import.meta.dirname, 'public')))
 app.use('/api/auth', authRouter)
+app.use('/api/auth',displayNameRouter)
 app.get('/api/health',(req,res)=>{
     res.json({status:'ok'})
 })

@@ -74,8 +74,8 @@
   <dialog id="authDialog">
     <form id="authForm" method="dialog">
       <h2 id="authTitle">Log in</h2>
-      <label id="nameRow" hidden>Name <input id="authName" maxlength="60" autocomplete="name"></label>
-      <label>Email <input id="authEmail" type="email" autocomplete="email" required></label>
+      <label>Name <input id="authName" maxlength="21" autocomplete="username" required></label>
+      <label id="emailRow" hidden>Email <input id="authEmail" type="email" autocomplete="email"></label>
       <label>Password <input id="authPass" type="password" minlength="8" required></label>
       <p id="authMsg" class="status" role="status" aria-live="polite"></p>
       <div class="actions">

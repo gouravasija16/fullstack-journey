@@ -175,8 +175,8 @@ function openAuth(mode, note = '') {
   $('authTitle').textContent = reg ? 'Sign up' : 'Log in'
   $('authSubmit').textContent = reg ? 'Create account' : 'Log in'
   $('authSwitch').textContent = reg ? 'Have an account? Log in' : 'New here? Sign up'
-  $('nameRow').hidden = !reg
-  $('authName').required = reg
+  $('emailRow').hidden = !reg
+  $('authEmail').required = reg
   $('authPass').autocomplete = reg ? 'new-password' : 'current-password'
   setMsg($('authMsg'), note)
   authDialog.showModal()
@@ -196,11 +196,12 @@ async function sendAuth(path, body) {
   })
   const data = await res.json().catch(() => ({}))
   if (!res.ok) throw new Error(errorText(data, res))
+  return data
 }
 
 $('authForm').addEventListener('submit', async (e) => {
   e.preventDefault()
-  const email = $('authEmail').value.trim()
+  const name = $('authName').value.trim()
   const password = $('authPass').value
   const btn = $('authSubmit')
   btn.disabled = true
@@ -208,11 +209,9 @@ $('authForm').addEventListener('submit', async (e) => {
 
   try {
     if (authMode === 'register') {
-      await sendAuth(API.register, { name: $('authName').value.trim(), email, password })
-      await loadUser()
-      if (!state.user) await sendAuth(API.login, { email, password })   // if register doesn't log in by itself
+      await sendAuth(API.register, { name, email: $('authEmail').value.trim(), password })
     } else {
-      await sendAuth(API.login, { email, password })
+      await sendAuth(API.login, { name, password })
     }
     $('authForm').reset()
     authDialog.close()
@@ -269,9 +268,9 @@ $('bookForm').addEventListener('submit', async (e) => {
     const res = await fetch(API.reservations, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      // No name or user id: the server takes the user from the session
       body: JSON.stringify({
         gameId: Number($('gameId').value),
+        name: displayName(state.user),
         players: Number($('bookPlayers').value),
         date: $('date').value,
         startHour: Number($('startHour').value),

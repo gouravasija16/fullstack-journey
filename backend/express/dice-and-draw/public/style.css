@@ -36,6 +36,7 @@ h1 span { color: var(--gold); }
 /* Filters */
 .controls { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 8px; }
 .controls label, dialog label { display: flex; flex-direction: column; gap: 4px; font-size: 0.8rem; color: var(--muted); }
+dialog label[hidden] { display: none; }
 .grow { flex: 1 1 200px; }
 select, input {
   font: inherit; font-size: 0.95rem; color: var(--ink);
