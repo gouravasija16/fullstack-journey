@@ -21,6 +21,14 @@ import path from 'node:path'
             image TEXT NOT NULL
         )
     `)
+    await db.exec(`
+        CREATE TABLE IF NOT EXISTS users(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE  NOT NULL,
+            password TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )`)
     await db.close()
     console.log('Table created successfully')
 }
