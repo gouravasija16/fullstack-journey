@@ -12,7 +12,10 @@
 </head>
 <body>
   <header class="top">
-    <h1>Dice <span>&amp;</span> Draw</h1>
+    <div class="bar">
+      <h1>Dice <span>&amp;</span> Draw</h1>
+      <nav id="auth" aria-label="Account"></nav>
+    </div>
     <p class="sub">Board game cafe. Pick a game, book a table.</p>
   </header>
 
@@ -43,19 +46,18 @@
     <ul id="grid" class="grid"></ul>
   </main>
 
+  <!-- Reservation dialog (name now comes from the logged-in session) -->
   <dialog id="book">
     <form id="bookForm" method="dialog">
       <h2>Reserve <span id="bookTitle"></span></h2>
+      <p id="bookAs" class="meta"></p>
       <input type="hidden" id="gameId">
-      <label>Your name <input id="name" maxlength="60" required></label>
       <div class="two">
         <label>Players <input id="bookPlayers" type="number" min="1" required></label>
         <label>Date <input id="date" type="date" required></label>
       </div>
       <div class="two">
-        <label>Start time
-          <select id="startHour"></select>
-        </label>
+        <label>Start time <select id="startHour"></select></label>
         <label>Hours
           <select id="hours"><option>1</option><option>2</option><option>3</option><option>4</option></select>
         </label>
@@ -65,6 +67,22 @@
         <button type="button" id="cancel" class="ghost">Cancel</button>
         <button type="submit" id="confirm">Confirm booking</button>
       </div>
+    </form>
+  </dialog>
+
+  <!-- Login / sign up dialog -->
+  <dialog id="authDialog">
+    <form id="authForm" method="dialog">
+      <h2 id="authTitle">Log in</h2>
+      <label id="nameRow" hidden>Name <input id="authName" maxlength="60" autocomplete="name"></label>
+      <label>Email <input id="authEmail" type="email" autocomplete="email" required></label>
+      <label>Password <input id="authPass" type="password" minlength="8" required></label>
+      <p id="authMsg" class="status" role="status" aria-live="polite"></p>
+      <div class="actions">
+        <button type="button" id="authCancel" class="ghost">Cancel</button>
+        <button type="submit" id="authSubmit">Log in</button>
+      </div>
+      <button type="button" id="authSwitch" class="link">New here? Sign up</button>
     </form>
   </dialog>
 

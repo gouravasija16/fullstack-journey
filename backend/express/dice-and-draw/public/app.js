@@ -1,7 +1,19 @@
+/* ---------- Settings: change these if your backend uses other names ---------- */
+const API = {
+  me: '/api/auth/me',
+  register: '/api/auth/register',
+  login: '/api/auth/login',
+  logout: '/api/auth/logout',
+  games: '/api/games',
+  categories: '/api/categories',
+  reservations: '/api/reservations'
+}
+
 const $ = (id) => document.getElementById(id)
 const grid = $('grid')
 const statusEl = $('status')
-let requestId = 0   // ignore out-of-date responses
+const state = { user: null }
+let requestId = 0   // ignore out-of-date game responses
 
 async function getJSON(url) {
   const res = await fetch(url)
@@ -14,19 +26,22 @@ function setMsg(el, text, type = '') {
   el.className = 'status ' + type
 }
 
-/* ---------- Filters ---------- */
+const errorText = (data, res) => data.error || data.message || 'Status ' + res.status
+const displayName = (u) => u.name || u.username || u.email || 'friend'
+
+/* ---------- Filters and games ---------- */
 async function loadCategories() {
   try {
-    const list = await getJSON('/api/categories')
+    const list = await getJSON(API.categories)
     for (const c of list) {
-      const value = typeof c === 'string' ? c : c.category   // works for strings or {category}
+      const value = typeof c === 'string' ? c : c.category
       const opt = document.createElement('option')
       opt.value = value
       opt.textContent = value
       $('category').append(opt)
     }
   } catch (err) {
-    console.error(err)   // the page still works without the dropdown list
+    console.error(err)
   }
 }
 
@@ -40,7 +55,7 @@ async function loadGames() {
   const query = params.toString()
 
   try {
-    const games = await getJSON('/api/games' + (query ? '?' + query : ''))
+    const games = await getJSON(API.games + (query ? '?' + query : ''))
     if (id !== requestId) return
     render(games)
   } catch (err) {
@@ -51,14 +66,13 @@ async function loadGames() {
   }
 }
 
-/* ---------- Cards ---------- */
 function makeCover(game) {
   const img = document.createElement('img')
   img.className = 'cover'
   img.src = game.image
   img.alt = 'Cover of ' + game.title
   img.loading = 'lazy'
-  img.onerror = () => {                       // fallback if the image is missing
+  img.onerror = () => {
     const div = document.createElement('div')
     div.className = 'fallback'
     div.textContent = game.title
@@ -110,7 +124,117 @@ function render(games) {
   else setMsg(statusEl, `${games.length} ${games.length === 1 ? 'game' : 'games'}`)
 }
 
-/* ---------- Reservation dialog (Level 3) ---------- */
+/* ---------- Authentication ---------- */
+const authDialog = $('authDialog')
+let authMode = 'login'
+
+async function loadUser() {
+  try {
+    const res = await fetch(API.me)
+    if (res.ok) {
+      const data = await res.json()
+      state.user = data.user ?? data          // accepts { name } or { user: { name } }
+    } else {
+      state.user = null
+    }
+  } catch (err) {
+    state.user = null
+  }
+  renderAuth()
+}
+
+function renderAuth() {
+  const nav = $('auth')
+  nav.replaceChildren()
+
+  const makeBtn = (text, onClick, cls) => {
+    const b = document.createElement('button')
+    b.type = 'button'
+    b.textContent = text
+    if (cls) b.className = cls
+    b.addEventListener('click', onClick)
+    return b
+  }
+
+  if (state.user) {
+    const hello = document.createElement('span')
+    hello.className = 'hello'
+    hello.textContent = 'Hi, ' + displayName(state.user)   // textContent, never innerHTML
+    nav.append(hello, makeBtn('Log out', logout, 'ghost'))
+  } else {
+    nav.append(
+      makeBtn('Log in', () => openAuth('login'), 'ghost'),
+      makeBtn('Sign up', () => openAuth('register'))
+    )
+  }
+}
+
+function openAuth(mode, note = '') {
+  authMode = mode
+  const reg = mode === 'register'
+  $('authTitle').textContent = reg ? 'Sign up' : 'Log in'
+  $('authSubmit').textContent = reg ? 'Create account' : 'Log in'
+  $('authSwitch').textContent = reg ? 'Have an account? Log in' : 'New here? Sign up'
+  $('nameRow').hidden = !reg
+  $('authName').required = reg
+  $('authPass').autocomplete = reg ? 'new-password' : 'current-password'
+  setMsg($('authMsg'), note)
+  authDialog.showModal()
+}
+
+function sessionExpired() {
+  state.user = null
+  renderAuth()
+  openAuth('login', 'Please log in first.')
+}
+
+async function sendAuth(path, body) {
+  const res = await fetch(path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) throw new Error(errorText(data, res))
+}
+
+$('authForm').addEventListener('submit', async (e) => {
+  e.preventDefault()
+  const email = $('authEmail').value.trim()
+  const password = $('authPass').value
+  const btn = $('authSubmit')
+  btn.disabled = true
+  setMsg($('authMsg'), 'Please wait…')
+
+  try {
+    if (authMode === 'register') {
+      await sendAuth(API.register, { name: $('authName').value.trim(), email, password })
+      await loadUser()
+      if (!state.user) await sendAuth(API.login, { email, password })   // if register doesn't log in by itself
+    } else {
+      await sendAuth(API.login, { email, password })
+    }
+    $('authForm').reset()
+    authDialog.close()
+    await loadUser()
+  } catch (err) {
+    console.error(err)
+    setMsg($('authMsg'), err.message, 'error')
+  } finally {
+    btn.disabled = false
+  }
+})
+
+$('authSwitch').addEventListener('click', () => openAuth(authMode === 'login' ? 'register' : 'login'))
+$('authCancel').addEventListener('click', () => authDialog.close())
+
+async function logout() {
+  try { await fetch(API.logout, { method: 'POST' }) } catch (err) { console.error(err) }
+  state.user = null
+  renderAuth()
+}
+
+/* ---------- Reservations (login required) ---------- */
 const dialog = $('book')
 
 for (let h = 10; h <= 21; h++) {
@@ -119,11 +243,13 @@ for (let h = 10; h <= 21; h++) {
   opt.textContent = `${h}:00`
   $('startHour').append(opt)
 }
-$('date').min = new Date().toISOString().slice(0, 10)
+$('date').min = new Date().toLocaleDateString('en-CA')   // today, in YYYY-MM-DD, local time
 
 function openBooking(game) {
+  if (!state.user) return openAuth('login', 'Log in to reserve a game.')
   $('gameId').value = game.id
   $('bookTitle').textContent = game.title
+  $('bookAs').textContent = 'Booking as ' + displayName(state.user)
   $('bookPlayers').min = game.minPlayers
   $('bookPlayers').max = game.maxPlayers
   $('bookPlayers').value = game.minPlayers
@@ -140,25 +266,29 @@ $('bookForm').addEventListener('submit', async (e) => {
   setMsg($('bookMsg'), 'Booking…')
 
   try {
-    const res = await fetch('/api/reservations', {
+    const res = await fetch(API.reservations, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      // No name or user id: the server takes the user from the session
       body: JSON.stringify({
         gameId: Number($('gameId').value),
-        name: $('name').value.trim(),
         players: Number($('bookPlayers').value),
         date: $('date').value,
         startHour: Number($('startHour').value),
         hours: Number($('hours').value)
       })
     })
+    if (res.status === 401) {
+      dialog.close()
+      return sessionExpired()
+    }
     const data = await res.json().catch(() => ({}))
-    if (!res.ok) throw new Error(data.error || 'Status ' + res.status)
+    if (!res.ok) throw new Error(errorText(data, res))
     setMsg($('bookMsg'), 'Booked. See you at the cafe!', 'ok')
     setTimeout(() => dialog.close(), 1200)
   } catch (err) {
     console.error(err)
-    setMsg($('bookMsg'), err.message, 'error')   // show the server's reason
+    setMsg($('bookMsg'), err.message, 'error')
   } finally {
     btn.disabled = false
   }
@@ -166,7 +296,7 @@ $('bookForm').addEventListener('submit', async (e) => {
 
 /* ---------- Wire up ---------- */
 let timer
-$('search').addEventListener('input', () => {   // wait until the user stops typing
+$('search').addEventListener('input', () => {
   clearTimeout(timer)
   timer = setTimeout(loadGames, 250)
 })
@@ -175,5 +305,6 @@ for (const key of ['category', 'players', 'maxMinutes']) {
 }
 $('filters').addEventListener('submit', (e) => e.preventDefault())
 
+loadUser()
 loadCategories()
 loadGames()
