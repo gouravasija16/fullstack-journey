@@ -7,6 +7,10 @@ export async function ReservationsController(req,res){
     console.log(req.body)
     //destruction of request body
     const {gameId,name,players,date,startHour,hours}=req.body
+    const userId = req.session.userId
+    if(!userId){
+        return res.status(401).json({error:'Please log in first'})
+    }
     let db
     try{
     db=await open({
@@ -70,9 +74,9 @@ export async function ReservationsController(req,res){
        const cleanName=sanitizeHtml(name,{allowedTags:[],allowedAttributes:{}}).trim()
        //Insertion into database
        await db.run(`
-        INSERT INTO reservations(gameId,name,players,date,startHour,hours)
-        VALUES(?,?,?,?,?,?)
-        `,[gameId,cleanName,players,date,startHour,hours])
+        INSERT INTO reservations(userId,gameId,name,players,date,startHour,hours)
+        VALUES(?,?,?,?,?,?,?)
+        `,[userId,gameId,cleanName,players,date,startHour,hours])
 
         return res.status(201).json({ message: 'Reservation created successfully' })
 

@@ -6,6 +6,7 @@ import { authRouter } from "./routes/auth.js"
 import session from 'express-session'
 import dotenv from 'dotenv'
 import {displayNameRouter} from './routes/me.js'
+import { reservationsRouter } from './routes/reservations.js'
 dotenv.config()
 const app=express()
 app.use(express.json())
@@ -29,6 +30,7 @@ app.get('/api/health',(req,res)=>{
     res.json({status:'ok'})
 })
 app.use('/api', gamesRouter)
+app.use('/api', reservationsRouter)
 app.listen(8082,()=>{
     console.log('server connected on Port:8082')
 }).on('error',(err)=>{
