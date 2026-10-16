@@ -13,6 +13,7 @@ const $ = (id) => document.getElementById(id)
 const grid = $('grid')
 const statusEl = $('status')
 const state = { user: null }
+const reservationsState = { items: [], visible: false }
 let requestId = 0   // ignore out-of-date game responses
 
 async function getJSON(url) {
@@ -127,6 +128,7 @@ function render(games) {
 /* ---------- Authentication ---------- */
 const authDialog = $('authDialog')
 let authMode = 'login'
+let pendingReservationsAccess = false
 
 async function loadUser() {
   try {
@@ -160,9 +162,14 @@ function renderAuth() {
     const hello = document.createElement('span')
     hello.className = 'hello'
     hello.textContent = 'Hi, ' + displayName(state.user)   // textContent, never innerHTML
-    nav.append(hello, makeBtn('Log out', logout, 'ghost'))
+    nav.append(
+      hello,
+      makeBtn('My reservations', openReservations, 'ghost'),
+      makeBtn('Log out', logout, 'ghost')
+    )
   } else {
     nav.append(
+      makeBtn('My reservations', openReservations, 'ghost'),
       makeBtn('Log in', () => openAuth('login'), 'ghost'),
       makeBtn('Sign up', () => openAuth('register'))
     )
@@ -184,8 +191,195 @@ function openAuth(mode, note = '') {
 
 function sessionExpired() {
   state.user = null
+  reservationsState.items = []
+  reservationsState.visible = false
+  $('reservationsSection').hidden = true
   renderAuth()
+  pendingReservationsAccess = true
   openAuth('login', 'Please log in first.')
+}
+
+async function openReservations() {
+  if (!state.user) {
+    pendingReservationsAccess = true
+    return openAuth('login', 'Log in to view your reservations.')
+  }
+
+  pendingReservationsAccess = false
+  reservationsState.visible = true
+  $('reservationsSection').hidden = false
+  $('reservationsSection').scrollIntoView({ behavior: 'smooth', block: 'start' })
+  await loadReservations()
+}
+
+function getReservationRows(data) {
+  if (Array.isArray(data)) return data
+  if (Array.isArray(data?.reservations)) return data.reservations
+  if (Array.isArray(data?.data)) return data.data
+  if (Array.isArray(data?.data?.reservations)) return data.data.reservations
+  throw new Error('The reservations response must be an array or contain a reservations array.')
+}
+
+function normalizeReservation(reservation) {
+  if (!reservation || typeof reservation !== 'object') {
+    throw new Error('The reservations response contains an invalid item.')
+  }
+
+  const id = reservation.id ?? reservation.reservationId
+  if (id === undefined || id === null) {
+    throw new Error('A reservation is missing its id, so it cannot be cancelled.')
+  }
+
+  return {
+    id,
+    gameTitle: reservation.gameTitle || reservation.title || reservation.game?.title ||
+      (reservation.gameId !== undefined ? `Game #${reservation.gameId}` : 'Board game'),
+    date: reservation.date || reservation.reservationDate || '',
+    startHour: reservation.startHour ?? reservation.startTime,
+    hours: reservation.hours ?? reservation.durationHours ?? reservation.duration,
+    players: reservation.players
+  }
+}
+
+function formatReservationDate(date) {
+  if (!date) return 'Date unavailable'
+  const parsedDate = new Date(`${date}T00:00:00`)
+  if (Number.isNaN(parsedDate.getTime())) return date
+  return new Intl.DateTimeFormat(undefined, {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  }).format(parsedDate)
+}
+
+function formatReservationTime(startHour) {
+  if (typeof startHour === 'string' && /^\d{1,2}:\d{2}$/.test(startHour)) return startHour
+  const hour = Number(startHour)
+  if (!Number.isInteger(hour) || hour < 0 || hour > 23) return 'Time unavailable'
+  return `${String(hour).padStart(2, '0')}:00`
+}
+
+function makeReservationCard(reservation) {
+  const item = document.createElement('li')
+  item.className = 'reservation-card'
+
+  const details = document.createElement('div')
+  details.className = 'reservation-details'
+
+  const title = document.createElement('h3')
+  title.textContent = reservation.gameTitle
+
+  const facts = document.createElement('div')
+  facts.className = 'reservation-facts'
+  const values = [
+    ['Date', formatReservationDate(reservation.date)],
+    ['Start time', formatReservationTime(reservation.startHour)],
+    ['Duration', reservation.hours ? `${reservation.hours} ${Number(reservation.hours) === 1 ? 'hour' : 'hours'}` : 'Duration unavailable'],
+    ['Players', reservation.players ?? 'Not specified']
+  ]
+
+  for (const [label, value] of values) {
+    const fact = document.createElement('p')
+    const factLabel = document.createElement('span')
+    factLabel.textContent = label
+    const factValue = document.createElement('strong')
+    factValue.textContent = String(value)
+    fact.append(factLabel, factValue)
+    facts.append(fact)
+  }
+
+  const cancelButton = document.createElement('button')
+  cancelButton.type = 'button'
+  cancelButton.className = 'cancel-reservation'
+  cancelButton.textContent = 'Cancel reservation'
+  cancelButton.addEventListener('click', () => deleteReservation(reservation, cancelButton))
+
+  details.append(title, facts)
+  item.append(details, cancelButton)
+  return item
+}
+
+function renderReservations(successMessage = '') {
+  const list = $('reservationsList')
+  list.replaceChildren()
+
+  if (reservationsState.items.length === 0) {
+    setMsg($('reservationsStatus'), successMessage || 'No reservations yet.', successMessage ? 'ok' : '')
+    const empty = document.createElement('li')
+    empty.className = 'reservation-empty'
+    const title = document.createElement('h3')
+    title.textContent = 'Your next game night starts here'
+    const message = document.createElement('p')
+    message.textContent = 'You don’t have any reservations yet. Browse the shelf and book a game to get started.'
+    const link = document.createElement('a')
+    link.href = '#gameShelf'
+    link.className = 'hero-link'
+    link.textContent = 'Explore the collection'
+    empty.append(title, message, link)
+    list.append(empty)
+    return
+  }
+
+  setMsg(
+    $('reservationsStatus'),
+    successMessage || `${reservationsState.items.length} ${reservationsState.items.length === 1 ? 'reservation' : 'reservations'}`,
+    successMessage ? 'ok' : ''
+  )
+  list.replaceChildren(...reservationsState.items.map(makeReservationCard))
+}
+
+async function loadReservations(successMessage = '') {
+  if (!state.user) {
+    pendingReservationsAccess = true
+    return openAuth('login', 'Log in to view your reservations.')
+  }
+
+  $('reservationsList').replaceChildren()
+  setMsg($('reservationsStatus'), 'Loading your reservations…')
+
+  try {
+    const res = await fetch(API.reservations, { credentials: 'same-origin' })
+    const data = await res.json().catch(() => ({}))
+    if (res.status === 401) {
+      sessionExpired()
+      throw new Error('Your session has expired. Log in again to view reservations.')
+    }
+    if (!res.ok) throw new Error(errorText(data, res))
+    reservationsState.items = getReservationRows(data).map(normalizeReservation)
+    renderReservations(successMessage)
+  } catch (err) {
+    console.error(err)
+    setMsg($('reservationsStatus'), err.message, 'error')
+  }
+}
+
+async function deleteReservation(reservation, button) {
+  if (!window.confirm(`Cancel your reservation for ${reservation.gameTitle}?`)) return
+
+  button.disabled = true
+  button.textContent = 'Cancelling…'
+
+  try {
+    const res = await fetch(`${API.reservations}/${encodeURIComponent(reservation.id)}`, {
+      method: 'DELETE',
+      credentials: 'same-origin'
+    })
+    const data = await res.json().catch(() => ({}))
+    if (res.status === 401) {
+      sessionExpired()
+      throw new Error('Your session has expired. Log in again to manage reservations.')
+    }
+    if (!res.ok) throw new Error(errorText(data, res))
+
+    reservationsState.items = reservationsState.items.filter((item) => item.id !== reservation.id)
+    renderReservations('Reservation cancelled.')
+  } catch (err) {
+    console.error(err)
+    setMsg($('reservationsStatus'), err.message, 'error')
+    button.disabled = false
+    button.textContent = 'Cancel reservation'
+  }
 }
 
 async function sendAuth(path, body) {
@@ -216,6 +410,7 @@ $('authForm').addEventListener('submit', async (e) => {
     $('authForm').reset()
     authDialog.close()
     await loadUser()
+    if (pendingReservationsAccess && state.user) await openReservations()
   } catch (err) {
     console.error(err)
     setMsg($('authMsg'), err.message, 'error')
@@ -230,6 +425,9 @@ $('authCancel').addEventListener('click', () => authDialog.close())
 async function logout() {
   try { await fetch(API.logout, { method: 'POST' }) } catch (err) { console.error(err) }
   state.user = null
+  reservationsState.items = []
+  reservationsState.visible = false
+  $('reservationsSection').hidden = true
   renderAuth()
 }
 
@@ -284,6 +482,7 @@ $('bookForm').addEventListener('submit', async (e) => {
     const data = await res.json().catch(() => ({}))
     if (!res.ok) throw new Error(errorText(data, res))
     setMsg($('bookMsg'), 'Booked. See you at the cafe!', 'ok')
+    if (reservationsState.visible) await loadReservations('Reservation added.')
     setTimeout(() => dialog.close(), 1200)
   } catch (err) {
     console.error(err)
@@ -303,6 +502,7 @@ for (const key of ['category', 'players', 'maxMinutes']) {
   $(key).addEventListener('change', loadGames)
 }
 $('filters').addEventListener('submit', (e) => e.preventDefault())
+$('refreshReservations').addEventListener('click', () => loadReservations())
 
 loadUser()
 loadCategories()

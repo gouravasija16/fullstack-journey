@@ -13,37 +13,84 @@
 <body>
   <header class="top">
     <div class="bar">
-      <h1>Dice <span>&amp;</span> Draw</h1>
+      <a class="brand" href="/" aria-label="Dice and Draw home">
+        <span class="brand-mark" aria-hidden="true">D<span>&amp;</span>D</span>
+        <span class="brand-name">Dice <span>&amp;</span> Draw</span>
+      </a>
       <nav id="auth" aria-label="Account"></nav>
     </div>
-    <p class="sub">Board game cafe. Pick a game, book a table.</p>
   </header>
 
   <main>
-    <form id="filters" class="controls" role="search" aria-label="Filter games">
-      <label>Category
-        <select id="category"><option value="">All categories</option></select>
-      </label>
-      <label class="grow">Search
-        <input id="search" type="search" placeholder="Search by title">
-      </label>
-      <label>Players
-        <select id="players">
-          <option value="">Any</option>
-          <option>1</option><option>2</option><option>3</option><option>4</option>
-          <option>5</option><option>6</option><option>7</option><option>8</option>
-        </select>
-      </label>
-      <label>Max time
-        <select id="maxMinutes">
-          <option value="">Any</option>
-          <option value="30">30 min</option><option value="60">60 min</option><option value="90">90 min</option>
-        </select>
-      </label>
-    </form>
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> YOUR TABLE IS WAITING</p>
+        <h1 id="heroTitle">Good games.<br><span>Great company.</span></h1>
+        <p class="sub">Find a new favorite, gather your people, and make a night of it.</p>
+        <a class="hero-link" href="#gameShelf">Explore the collection <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-orbit orbit-one"></div>
+        <div class="art-orbit orbit-two"></div>
+        <div class="art-die">✦</div>
+        <span class="art-spark spark-one">✳</span>
+        <span class="art-spark spark-two">✦</span>
+        <span class="art-caption">ROLL INTO<br>SOMETHING GOOD</span>
+      </div>
+      <div class="hero-note"><span>01</span><span>PLAY MORE<br>TOGETHER</span></div>
+    </section>
 
-    <p id="status" class="status" role="status" aria-live="polite">Loading games…</p>
-    <ul id="grid" class="grid"></ul>
+    <section id="reservationsSection" class="reservations-section" aria-labelledby="reservationsTitle" hidden>
+      <div class="reservations-heading">
+        <div>
+          <p class="eyebrow">YOUR PLANS</p>
+          <h2 id="reservationsTitle">My reservations</h2>
+          <p class="reservations-subtitle">The next good time is already on the calendar.</p>
+        </div>
+        <button id="refreshReservations" class="ghost refresh-button" type="button">Refresh</button>
+      </div>
+      <p id="reservationsStatus" class="status" role="status" aria-live="polite"></p>
+      <ul id="reservationsList" class="reservations-list"></ul>
+    </section>
+
+    <section id="gameShelf" class="shelf" aria-labelledby="shelfTitle">
+      <div class="shelf-heading">
+        <div>
+          <p class="eyebrow">THE GAME SHELF</p>
+          <h2 id="shelfTitle">Pick your next adventure</h2>
+        </div>
+        <p class="shelf-note">A little friendly competition never hurt.</p>
+      </div>
+
+      <form id="filters" class="controls" role="search" aria-label="Filter games">
+        <label class="search-field"><span class="sr-only">Search games</span>
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input id="search" type="search" placeholder="Search games…" autocomplete="off">
+        </label>
+        <label>Category
+          <select id="category"><option value="">All categories</option></select>
+        </label>
+        <label>Players
+          <select id="players">
+            <option value="">Any number</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option>
+            <option>5</option><option>6</option><option>7</option><option>8</option>
+          </select>
+        </label>
+        <label>Play time
+          <select id="maxMinutes">
+            <option value="">Any length</option>
+            <option value="30">Up to 30 min</option><option value="60">Up to 60 min</option><option value="90">Up to 90 min</option>
+          </select>
+        </label>
+      </form>
+
+      <div class="results-bar">
+        <p id="status" class="status" role="status" aria-live="polite">Loading games…</p>
+        <span class="results-aside">CURATED FOR GOOD TIMES</span>
+      </div>
+      <ul id="grid" class="grid"></ul>
+    </section>
   </main>
 
   <!-- Reservation dialog (name now comes from the logged-in session) -->
