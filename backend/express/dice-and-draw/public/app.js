@@ -13,7 +13,7 @@ const $ = (id) => document.getElementById(id)
 const grid = $('grid')
 const statusEl = $('status')
 const state = { user: null }
-const reservationsState = { items: [], visible: false }
+const reservationsState = { items: [], count: 0, visible: false }
 let requestId = 0   // ignore out-of-date game responses
 
 async function getJSON(url) {
@@ -303,8 +303,13 @@ function makeReservationCard(reservation) {
 function renderReservations(successMessage = '') {
   const list = $('reservationsList')
   list.replaceChildren()
+  const count = reservationsState.count
+  const countBadge = $('reservationCount')
+  countBadge.textContent = String(count)
+  countBadge.setAttribute('aria-label', `${count} ${count === 1 ? 'reservation' : 'reservations'}`)
+  countBadge.hidden = false
 
-  if (reservationsState.items.length === 0) {
+  if (count === 0) {
     setMsg($('reservationsStatus'), successMessage || 'No reservations yet.', successMessage ? 'ok' : '')
     const empty = document.createElement('li')
     empty.className = 'reservation-empty'
@@ -321,11 +326,7 @@ function renderReservations(successMessage = '') {
     return
   }
 
-  setMsg(
-    $('reservationsStatus'),
-    successMessage || `${reservationsState.items.length} ${reservationsState.items.length === 1 ? 'reservation' : 'reservations'}`,
-    successMessage ? 'ok' : ''
-  )
+  setMsg($('reservationsStatus'), successMessage)
   list.replaceChildren(...reservationsState.items.map(makeReservationCard))
 }
 
@@ -347,6 +348,7 @@ async function loadReservations(successMessage = '') {
     }
     if (!res.ok) throw new Error(errorText(data, res))
     reservationsState.items = getReservationRows(data).map(normalizeReservation)
+    reservationsState.count = Number.isInteger(data.count) ? data.count : reservationsState.items.length
     renderReservations(successMessage)
   } catch (err) {
     console.error(err)
@@ -373,6 +375,7 @@ async function deleteReservation(reservation, button) {
     if (!res.ok) throw new Error(errorText(data, res))
 
     reservationsState.items = reservationsState.items.filter((item) => item.id !== reservation.id)
+    reservationsState.count = reservationsState.items.length
     renderReservations('Reservation cancelled.')
   } catch (err) {
     console.error(err)

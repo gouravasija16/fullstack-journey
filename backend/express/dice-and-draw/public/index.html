@@ -14,7 +14,16 @@
   <header class="top">
     <div class="bar">
       <a class="brand" href="/" aria-label="Dice and Draw home">
-        <span class="brand-mark" aria-hidden="true">D<span>&amp;</span>D</span>
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" focusable="false">
+            <rect class="die-face" x="5" y="5" width="38" height="38" rx="12"></rect>
+            <circle class="die-pip" cx="15" cy="15" r="3.2"></circle>
+            <circle class="die-pip" cx="33" cy="15" r="3.2"></circle>
+            <circle class="die-pip" cx="24" cy="24" r="3.2"></circle>
+            <circle class="die-pip" cx="15" cy="33" r="3.2"></circle>
+            <circle class="die-pip" cx="33" cy="33" r="3.2"></circle>
+          </svg>
+        </span>
         <span class="brand-name">Dice <span>&amp;</span> Draw</span>
       </a>
       <nav id="auth" aria-label="Account"></nav>
@@ -44,7 +53,7 @@
       <div class="reservations-heading">
         <div>
           <p class="eyebrow">YOUR PLANS</p>
-          <h2 id="reservationsTitle">My reservations</h2>
+          <h2 id="reservationsTitle">My reservations <span id="reservationCount" class="reservation-count" hidden></span></h2>
           <p class="reservations-subtitle">The next good time is already on the calendar.</p>
         </div>
         <button id="refreshReservations" class="ghost refresh-button" type="button">Refresh</button>
