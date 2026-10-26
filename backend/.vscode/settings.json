@@ -7,17 +7,6 @@
             "port": 5432,
             "usePassword": "Ask on connect",
             "driver": "PostgreSQL",
-            "name": "practice",
-            "database": "postgres",
-            "username": "gourav"
-        },
-        {
-            "ssh": "Disabled",
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 5432,
-            "usePassword": "Ask on connect",
-            "driver": "PostgreSQL",
             "name": "postgres-admin",
             "database": "postgres",
             "username": "postgres"

@@ -1,4 +1,5 @@
 SELECT current_user, current_database();
+SELECT datname FROM pg_database ORDER BY datname;
 
 CREATE TABLE IF NOT EXISTS board_games (
     id SERIAL PRIMARY KEY,
