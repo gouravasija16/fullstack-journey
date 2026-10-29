@@ -46,5 +46,6 @@ WHERE NOT EXISTS (
       AND existing.customer = sample.customer
 );
 
+
 SELECT * FROM board_games;
 SELECT * FROM game_bookings;
